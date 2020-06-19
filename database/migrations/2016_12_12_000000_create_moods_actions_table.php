@@ -20,6 +20,7 @@ class CreateMoodsActionsTable extends Migration
             $table->foreign("id_moods")->references("id")->on("moods");
             $table->bigInteger('id_actions')->unsigned();
             $table->foreign("id_actions")->references("id")->on("actions");
+            $table->smallInteger('percent_executing')->nullable();
             $table->timestamps();
         });
     }
