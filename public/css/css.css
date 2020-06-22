@@ -1,0 +1,7 @@
+div.formAddMood {
+    width: 100%;
+    background-color: red;
+    min-height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
