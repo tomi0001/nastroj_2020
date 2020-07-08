@@ -10,6 +10,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
         
         <script src="{{ asset('./js/app.js')}}"></script>
+        <script src="{{ asset('./js/java.js')}}"></script>
 
        
     </head>
@@ -34,7 +35,7 @@
                     
                 </div>
                 <div class="menu">
-                    <a class="menu" href="{{url('/User/Logout')}}">WYLOGUJ</a>
+                    <a class="menu" href="{{route('logout')}}">WYLOGUJ</a>
                 </div>
             </div>
             <div id="top_main">

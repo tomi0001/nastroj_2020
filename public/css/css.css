@@ -1,7 +1,52 @@
 div.formAddMood {
     width: 100%;
-    background-color: red;
+    background-color: #E4E61B;
     min-height: 200px;
     margin-left: auto;
     margin-right: auto;
+    border-radius: 20px;
+    opacity: 0.7;
+}
+.value {
+    color: black;
+}
+
+_table.table-bordered{
+    
+   
+  }
+table.table-bordered > thead > tr > th{
+   
+}
+table.table-bordered > tbody > tr > td{
+    border:1px solid #309E32;
+}
+a.Action___ {
+    color: #4288BA;
+    cursor: pointer;
+}
+a.Action___:hover {
+    cursor: pointer;
+    
+}
+div.ajax {
+   
+}
+div.ajaxError {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: red;
+    margin-bottom: 5px;
+    border-radius: 20px;
+    color: greenyellow;
+}
+div.ajaxSucces {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: green;
+    margin-bottom: 5px;
+    border-radius: 20px;
+    color: white;
 }

@@ -15,10 +15,10 @@
         </tr>
         <tr>
             <td width="40%">
-                Twój E-mail
+                Twój login
             </td>
             <td>
-                <input type="email" name="email" class="form-control" value="{{Request::old("login")}}">
+                <input type="text" name="email" class="form-control" value="{{Request::old("login")}}">
             </td>
         </tr>
         <tr>
@@ -29,8 +29,18 @@
                 <input type="password" name="password" class="form-control">
             </td>
         </tr>
-
-
+        <tr>
+        <tr>
+            <td>
+                 <label class="form-check-label" for="remember">
+                                        {{ __('Zapamiętaj mnie') }}
+                                    </label>
+            
+            </td>
+            <td align='left'>
+                                   <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+            </td>
+        </tr>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <tr>
             

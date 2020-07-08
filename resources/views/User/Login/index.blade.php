@@ -29,7 +29,7 @@
                 <input type="password" name="password" class="form-control">
             </td>
         </tr>
-
+        <tr>
 
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <tr>

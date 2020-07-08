@@ -825,10 +825,12 @@ div.titleMoodForDay {
 }
 div.title {
     width: 100%;
-    background-color: #3C73A6;
-    border-radius: 7px;
+    background-color: #5C8DE6;
+    border-radius: 20px 20px 0px 0px;
     font-size: 21px;
     color: white;
+    text-align: center;
+    font-weight: bold;
 }
 div.titleSleep {
         width: 100%;

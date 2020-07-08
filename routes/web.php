@@ -21,6 +21,7 @@ Route::group(
     Route::get('/home', 'Main\MainController@index')->name('home');
     Route::get('/', 'Main\MainController@index')->name('mainmain');
     Route::get('/main/{year?}/{month?}/{day?}/{action?}', 'Main\MainController@index')->name('main');
+    Route::get('/Mood/Add', 'Mood\MoodController@add')->name('Mood.Add');
         /*
          * Routy dla userów z rolą partner
          */
@@ -35,10 +36,11 @@ Route::group(
 
 Route::get('/register', 'User\UserRegisterController@index')->name('user.index');
 Route::post('/registerSubmit', 'User\UserRegisterController@store')->name('user.registerSubmit');
-Route::get('/login', 'User\UserLoginController@index')->name('user.login');
+//Route::get('/login', 'User\UserLoginController@index')->name('user.login');
 Route::post('/loginSubmit', 'User\UserLoginController@store')->name('user.loginSubmit');
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('/logout', 'Auth\LoginController@logout')->name("logout");
 Auth::routes();
 
 
@@ -46,3 +48,7 @@ Auth::routes();
 
 
 
+
+
+
+Route::get('/home', 'HomeController@index')->name('home');

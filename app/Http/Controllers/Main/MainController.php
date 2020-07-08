@@ -13,9 +13,11 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Services\User as ServiceUser;
 use App\Http\Services\Calendar;
+use App\Action;
 use Auth;
-class MainController {
+class MainController extends Controller  {
     public function index($year = "",$month  ="",$day = "",$action = "") {
+       $Action = Action::selectAction(Auth::id());
        $Calendar = new Calendar($year, $month, $day, $action);
        return View("Main.Main")->with("text_month",$Calendar->text_month)
                                ->with("year",$Calendar->year)
@@ -29,6 +31,7 @@ class MainController {
                                ->with("back",$Calendar->back_month)
                                ->with("next",$Calendar->next_month)
                                ->with("back_year",$Calendar->back_year)
-                               ->with("next_year",$Calendar->next_year);
+                               ->with("next_year",$Calendar->next_year)
+                               ->with("Action",$Action);
     }
 }

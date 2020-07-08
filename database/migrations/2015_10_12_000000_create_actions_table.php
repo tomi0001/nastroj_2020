@@ -18,7 +18,7 @@ class CreateActionsTable extends Migration
             $table->id()->unsigned();
             $table->text('name')->nullable();
             $table->bigInteger('id_users')->unsigned()->default(0);
-            $table->float('level_pleasure',3,2)->default(0);
+            $table->float('level_pleasure',6,2)->default(0);
             $table->timestamps();
         });
     }
