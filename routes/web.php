@@ -22,6 +22,7 @@ Route::group(
     Route::get('/', 'Main\MainController@index')->name('mainmain');
     Route::get('/main/{year?}/{month?}/{day?}/{action?}', 'Main\MainController@index')->name('main');
     Route::get('/Mood/Add', 'Mood\MoodController@add')->name('Mood.Add');
+    Route::get('/Mood/ActionAdd', 'Mood\MoodController@Actionadd')->name('Action.Add');
         /*
          * Routy dla userów z rolą partner
          */

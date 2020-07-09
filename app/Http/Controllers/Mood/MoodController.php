@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
 use App\Http\Services\User as ServiceUser;
 use App\Http\Services\Calendar;
 use App\Http\Services\Mood;
-use App\Action;
+use App\Http\Services\Action;
+use App\Action_plan;
 use Auth;
 class MoodController extends Controller  {
     public function add(Request $request) {
@@ -25,10 +26,29 @@ class MoodController extends Controller  {
             return View("ajax.error")->with("error",$Mood->errors);
         }
         else {
-            $Mood->saveMood($request);
+            $id = $Mood->saveMood($request);
+            if (!empty($request->get("idAction"))) {
+                $Mood->saveAction($request,$id);
+            }
         }
        //print ("<script>document.getElementById('form2').reset() </script>");
         
        
+    }
+    public function Actionadd(Request $request) {
+        $Action = new Action;
+        $Action->checkAddActionDate($request);
+        //$Action->checkAddMood($request);
+        if (count($Action->errors) != 0) {
+            return View("ajax.error")->with("error",$Action->errors);
+            
+        }
+        else {
+            if (!empty($request->get("idAction"))) {
+                $id = $Action->saveAction($request);
+            }
+            
+        }
+        
     }
 }

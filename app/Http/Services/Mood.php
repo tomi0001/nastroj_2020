@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use App\Action;
 use App\Mood as AppMood;
+use App\Moods_action;
 use Auth;
 
 class Mood {
@@ -34,6 +35,9 @@ class Mood {
         }
         if (StrToTime( date("Y-m-d H:i:s") ) < strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00")) {
             array_push($this->errors,"Data skończenia nastroju jest wieksza od teraźniejszej daty");
+        }
+        if (  (strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00") - strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00")) > 72000) {
+            array_push($this->errors,"Nastroj nie może mieć takiego dużego przedziału czasowego");
         }
         if (!empty(AppMood::checkTimeExist($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00"))) {
             array_push($this->errors,"Godziny nastroju  nachodza na inne nastroje");
@@ -65,7 +69,7 @@ class Mood {
         //array_push($this->errors,  (int) $request->get("epizodesPsychotic"));
     }
     
-    public function saveMood(Request $request) {
+    public function saveMood(Request $request) :int {
         $Mood = new AppMood;
         $Mood->date_start = $request->get("dateStart") . " " . $request->get("timeStart") . ":00";
         $Mood->date_end = $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00";
@@ -87,6 +91,17 @@ class Mood {
         $Mood->what_work = $request->get("whatWork");
         $Mood->id_users = Auth::User()->id;
         $Mood->save();
+        return $Mood->id;
+    }
+    public function saveAction(Request $request,int $idMood) {
+        for ($i = 0;$i < count($request->get("idAction"));$i++) {
+            if ($request->get("idAction")[$i] != "") {
+                $Moods_action = new Moods_action;
+                $Moods_action->id_moods = $idMood;
+                $Moods_action->id_actions = $request->get("idAction")[$i];
+                $Moods_action->save();
+            }
+        }
     }
     private function checkTimeExist($dateStart,$dateEnd) {
         

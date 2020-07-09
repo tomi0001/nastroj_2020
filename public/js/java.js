@@ -29,9 +29,68 @@ Array.prototype.remove=function(s){
 const getNumber = function ( num, arr ) {
     return arr.includes( num );
 }
+function switchVisibleMood() {
+    if ($("[name='type']").val() == "mood") {
+        $("#moodAction").css("display","none");
+        $("#moodAdd").css("display","inline");
+    }
+    else {  
+        $("#moodAdd").css("display","none");
+        $("#moodAction").css("display","inline");
+    }
+}
+
+function addAction(url) {
+    $("#form4").find(":hidden").filter("[name!='idAction']").remove();
+
+
+    changeArrayAtHiddenAction();
+    //alert($("form").serialize());
+    
+    //$('form')[0].reset();
+    //$('#form2')[0].reset();
+//    document.getElementById("form2").reset();
+/*
+    $("#form").load(url + "?" + $("#form2").serialize());
+    if ($("#form").text() == "") {
+        setInterval("reload();",4000);
+    }
+    alert($("#form").val());
+    
+    //alert("dd");
+    
+
+*/
+
+$.ajax({
+    url : url,
+        method : "get",
+        data : 
+          $("#form4").serialize()
+        ,
+        dataType : "html",
+})
+.done(function(response) {
+    $("#form3").html(response);
+    if (response == "") {
+        setInterval("reload();",4000);
+        $("#form3").html("<div class='ajaxSucces'>Pomyślnie dodano</div>");
+    }
+    
+})
+.fail(function() {
+    $("#form3").html( "<div class='ajaxError'>Wystąpił błąd</div>" );
+})
+    
+}
 
 function addMood(url) {
     //alert(actionList.length);
+    
+
+$("#form2").find(":hidden").filter("[name!='idAction']").remove();
+
+
     changeArrayAtHidden();
     //alert($("form").serialize());
     
@@ -93,6 +152,13 @@ function changeArrayAtHidden() {
     for (i=0;i < actionList.length;i++) {
         if (isIst(actionList[i])) {
             $("#form2").append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
+        }
+    }
+}
+function changeArrayAtHiddenAction() {
+    for (i=0;i < actionList.length;i++) {
+        if (isIst(actionList[i])) {
+            $("#form4").append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
         }
     }
 }
