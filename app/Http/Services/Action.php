@@ -102,7 +102,22 @@ class Action {
             }
         }
     }
-    private function checkTimeExist($dateStart,$dateEnd) {
-        
+    public function checkSettingAction(Request $request) {
+        if ($request->get("name") == "") {
+             array_push($this->errors,"Uzupełnij pole nazwa");
+        }
+        if (!($request->get("pleasure") > -20 and $request->get("pleasure") < 20) or !is_numeric($request->get("pleasure")) ) {
+            array_push($this->errors,"Poziom przyjemności musi być w graniach od -20 do +20");
+        }
+        if (!empty(ActionApp::IfNameExist($request->get("name")))) {
+            array_push($this->errors,"Już jest taka akcje o takiej nazwie");
+        }
+    }
+    public function saveSettingAction(Request $request) {
+        $Action = new ActionApp;
+        $Action->name = $request->get("name");
+        $Action->id_users = Auth::User()->id;
+        $Action->level_pleasure = $request->get("pleasure");
+        $Action->save();
     }
 }

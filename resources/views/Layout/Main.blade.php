@@ -31,7 +31,7 @@
                 
                 <div class="menu">
                     
-                    <a class="menu" href="{{url('/User/Setting')}}">USTAWIENIA KONTA</a>
+                    <a class="menu" href="{{route('user.setting')}}">USTAWIENIA KONTA</a>
                     
                 </div>
                 <div class="menu">

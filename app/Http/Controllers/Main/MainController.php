@@ -18,6 +18,8 @@ use Auth;
 class MainController extends Controller  {
     public function index($year = "",$month  ="",$day = "",$action = "") {
        $Action = Action::selectAction(Auth::id());
+       //$date = 
+       $dateAction = date("Y-m-d",StrToTime(date("Y-m-d") )+ 86400);
        $Calendar = new Calendar($year, $month, $day, $action);
        return View("Main.Main")->with("text_month",$Calendar->text_month)
                                ->with("year",$Calendar->year)
@@ -32,6 +34,7 @@ class MainController extends Controller  {
                                ->with("next",$Calendar->next_month)
                                ->with("back_year",$Calendar->back_year)
                                ->with("next_year",$Calendar->next_year)
-                               ->with("Action",$Action);
+                               ->with("Action",$Action)
+                               ->with("dateAction",$dateAction);
     }
 }

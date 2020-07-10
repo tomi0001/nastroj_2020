@@ -40,6 +40,26 @@ function switchVisibleMood() {
     }
 }
 
+var arraySetting = ["settingAction","settingUser"];
+var arraySetting2 = ["settingPosition_1","settingPosition_2"];
+function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
+    for (i=0;i < arraySetting.length;i++) {
+        if (id == arraySetting[i]) {
+            $("#" + id).css("display","inline");
+            $( "#" + id2).addClass("settingPositionSelected");
+             
+        }
+ 
+        else {
+            $("#" + arraySetting2[i]).removeClass("settingPositionSelected").addClass("settingPosition");
+            $("#" + arraySetting[i]).css("display","none");
+        }
+     
+        
+        
+    }
+}
+
 function addAction(url) {
     $("#form4").find(":hidden").filter("[name!='idAction']").remove();
 
@@ -143,7 +163,43 @@ function runScript(e,url) {
     }
 }
 
+function runScriptSettingAddAction(e,url) {
+    //See notes about 'which' and 'key'
+    if (e.keyCode == 13) {
+        addActionSetting(url);
+        eval(tb.value);
+        return false;
+    }
+}
 
+
+function addActionSetting(url) {
+   $.ajax({
+    url : url,
+        method : "get",
+        data : 
+          $("form").serialize()
+        ,
+        dataType : "html",
+})
+.done(function(response) {
+    $("#form").html(response);
+    if (response == "") {
+        $("#form").html("<div class='ajaxSucces'>Pomyślnie dodano</div>");
+    }
+    
+})
+.fail(function() {
+    $("#form").html( "<div class='ajaxError'>Wystąpił błąd</div>" );
+})
+    
+}
+function calendarOn(id) {
+    $("#" + id).addClass("cell_selected");
+}
+function calendarOff(id) {
+    $("#" + id).removeClass("cell_selected");
+}
 function reload() {
     location.reload();
     deleteArray();
@@ -182,3 +238,4 @@ function deleteArray() {
         
     }
 }
+

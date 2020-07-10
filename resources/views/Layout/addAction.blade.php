@@ -18,7 +18,7 @@
                                     Godzina zaczęcia
                                 </td>
                                 <td class='borderless'>
-                                    <input type='date' name='dateStart' class='form-control' value='{{ date("Y-m-d")}}'>
+                                    <input type='date' name='dateStart' class='form-control' value='{{ $dateAction}}'>
                                 </td>
                             </tr>
                             <tr>
@@ -31,7 +31,7 @@
                                     Godzina zakończenia
                                 </td>
                                 <td>
-                                    <input type='date' name='dateEnd' class='form-control' value='{{ date("Y-m-d")}}'>
+                                    <input type='date' name='dateEnd' class='form-control' value='{{ $dateAction}}'>
                                 </td>
                             </tr>
                             <tr>
