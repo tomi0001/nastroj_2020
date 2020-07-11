@@ -25,6 +25,7 @@ Route::group(
     Route::get('/Mood/ActionAdd', 'Mood\MoodController@Actionadd')->name('Action.Add');
     Route::get('/User/Setting', 'User\SettingController@Setting')->name('user.setting');
     Route::get('/User/Settingas', 'User\SettingController@SettingActionAdd')->name('Setting.ActionAdd');
+    Route::get('/User/SettingaMood', 'User\SettingController@SettingchengeMood')->name('Setting.levelMoodChange');
     
         /*
          * Routy dla userów z rolą partner

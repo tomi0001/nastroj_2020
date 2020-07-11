@@ -40,7 +40,7 @@ function switchVisibleMood() {
     }
 }
 
-var arraySetting = ["settingAction","settingUser"];
+var arraySetting = ["settingAction","levelMood"];
 var arraySetting2 = ["settingPosition_1","settingPosition_2"];
 function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
     for (i=0;i < arraySetting.length;i++) {

@@ -22,7 +22,7 @@
             <a class='settingPosition' id='settingPosition_1' onclick="switchSetting('settingAction','settingPosition_1')">DODAJ NOWĄ AKCJE</a>
         </div>
         <div class='settingPosition' >
-            <a class='settingPosition' id='settingPosition_2'  onclick="switchSetting('settingUser','settingPosition_2')">DODAJ NOWĄ AKCJE2</a>
+            <a class='settingPosition' id='settingPosition_2'  onclick="switchSetting('levelMood','settingPosition_2')">POZIOMY NASTROJU</a>
         </div>
         <hr class='hrMenu'>
     </div>
@@ -65,7 +65,32 @@
         </form>
     </div>
     
-    
+    <div id='levelMood' style='display: none;'>
+        <form method='get'>
+            <table class='table'>
+                <TR>
+                    <td width='60%'>
+                        Wartośc nastroju od do przy której czujesz myśli samobójcze i totalną depresję
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-5 col-lg-5 col-xs-5 col-sn-5">
+                                <input type='text' name='valueMood-10From'  class='form-control' onkeypress="return runScriptSettingchangeLecelMood(event,'{{ route('Setting.levelMoodChange')}}')"> 
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xs-2 col-sn-2">
+                                Do 
+                            </div>
+                            <div class="col-md-5 col-lg-5 col-xs-5 col-sn-5">
+                                <input type='text' name='valueMood-10To' class='form-control' onkeypress="return runScriptSettingchangeLecelMood(event,'{{ route('Setting.levelMoodChange')}}')">
+                            </div>
+                        </div>
+                    </td>
+                    
+                </TR>
+                
+            </table>
+        </form>
+    </div>
     
     
     
