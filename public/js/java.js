@@ -33,10 +33,17 @@ function switchVisibleMood() {
     if ($("[name='type']").val() == "mood") {
         $("#moodAction").css("display","none");
         $("#moodAdd").css("display","inline");
+        $("#SleepAdd").css("display","none");
     }
-    else {  
+    else if ($("[name='type']").val() == "action"){  
         $("#moodAdd").css("display","none");
         $("#moodAction").css("display","inline");
+        $("#SleepAdd").css("display","none");
+    }
+    else {
+        $("#moodAdd").css("display","none");
+        $("#moodAction").css("display","none");
+        $("#SleepAdd").css("display","inline");
     }
 }
 
@@ -58,6 +65,32 @@ function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
         
         
     }
+}
+function SettingchangeLevelMood(url) {
+       $.ajax({
+    url : url,
+        method : "get",
+        data : 
+          $("form").serialize()
+        ,
+        dataType : "html",
+})
+.done(function(response) {
+    $("#form1").html(response);
+    if (response == "") {
+        $("#form1").html("<div class='ajaxSucces'>Pomyślnie zmodyfikowano</div>");
+    }
+    
+})
+.fail(function() {
+    $("#form1").html( "<div class='ajaxError'>Wystąpił błąd</div>" );
+})
+  
+}
+
+
+function LoadPage(url) {
+    window.location.replace(url);
 }
 
 function addAction(url) {
@@ -103,7 +136,51 @@ $.ajax({
 })
     
 }
+function addSleep(url) {
+    
 
+
+
+    
+    //alert($("form").serialize());
+    
+    //$('form')[0].reset();
+    //$('#form2')[0].reset();
+//    document.getElementById("form2").reset();
+/*
+    $("#form").load(url + "?" + $("#form2").serialize());
+    if ($("#form").text() == "") {
+        setInterval("reload();",4000);
+    }
+    alert($("#form").val());
+    
+    //alert("dd");
+    
+
+*/
+
+$.ajax({
+    url : url,
+        method : "get",
+        data : 
+          $("#form6").serialize()
+        ,
+        dataType : "html",
+})
+.done(function(response) {
+    $("#form5").html(response);
+    if (response == "") {
+        setInterval("reload();",4000);
+        $("#form5").html("<div class='ajaxSucces'>Pomyślnie dodano</div>");
+    }
+    
+})
+.fail(function() {
+    $("#form5").html( "<div class='ajaxError'>Wystąpił błąd</div>" );
+})
+    
+
+}
 function addMood(url) {
     //alert(actionList.length);
     
@@ -171,7 +248,13 @@ function runScriptSettingAddAction(e,url) {
         return false;
     }
 }
-
+function runScriptSettingchangeLecelMood(e,url) {
+    if (e.keyCode == 13) {
+        SettingchangeLevelMood(url);
+        eval(tb.value);
+        return false;
+    }
+}
 
 function addActionSetting(url) {
    $.ajax({

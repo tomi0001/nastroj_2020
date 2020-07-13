@@ -26,7 +26,7 @@ Route::group(
     Route::get('/User/Setting', 'User\SettingController@Setting')->name('user.setting');
     Route::get('/User/Settingas', 'User\SettingController@SettingActionAdd')->name('Setting.ActionAdd');
     Route::get('/User/SettingaMood', 'User\SettingController@SettingchengeMood')->name('Setting.levelMoodChange');
-    
+    Route::get("/Mood/SleepAdd",'Mood\MoodController@Sleepadd')->name("Sleep.Add");
         /*
          * Routy dla userów z rolą partner
          */

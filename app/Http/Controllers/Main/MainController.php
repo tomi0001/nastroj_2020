@@ -13,11 +13,15 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Services\User as ServiceUser;
 use App\Http\Services\Calendar;
+use App\Http\Services\Mood;
 use App\Action;
 use Auth;
 class MainController extends Controller  {
     public function index($year = "",$month  ="",$day = "",$action = "") {
        $Action = Action::selectAction(Auth::id());
+       $Mood = new Mood;
+       $Mood->downloadMood($year,$month,$day);
+       $Mood->downloadSleep($year,$month,$day);
        //$date = 
        $dateAction = date("Y-m-d",StrToTime(date("Y-m-d") )+ 86400);
        $Calendar = new Calendar($year, $month, $day, $action);

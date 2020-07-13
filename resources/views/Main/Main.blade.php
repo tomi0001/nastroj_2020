@@ -12,6 +12,7 @@
             <form method='get'>
                 <select name='type' class='form-control' onchange='switchVisibleMood()'>
                     <option value='mood' selected>Dodaj nowy nastrój</option>
+                    <option value='Sleep'>Dodaj nowy Sen</option>
                     <option value='action'>Dodaj nowe zdarzenie</option>
                 </select>
                 
@@ -19,9 +20,12 @@
         </div>
     </div>
     <div id='moodAdd' style='display: inline;'>
-        @include('Layout.addMood')
+        @include('Main.addMood')
     </div>
     <div id='moodAction' style='display: none;'>
-        @include('Layout.addAction')
+        @include('Main.addAction')
+    </div>
+    <div id='SleepAdd' style='display: none;'>
+        @include('Main.addSleep')
     </div>
 @endsection

@@ -13,9 +13,12 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Services\Action;
 use App\Http\Services\User as ServiceUser;
+
 class SettingController  extends Controller  {
     public function Setting() {
-        return View("User.Setting.index");
+        $Users = new ServiceUser;
+        $array = $Users->CheckIfLevelMood();
+        return View("User.Setting.index")->with("levelMood",$array);
     }
     public function SettingActionAdd(Request $request) {
         $Action = new Action;
@@ -25,6 +28,16 @@ class SettingController  extends Controller  {
         }
         else {
             $Action->saveSettingAction($request);
+        }
+    }
+    public function SettingchengeMood(Request $request) {
+        $Users = new ServiceUser;
+        $Users->CheckIfLevelMoodForm($request);
+        if (count($Users->errors) != 0) {
+            return View("ajax.error")->with("error",$Users->errors);
+        }
+        else {
+            $Users->updateSettingMood($request);
         }
     }
 }

@@ -35,6 +35,17 @@ class MoodController extends Controller  {
         
        
     }
+    public function Sleepadd(Request $request) {
+        $Mood = new Mood;
+        $Mood->checkAddSleepDate($request);
+        //$Mood->checkAddMood($request);
+        if (count($Mood->errors) != 0) {
+            return View("ajax.error")->with("error",$Mood->errors);
+        }
+        else {
+            $Mood->saveSleep($request);
+        }
+    }
     public function Actionadd(Request $request) {
         $Action = new Action;
         $Action->checkAddActionDate($request);
