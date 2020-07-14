@@ -44,7 +44,7 @@
                                     Ilośc wybudzeń
                                 </td>
                                 <td>
-                                    <input type='number' name='wakeUp' class='form-control' min='0' value="0">
+                                    <input type='number' name='wakeUp' class='form-control' min='0' value="0" onkeypress="return runScriptSleepAdd(event,'{{ route('Sleep.Add')}}')">
                                 </td>
                             </tr>
                             

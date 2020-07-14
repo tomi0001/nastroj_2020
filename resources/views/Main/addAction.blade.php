@@ -18,12 +18,12 @@
                                     Godzina zaczęcia
                                 </td>
                                 <td class='borderless'>
-                                    <input type='date' name='dateStart' class='form-control' value='{{ $dateAction}}'>
+                                    <input type='date' name='dateStart' class='form-control' value='{{ $dateAction}}' onkeypress="return runScriptAddActionMood(event,'{{ route('Action.Add')}}')">
                                 </td>
                             </tr>
                             <tr>
                                 <td class='borderless'>
-                                     <input type='time' name='timeStart' class='form-control'>
+                                     <input type='time' name='timeStart' class='form-control' onkeypress="return runScriptAddActionMood(event,'{{ route('Action.Add')}}')">
                                 </td>
                             </tr>
                             <tr>
@@ -31,12 +31,12 @@
                                     Godzina zakończenia
                                 </td>
                                 <td>
-                                    <input type='date' name='dateEnd' class='form-control' value='{{ $dateAction}}'>
+                                    <input type='date' name='dateEnd' class='form-control' value='{{ $dateAction}}' onkeypress="return runScriptAddActionMood(event,'{{ route('Action.Add')}}')">
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type='time' name='timeEnd' class='form-control' >
+                                    <input type='time' name='timeEnd' class='form-control' onkeypress="return runScriptAddActionMood(event,'{{ route('Action.Add')}}')" >
                                 </td>
                             </tr>
                             <tr>
@@ -44,7 +44,7 @@
                                     Czas trwania (w minutach)
                                 </td>
                                 <td>
-                                    <input type='number' name='long' class='form-control' min='1'>
+                                    <input type='number' name='long' class='form-control' min='1' onkeypress="return runScriptAddActionMood(event,'{{ route('Action.Add')}}')">
                                 </td>
                             </tr>
                              <tr>

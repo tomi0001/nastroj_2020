@@ -28,7 +28,7 @@ class User {
         $Mood = new Mood;
         $array = User2::checkExistLevelMood();
         //var_dump($array);
-        if (empty($array->level_mood0)) {
+        if (empty($array)) {
             return $Mood->levelMood;
         }
         else {

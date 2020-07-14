@@ -11,6 +11,7 @@ use App\Action;
 use App\Mood as AppMood;
 use App\Moods_action;
 use App\Sleep;
+use App\Services\Common;
 use Auth;
 
 class Mood {
@@ -22,7 +23,7 @@ class Mood {
         4 =>  ["from" => -12, "to" => -10],
         5 =>  ["from" => -10, "to" => -8],
         6 =>  ["from" => -8, "to" => -6],
-        7 =>  ["from" => -4, "to" => -2],
+        7 =>  ["from" => -6, "to" => -2],
         8 =>  ["from" => -2, "to" => -1],
         9 =>  ["from" => -1, "to" => 0],
         10 =>  ["from" => 0, "to" => 1],
@@ -38,14 +39,19 @@ class Mood {
         20 =>  ["from" => 18, "to" => 20],
         
     ];
+
+    public $arraySecond = [];
+    public $listPercent;
     public $dateStart;
     public $dateEnd;
     public $startDay = 0;
-    public $listMood;
+    public $listMood = [];
     public $dateStartHour;
     public $dateEndHour;
-    public $listSleep;
+    public $listSleep = [];
+    public $arrayList = [];
     public $errors = [];
+    private $i;
     public function checkAddMoodDate(Request $request) {
         $bool = 4;
         if ($request->get("dateStart") == "") {
@@ -108,6 +114,9 @@ class Mood {
         }
         if ($bool == 4 and strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00") >= strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00")) {
             array_push($this->errors,"Godzina zaczęcia jest wieksza bądź równa godzinie skończenia");
+        }
+        if (!is_numeric($request->get("wakeUp")) or $request->get("wakeUp") < 0) {
+            array_push($this->errors,"Ilośc wybudzen musi być liczbą dodatnią lub równą 0");
         }
     }
     public function checkAddMood(Request $request) {
@@ -236,4 +245,208 @@ class Mood {
         $this->startDay = Auth::User()->start_day;
         
     }
+    
+    
+    
+    
+    public function sortMoodsSleep($listMoods,$listSleep,$whatWork,$bool = false) :bool {
+        
+        $arraySecond = [];
+        $this->i = 0;
+        $this->sortMoods($listMoods,$whatWork);
+        $this->sortSleep($listSleep);
+
+        if ($this->i != 0) {
+            
+            array_multisort($this->arraySecond,SORT_ASC);
+            if ($bool == true) {
+                array_multisort($this->arrayList,SORT_ASC);
+            }
+            $longSecond = count($this->arraySecond);
+            $this->listPercent = $this->sumPercent($this->arraySecond[$longSecond-1],$this->arrayList);
+            return true;
+        }
+        return false;
+    }
+    public function sumPercent(int $second,array $list) {
+        for ($i=0;$i < count($list);$i++) {
+            $list[$i]["percent"] = round(($list[$i]["second"] / $second) * 100);
+            if ($list[$i]["percent"] == 0) {
+                $list[$i]["percent"] = 1;
+            }
+            $list[$i]["second"] = $this->changeSecondAtHour($list[$i]["second"] / 3600);
+            
+        }
+        return $list;
+    }
+    public function changeSecondAtHour($hour) {
+        if (strstr($hour,".")) {
+            $div = explode(".",$hour);
+            if ($div[0] == 0) {
+                $min = "0." . $div[1];
+                $min *= 60;
+                return round($min) . " minut";
+            }
+            else {
+                $hour = $div[0] . " Godzin i ";
+                $min = "0." . $div[1];
+                $min *= 60;
+                return $hour . round($min) . " minut";
+            }
+        }
+        return $hour . " Godzin";
+        
+    }
+    private function sortSleep($listSleep) {
+          foreach ($listSleep as $Sleeps) {
+
+            $this->arrayList[$this->i]["date_start"] = $Sleeps->date_start;
+            $this->arrayList[$this->i]["date_end"] = $Sleeps->date_end;
+            $this->arrayList[$this->i]["second"] = strtotime($Sleeps->date_end) - strtotime($Sleeps->date_start);
+            $this->arraySecond[$this->i] = $this->arrayList[$this->i]["second"];
+            $this->arrayList[$this->i]["epizodes_psychotik"] = $Sleeps->how_wake_up;
+            $this->arrayList[$this->i]["type"] = 0;
+            $this->arrayList[$this->i]["percent"] = 0;
+            $this->arrayList[$this->i]["level_mood"] = 0;
+            $this->arrayList[$this->i]["level_anxiety"] = 0;
+            $this->arrayList[$this->i]["level_nervousness"] = 0;
+            $this->arrayList[$this->i]["level_stimulation"] = 0;
+            $this->arrayList[$this->i]["nas"] = $Sleeps->nas;
+            $this->arrayList[$this->i]["nas2"] = $Sleeps->nas2;
+            $this->arrayList[$this->i]["nas3"] = $Sleeps->nas3;
+            $this->arrayList[$this->i]["nas4"] = $Sleeps->nas4;
+            $this->arrayList[$this->i]["color_nas"] = $this->setColor(array("mood"=>$Sleeps->nas));
+            $this->arrayList[$this->i]["color_mood"] = 0;
+            $this->arrayList[$this->i]["color_anxiety"] = 0;
+            $this->arrayList[$this->i]["color_nervousness"] = 0;
+            $this->arrayList[$this->i]["color_stimulation"] = 0;
+            $this->arrayList[$this->i]["what_work"] = false;
+            $this->arrayList[$this->i]["drugs"] = 0;
+            $this->arrayList[$this->i]["id"] = $Sleeps->id;
+                   $this->arrayList[$this->i]["year"] = $Sleeps->year;
+                   $this->arrayList[$this->i]["month"] = $Sleeps->month;
+                   $this->arrayList[$this->i]["day"] = $Sleeps->day;
+                   $this->arrayList[$this->i]["dat"] = $Sleeps->dat;
+            $this->i++;
+        }
+    }
+    
+    
+    private function setColor($array,$type = "mood") {
+        if (empty($array)) {
+            return null;
+        }
+        if ($array[$type] >= -20  and  $array[$type] < -16) {
+            return -10;
+        }
+        if ($array[$type] >= -16  and  $array[$type] < -11) {
+            return -9;
+        }
+        if ($array[$type] >= -11  and  $array[$type] < -7) {
+            return -8;
+        }
+        if ($array[$type] >= -7  and  $array[$type] < -2) {
+            return -7;
+        }
+        if ($array[$type] >= -2  and  $array[$type] < -1) {
+            return -6;
+        }
+        if ($array[$type] >= -1  and  $array[$type] < -0.5) {
+            return -5;
+        }
+        if ($array[$type] >= -0.5  and  $array[$type] < -0.2) {
+            return -4;
+        }
+        if ($array[$type] >= -0.2  and  $array[$type] < -0.1) {
+            return -3;
+        }
+        if ($array[$type] >= -0.1  and  $array[$type] < -0.05) {
+            return -2;
+        }
+        if ($array[$type] >= -0.05  and  $array[$type] < 0) {
+            return -1;
+        }
+        if ($array[$type] >= 0  and  $array[$type] < 0.03) {
+            return 0;
+        }
+        if ($array[$type] >= 0.03  and  $array[$type] < 0.1) {
+            return 1;
+        }
+        if ($array[$type] >= 0.1  and  $array[$type] < 0.2) {
+            return 2;
+        }
+        if ($array[$type] >= 0.2  and  $array[$type] < 0.3) {
+            return 3;
+        }
+        if ($array[$type] >= 0.3  and  $array[$type] < 0.5) {
+            return 4;
+        }
+        if ($array[$type] >= 0.5  and  $array[$type] < 1) {
+            return 5;
+        }
+        if ($array[$type] >= 1  and  $array[$type] < 3) {
+            return 6;
+        }
+        if ($array[$type] >= 3  and  $array[$type] < 8) {
+            return 7;
+        }
+        if ($array[$type] >= 8  and  $array[$type] < 12) {
+            return 8;
+        }
+        if ($array[$type] >= 12  and  $array[$type] < 16) {
+            return 9;
+        }
+        if ($array[$type] >= 16  and  $array[$type] <= 20) {
+            return 10;
+        }
+
+    }    
+    
+    
+    private function sortMoods($listMoods,$whatWork) {
+        
+        foreach ($listMoods as $Moodss) {
+            
+            $this->arrayList[$this->i]["date_start"] = $Moodss->date_start;
+            $this->arrayList[$this->i]["date_end"] = $Moodss->date_end;
+            $this->arrayList[$this->i]["second"] = strtotime($Moodss->date_end) - strtotime($Moodss->date_start);
+            $this->arraySecond[$this->i] = $this->arrayList[$this->i]["second"];
+            $this->arrayList[$this->i]["level_mood"] = $Moodss->level_mood;
+            $this->arrayList[$this->i]["level_anxiety"] = $Moodss->level_anxiety;
+            $this->arrayList[$this->i]["level_nervousness"] = $Moodss->level_nervousness;
+            $this->arrayList[$this->i]["level_stimulation"] = $Moodss->level_stimulation;
+            $this->arrayList[$this->i]["nas"] = $Moodss->nas;
+            $this->arrayList[$this->i]["nas2"] = $Moodss->nas2;
+            $this->arrayList[$this->i]["nas3"] = $Moodss->nas3;
+            $this->arrayList[$this->i]["nas4"] = $Moodss->nas4;
+            $this->arrayList[$this->i]["color_nas"] = $this->setColor(array("mood"=>$Moodss->nas));
+            $this->arrayList[$this->i]["color_mood"] = $this->setColor(array("mood"=>$this->arrayList[$this->i]["level_mood"]));
+            $this->arrayList[$this->i]["color_anxiety"] = -$this->setColor(array("mood"=>$this->arrayList[$this->i]["level_mood"],"anxiety"));
+            $this->arrayList[$this->i]["color_nervousness"] = -$this->setColor(array("mood"=>$this->arrayList[$this->i]["level_mood"],"nervousness"));
+            $this->arrayList[$this->i]["color_stimulation"] = $this->setColor(array("mood"=>$this->arrayList[$this->i]["level_mood"],"stimulation"));
+            $this->arrayList[$this->i]["drugs"] = $Moodss->drugs;
+            if ($whatWork == "on") {
+                $this->arrayList[$this->i]["what_work"] = Common::charset_utf_fix($Moodss->what_work,true);
+                
+            }
+            else if ($Moodss->what_work != "" and $whatWork == "off") {
+                $this->arrayList[$this->i]["what_work"] = true;
+            }
+            else {
+                $this->arrayList[$this->i]["what_work"] = false;
+            }
+
+            
+            $this->arrayList[$this->i]["epizodes_psychotik"] = $Moodss->epizodes_psychotik;
+            $this->arrayList[$this->i]["type"] = 1;
+            $this->arrayList[$this->i]["percent"] = 0;
+            $this->arrayList[$this->i]["id"] = $Moodss->id;
+                   $this->arrayList[$this->i]["year"] = $Moodss->year;
+                   $this->arrayList[$this->i]["month"] = $Moodss->month;
+                   $this->arrayList[$this->i]["day"] = $Moodss->day;
+                   $this->arrayList[$this->i]["dat"] = $Moodss->dat;
+            $this->i++;
+        }
+    }    
+    
 }

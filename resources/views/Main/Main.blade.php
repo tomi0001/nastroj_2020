@@ -1,11 +1,12 @@
 @extends('Layout.Main')
 
 @section('content')
-<script>
-    window.onload = switchVisibleMood;
-</script>
+<body onload="switchVisibleMood()">
+
     
     @include('Layout.Calendar')<br>
+
+    @include ('Main.showMood')
     <div class='row'>
         <div class='col-md-3 col-lg-4 col-sm-1 col-xs-1'></div>
         <div class='col-md-6 col-lg-4 col-sm-10 col-xs-10'>

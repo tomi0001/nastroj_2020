@@ -15,23 +15,27 @@ use Auth;
 class Action {
     
     public $errors = [];
+    public $listActionMood = [];
     public function checkAddActionDate(Request $request) {
         $bool = 4;
-        if (!(($request->get("timeStart") or $request->get("timeEnd")) xor $request->get("long") != "")) {
-            array_push($this->errors,"Musisz się zdecydować czy chcesz mieć godzine zaczęcia akcji czy długośc akcji");
+        
+        if ((!($request->get("dateStart") or $request->get("dateEnd")) and $request->get("long") == "")) {
+            array_push($this->errors,"Musisz uzupełnić czas lub długośc");
         }
+        
         if (empty($request->get("idAction"))) {
             array_push($this->errors,"Musisz uzupełnić akcje");
         }
-        if ($request->get("long") == "") {
-            if ($request->get("dateStart") == "") {
+        if ($request->get("dateStart") == "") {
                 array_push($this->errors,"Uzupełnij datę zaczęcia");
                 $bool--;
-            }
-            if ($request->get("dateEnd") == "" ) {
+        }
+        if ($request->get("dateEnd") == "" ) {
                 array_push($this->errors,"Uzupełnij datę zakończenia");
                 $bool--;
-            }
+        }
+        if (($request->get("timeStart") and $request->get("timeEnd"))) {
+
             if ($request->get("timeStart") == "") {
                 array_push($this->errors,"Uzupełnij czas zaczęcia");
                 $bool--;
@@ -44,17 +48,35 @@ class Action {
                 array_push($this->errors,"Data zaczęcia nastroju jest mniejsza od teraźniejszej daty");
             }
             if ($bool == 4 and strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00") >= strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00")) {
+                
                array_push($this->errors,"Godzina zaczęcia jest wieksza bądź równa godzinie skończenia");
             }
+            
+        
+            else if ((strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00") - strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00")) <  ($request->get("long") * 60)) {
+                array_push($this->errors,"Ilośc minut w długośc trwania akcji jest większa od przedziału datowego");
+            }
+
+            /*
             if (!empty(Actions_plan::checkTimeExist($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00"))) {
                 array_push($this->errors,"Godziny Akcji  nachodza na inne akcje");
             }
+             * 
+             */
         }
         else {
-            if ($request->get("long") == 0) {
-                array_push($this->errors,"Czas nie może być równy 0");
+            if ($bool == 4 and strtotime($request->get("dateStart") . " " . "00:00:00") >= strtotime($request->get("dateEnd") . " " .  "00:00:00")) {        
+                   array_push($this->errors,"Godzina zaczęcia jest wieksza bądź równa godzinie skończenia");
+            }
+            if (((strtotime($request->get("dateEnd") . " " .  "00:00:00") - strtotime($request->get("dateStart") . " " . "00:00:00")) <  ($request->get("long") * 60))) {
+                array_push($this->errors,"Ilośc s minut w długośc trwania akcji jest większa od przedziału datowego");
             }
         }
+        //else {
+            if ($request->get("long") == "" and !($request->get("dateStart") and $request->get("dateEnd"))) {
+                array_push($this->errors,"Jeżeli chcesz, żeby tylko czas musisz chociaż uzupełnić date startu i end");
+            }
+        //}
         /*
        
          * 
@@ -95,7 +117,11 @@ class Action {
                     $Actions_plan->date_start = $request->get("dateStart") . " " . $request->get("timeStart") . ":00";
                     $Actions_plan->date_end = $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00";
                 }
-                else {
+                else if ($request->get("timeStart") == "") {
+                    $Actions_plan->date_start = $request->get("dateStart");
+                    $Actions_plan->date_end = $request->get("dateEnd");
+                }
+                if ($request->get("long") != "") {
                     $Actions_plan->long = $request->get("long");
                 }
                 $Actions_plan->save();
@@ -119,5 +145,17 @@ class Action {
         $Action->id_users = Auth::User()->id;
         $Action->level_pleasure = $request->get("pleasure");
         $Action->save();
+    }
+    
+    public function downloadAction(int $idUsers,$dateStart,$dateEnd) {
+        $Action = new Actions_plan;
+        $this->listActionMood = $Action->where("id_users",$idUsers)
+//                /timeDIFF(date,'$new_date') <= '" . $time . 
+                                       //->whereRaw("dateDIFF(date_start,'$dateStart') >= '$dateStart'")
+                                       //->whereRaw("dateDIFF(date_end, '$dateEnd') <= '$dateEnd'")
+                                      ->whereRaw("(date_start >= '$dateStart' and date_end < '$dateEnd') or (date_start < '$dateEnd' and date_end >= '$dateStart')")
+                                       //->where("date_start",">=",$dateStart)
+                                       //->where("date_end","<=",$dateEnd)
+                                        ->get();
     }
 }

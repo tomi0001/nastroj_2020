@@ -30,6 +30,7 @@ const getNumber = function ( num, arr ) {
     return arr.includes( num );
 }
 function switchVisibleMood() {
+
     if ($("[name='type']").val() == "mood") {
         $("#moodAction").css("display","none");
         $("#moodAdd").css("display","inline");
@@ -97,7 +98,7 @@ function addAction(url) {
     $("#form4").find(":hidden").filter("[name!='idAction']").remove();
 
 
-    changeArrayAtHiddenAction();
+    changeArrayAtHidden(4);
     //alert($("form").serialize());
     
     //$('form')[0].reset();
@@ -114,6 +115,7 @@ function addAction(url) {
     
 
 */
+
 
 $.ajax({
     url : url,
@@ -188,7 +190,7 @@ function addMood(url) {
 $("#form2").find(":hidden").filter("[name!='idAction']").remove();
 
 
-    changeArrayAtHidden();
+    changeArrayAtHidden(2);
     //alert($("form").serialize());
     
     //$('form')[0].reset();
@@ -239,7 +241,15 @@ function runScript(e,url) {
         return false;
     }
 }
-
+function runScriptAddActionMood(e,url) {
+    
+    if (e.keyCode == 13) {
+        
+        addAction(url);
+        eval(tb.value);
+        return false;
+    }
+}
 function runScriptSettingAddAction(e,url) {
     //See notes about 'which' and 'key'
     if (e.keyCode == 13) {
@@ -251,6 +261,14 @@ function runScriptSettingAddAction(e,url) {
 function runScriptSettingchangeLecelMood(e,url) {
     if (e.keyCode == 13) {
         SettingchangeLevelMood(url);
+        eval(tb.value);
+        return false;
+    }
+}
+
+function runScriptSleepAdd(e,url) {
+    if (e.keyCode == 13) {
+        addSleep(url);
         eval(tb.value);
         return false;
     }
@@ -287,20 +305,23 @@ function reload() {
     location.reload();
     deleteArray();
 }
-function changeArrayAtHidden() {
+function changeArrayAtHidden(z) {
     for (i=0;i < actionList.length;i++) {
         if (isIst(actionList[i])) {
-            $("#form2").append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
+            $("#form" + z).append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
         }
     }
 }
+/*
 function changeArrayAtHiddenAction() {
     for (i=0;i < actionList.length;i++) {
         if (isIst(actionList[i])) {
-            $("#form4").append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
+            $("#form ").append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
         }
     }
 }
+ * 
+ */
 function isIst(id) {
     if (actionList.length == 0) {
         return false;

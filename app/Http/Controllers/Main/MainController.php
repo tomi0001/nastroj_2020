@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Services\User as ServiceUser;
 use App\Http\Services\Calendar;
 use App\Http\Services\Mood;
+use App\Http\Services\Action as Action2;
 use App\Action;
 use Auth;
 class MainController extends Controller  {
@@ -22,9 +23,15 @@ class MainController extends Controller  {
        $Mood = new Mood;
        $Mood->downloadMood($year,$month,$day);
        $Mood->downloadSleep($year,$month,$day);
+       $Mood->sortMoodsSleep($Mood->listMood,$Mood->listSleep,"off",true);
        //$date = 
        $dateAction = date("Y-m-d",StrToTime(date("Y-m-d") )+ 86400);
        $Calendar = new Calendar($year, $month, $day, $action);
+       $Action2 = new Action2;
+       $Action2->downloadAction(Auth::id(),$year . "-" . $month . "-" . $day . " "  . Auth::User()->start_day . ":00:00",date("Y-m-d H:i:s",StrToTime($year . "-" . $month . "-" . $day . Auth::User()->start_day . ":00:00" )+ 86400));
+       //print ("<pre>");
+       //print_r ($Action2->listActionMood);
+       print count($Action2->listActionMood);
        return View("Main.Main")->with("text_month",$Calendar->text_month)
                                ->with("year",$Calendar->year)
                                ->with("day2",1)
@@ -39,6 +46,10 @@ class MainController extends Controller  {
                                ->with("back_year",$Calendar->back_year)
                                ->with("next_year",$Calendar->next_year)
                                ->with("Action",$Action)
-                               ->with("dateAction",$dateAction);
+                               ->with("dateAction",$dateAction)
+                               ->with("listMood",$Mood->arrayList)
+                               ->with("count",count($Mood->arrayList))
+                               ->with("listPercent",$Mood->listPercent)
+                               ->with("listActionMood",$Action2->listActionMood);
     }
 }

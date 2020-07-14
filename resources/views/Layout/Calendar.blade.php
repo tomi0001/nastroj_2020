@@ -34,7 +34,7 @@
 
             @else
      
-                <div onmouseover='calendarOn("day_{{$day2}}")' onmouseout='calendarOff("day_{{$day2}}")' align=center id='day_{{$day2}}' class="cell{{$color[$day2-1]}}" onclick="LoadPage('{{route('main')}}/{{$year}}/{{$month}}/{{$day2}}}}')"><a  class="no_active" href={{   route('main')}}/{{$year}}/{{$month}}/{{$day2}}  }}>{{$day2}}</a></div>
+                <div onmouseover='calendarOn("day_{{$day2}}")' onmouseout='calendarOff("day_{{$day2}}")' align=center id='day_{{$day2}}' class="cell{{$color[$day2-1]}}" onclick="LoadPage('{{route('main')}}/{{$year}}/{{$month}}/{{$day2}}')"><a  class="no_active" href={{   route('main')}}/{{$year}}/{{$month}}/{{$day2}}  }}>{{$day2}}</a></div>
                 
             @endif
             </td>
