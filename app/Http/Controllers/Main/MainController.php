@@ -15,9 +15,11 @@ use App\Http\Services\User as ServiceUser;
 use App\Http\Services\Calendar;
 use App\Http\Services\Mood;
 use App\Http\Services\Action as Action2;
+use App\Http\Services\Common;
 use App\Action;
 use Auth;
 class MainController extends Controller  {
+    
     public function index($year = "",$month  ="",$day = "",$action = "") {
        $Action = Action::selectAction(Auth::id());
        $Mood = new Mood;
@@ -28,10 +30,12 @@ class MainController extends Controller  {
        $dateAction = date("Y-m-d",StrToTime(date("Y-m-d") )+ 86400);
        $Calendar = new Calendar($year, $month, $day, $action);
        $Action2 = new Action2;
-       $Action2->downloadAction(Auth::id(),$year . "-" . $month . "-" . $day . " "  . Auth::User()->start_day . ":00:00",date("Y-m-d H:i:s",StrToTime($year . "-" . $month . "-" . $day . Auth::User()->start_day . ":00:00" )+ 86400));
+       $Action2->downloadAction(Auth::id(),$year, $month,$day);
        //print ("<pre>");
-       //print_r ($Action2->listActionMood);
-       print count($Action2->listActionMood);
+       $Action2->separateShare($year, $month,$day);
+       print ("<pre>");
+       print_r ($Action2->listActionMoodSeparate);
+       print ("</pre>");
        return View("Main.Main")->with("text_month",$Calendar->text_month)
                                ->with("year",$Calendar->year)
                                ->with("day2",1)
@@ -50,6 +54,8 @@ class MainController extends Controller  {
                                ->with("listMood",$Mood->arrayList)
                                ->with("count",count($Mood->arrayList))
                                ->with("listPercent",$Mood->listPercent)
-                               ->with("listActionMood",$Action2->listActionMood);
+                               ->with("listActionMood",$Action2->listActionMoodSeparate)
+                               ->with("bool",false);
+                               //->with("listActionMood",$Action2->listActionMood);
     }
 }

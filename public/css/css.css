@@ -88,3 +88,26 @@ div.cell_selected {
     height: 100%;
     padding-top: 23px;
 }
+
+div.separateAction {
+    text-align: center;
+    font-size: 20px;
+    color: #5AABFF;
+}
+
+span.level_pleasure {
+    border-radius: 15px;
+    width: 100%;
+    color: white;
+    padding: 5px;
+}
+span.level_pleasure_8 {
+    background-color: #69AEFF;
+}
+span.level_pleasure_5 {
+    background-color: #FF46B2;
+}
+div.namePleasure {
+    padding-top: 12px;
+    float: left;
+}

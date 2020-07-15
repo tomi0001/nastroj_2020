@@ -12,4 +12,7 @@ class Action extends Model
     public static function IfNameExist($name) {
         return self::where("name",$name)->where("id_users",Auth::User()->id)->first();
     }
+    public static function selectActions($idAction) {
+        return self::where("id",$idAction)->where("id_users",Auth::User()->id)->first();
+    }
 }

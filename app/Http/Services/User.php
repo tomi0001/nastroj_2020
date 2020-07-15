@@ -23,7 +23,10 @@ class User {
         $User->save();
     }
     
-    
+    public function setMinutes($minutes) {
+        $User = new User2;
+        $User->where("id",Auth::User()->id)->update(["minutes" => $minutes]);
+    }
     public function CheckIfLevelMood() {
         $Mood = new Mood;
         $array = User2::checkExistLevelMood();

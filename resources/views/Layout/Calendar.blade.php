@@ -80,6 +80,38 @@
   </div>
   
 </div>
+<div class="separateAction">
+    Co ile minut rozdzielenie czasu w akcjach
+    <div class="row">
+        <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2">
+            
+        </div>
+        <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
+            <a href="{{ route('change.minutes',15)}}"><button class="btn btn-info">15 minut</button> </a>
+        </div>
+        <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
+              <a href="{{ route('change.minutes',30)}}"><button class="btn btn-info">30 minut</button> </a>
+        </div>
+        <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
+              <a href="{{ route('change.minutes',60)}}"><button class="btn btn-info">60 minut</button> </a>
+        </div>
+        <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
+              <a href="{{ route('change.minutes',120)}}"><button class="btn btn-info">2 godziny</button> </a>
+        </div>
+        <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
+               <a href="{{ route('change.minutes',180)}}"><button class="btn btn-info">3 godziny</button> </a>
+        </div>
+        <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
+               <a href="{{ route('change.minutes',300)}}"><button class="btn btn-info">5 godzin</button> </a>
+        </div>
+        <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
+              <a href="{{ route('change.minutes',600)}}"><button class="btn btn-info">10 godzin</button></a>
+        </div>  
+        <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
+             <a href="{{ route('change.minutes',1440)}}"> <button class="btn btn-info">24 godzin</button></a>
+        </div> 
+    </div>
+</div>
 
 
     

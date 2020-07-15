@@ -11,6 +11,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Validator;
 use Illuminate\Http\Request;
+use Redirect;
 use App\Http\Services\User as ServiceUser;
 use App\Http\Services\Calendar;
 use App\Http\Services\Mood;
@@ -61,5 +62,10 @@ class MoodController extends Controller  {
             
         }
         
+    }
+    public function changeMinutes($minutes) {
+        $User = new ServiceUser;
+        $User->setMinutes($minutes);
+        return Redirect::back()->with("setAction",true);
     }
 }

@@ -29,6 +29,23 @@ Array.prototype.remove=function(s){
 const getNumber = function ( num, arr ) {
     return arr.includes( num );
 }
+
+function switchVisibleMoodDobule(array,bool = false) {
+    if (bool == true) {
+        switchVisibleMoodShow(true);
+    }
+    else {
+        for (i=0;i < array.length;i++) {
+            if (array[i] == 1) {
+                switchVisibleMood();
+            }
+            else if (array[i] == 2) {
+                switchVisibleMoodShow();
+            }
+        }
+    }
+}
+
 function switchVisibleMood() {
 
     if ($("[name='type']").val() == "mood") {
@@ -47,7 +64,21 @@ function switchVisibleMood() {
         $("#SleepAdd").css("display","inline");
     }
 }
-
+function switchVisibleMoodShow(bool = false) {
+    if (bool == true) {
+        $("#actionShow").css("display","inline");
+        $("#moodShow").css("display","none"); 
+    }
+    else if ($("[name='typeMood']").val() == "mood") {
+        $("#actionShow").css("display","none");
+        $("#moodShow").css("display","inline");        
+    }
+    else if ($("[name='typeMood']").val() == "action"){  
+        $("#actionShow").css("display","inline");
+        $("#moodShow").css("display","none");   
+    }
+    
+}
 var arraySetting = ["settingAction","levelMood"];
 var arraySetting2 = ["settingPosition_1","settingPosition_2"];
 function switchSetting(id = "settingAction",id2 = "settingPosition_1") {

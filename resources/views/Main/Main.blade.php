@@ -1,12 +1,36 @@
 @extends('Layout.Main')
 
 @section('content')
-<body onload="switchVisibleMood()">
+
+@if (Session("setAction") == true)
+
+<body onload="switchVisibleMoodDobule([1,2],true)">
+@else
+<body onload="switchVisibleMoodDobule([1,2])">
+@endif
 
     
     @include('Layout.Calendar')<br>
-
-    @include ('Main.showMood')
+    <div class='row'>
+        <div class='col-md-3 col-lg-4 col-sm-1 col-xs-1'></div>
+        <div class='col-md-6 col-lg-4 col-sm-10 col-xs-10'>
+            <form method='get'>
+                <select name='typeMood' class='form-control' onchange='switchVisibleMoodShow()'>
+                    <option value='mood' selected>Wyswietl nastroje</option>
+                    <option value='action'>Wyswielt akcje</option>
+                </select>
+                
+            </form>
+        </div>
+    </div>
+    <div id='moodShow' style='display: inline;'>
+        @include ('Main.showMood')
+    </div>
+    <div id='actionShow' style='display: none;'>
+        @include ('Main.showAction')
+    </div>
+    
+    
     <div class='row'>
         <div class='col-md-3 col-lg-4 col-sm-1 col-xs-1'></div>
         <div class='col-md-6 col-lg-4 col-sm-10 col-xs-10'>

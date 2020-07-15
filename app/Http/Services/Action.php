@@ -16,6 +16,52 @@ class Action {
     
     public $errors = [];
     public $listActionMood = [];
+    public $listActionMoodSeparate = [];
+    public $startDay;
+    public $dateStart;
+    public $dateEnd;
+    public $timeTnterval;
+    private function setMinutes() {
+        $this->timeTnterval = Auth::User()->minutes;
+    }
+    
+    
+    private  static function setColorPleasure($color) {
+        if ($color <= -16) {
+            return 0;
+        }
+        else if ($color <= -12) {
+            return 1;
+        }
+        else if ($color <= -7) {
+            return 2;
+        }
+        else if ($color <= -4) {
+            return 3;
+        }
+        else if ($color <= -1) {
+            return 4;
+        }
+        else if ($color <= 1) {
+            return 5;
+        }
+        else if ($color <= 5) {
+            return 6;
+        }
+        else if ($color <= 8) {
+            return 7;
+        }
+        else if ($color <= 12) {
+            return 8;
+        }
+        else if ($color <= 16) {
+            return 9;
+        }
+        else if ($color <= 20) {
+            return 10;
+        }
+    }
+    
     public function checkAddActionDate(Request $request) {
         $bool = 4;
         
@@ -147,15 +193,82 @@ class Action {
         $Action->save();
     }
     
-    public function downloadAction(int $idUsers,$dateStart,$dateEnd) {
+    public function downloadAction(int $idUsers,$year,$month,$day) {
         $Action = new Actions_plan;
+        //print $year;
+        $this->initStartDay();
+        $this->setHourMood($year,$month,$day);
         $this->listActionMood = $Action->where("id_users",$idUsers)
-//                /timeDIFF(date,'$new_date') <= '" . $time . 
-                                       //->whereRaw("dateDIFF(date_start,'$dateStart') >= '$dateStart'")
-                                       //->whereRaw("dateDIFF(date_end, '$dateEnd') <= '$dateEnd'")
-                                      ->whereRaw("(date_start >= '$dateStart' and date_end < '$dateEnd') or (date_start < '$dateEnd' and date_end >= '$dateStart')")
-                                       //->where("date_start",">=",$dateStart)
-                                       //->where("date_end","<=",$dateEnd)
+                                      ->whereRaw("(date_start >= '" . $this->dateStart . "' and date_end < '" . $this->dateEnd . "') "
+                                              . "or (date_start < '" . $this->dateEnd . "' and date_end >= '" . $this->dateStart . "')")
                                         ->get();
     }
+    public function separateShare($year,$month,$day) {
+        $this->initStartDay();
+        $this->setHourMood($year,$month,$day);
+        $this->setMinutes();
+        $start = strtotime($this->dateStart);
+        $end = strtotime($this->dateEnd);
+        $result = $end - $start;
+        $array = [];
+        $j = 0;
+        $second = ($this->timeTnterval * 60);
+        $z = 0;
+        for ($i = $start;$i <= $end;$i += $second) {
+            
+            foreach ($this->listActionMood as $list) {
+            
+                if (strtoTime($list->date_start) > $i  and strToTime($list->date_end) <  $i  + ($second)
+                        or (strToTime($list->date_start) < $i  + ($second)) and strToTime($list->date_end) > $i   ) {
+                        if ($i == $end) {
+                            continue;
+                        }
+                            $array[$z]["date_start"] = date(" H:i",($i));
+                        
+            
+                        if (($i + $second) > $end) {
+                            $array[$z]["date_end"] = date(" H:i",$end);
+                        }
+                        else {
+                            $array[$z]["date_end"] = date("H:i",($i + $second));
+                        }
+ 
+                        $arrayAction = ActionApp::selectActions($list->id_actions);
+                        $array[$z]["start"] = $list->date_start;
+                        $array[$z]["end"] = $list->date_end;
+                        $array[$z]["id"] = $list->id;
+                        $array[$z]["name"] = $arrayAction->name;
+                        $array[$z]["level_pleasure"] = $this->setColorPleasure($arrayAction->level_pleasure);
+                        
+                        
+                        $z++;
+
+                }
+                
+            }
+            $j++;
+        }
+        
+        $this->listActionMoodSeparate  = $array;
+    }
+    
+    private function initStartDay() {
+        $this->startDay = Auth::User()->start_day;
+        
+    }
+    private function setHourMood($year,$month,$day,$bool = false) {
+        $second = strtotime($year . "-" . $month . "-" . $day . " " . $this->startDay . ":00:00");
+        
+        $second2 = $second + (3600 * 24);
+        if ($bool == false) {
+            $this->dateStart = date("Y-m-d H:i:s",$second);
+            $this->dateEnd = date("Y-m-d H:i:s",$second2);
+        }
+        else {
+            return [date("Y-m-d H:i:s",$second),date("Y-m-d H:i:s",$second2)];
+        }
+    }
+    
+    
+
 }

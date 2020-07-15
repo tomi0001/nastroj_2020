@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->tinyInteger('start_day')->default(0);
+            $table->smallInteger("minutes")->default(60);
             $table->float('level_mood_10',6,2)->nullable();
             $table->float('level_mood_9',6,2)->nullable();
             $table->float('level_mood_8',6,2)->nullable();
