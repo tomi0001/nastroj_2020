@@ -29,6 +29,14 @@ a.Action___:hover {
     cursor: pointer;
     
 }
+a.Action___2 {
+    color: #4288BA;
+    cursor: pointer;
+}
+a.Action___2:hover {
+    cursor: pointer;
+    
+}
 div.ajax {
    
 }
@@ -102,12 +110,54 @@ span.level_pleasure {
     padding: 5px;
 }
 span.level_pleasure_8 {
-    background-color: #69AEFF;
+    background-color: #A47EFC;
+}
+span.level_pleasure_7 {
+    background-color: #D583FC;
 }
 span.level_pleasure_5 {
     background-color: #FF46B2;
 }
+span.level_pleasure_4 {
+    background-color: #FF498D;
+}
+span.level_pleasure_2 {
+    background-color: #FF3F50;
+}
+span.level_pleasure_3 {
+    background-color: #C44F7B;
+}
+span.level_pleasure_6 {
+    background-color: #8335A5;
+}
+span.level_pleasure_10 {
+    background-color: #6FBEFC;
+}
+span.level_pleasure_9 {
+    background-color: #817EFC;
+}
+span.level_pleasure_1 {
+    background-color: #FC086E;
+}
+span.level_pleasure_0 {
+    background-color: #FC1713;
+}
+
 div.namePleasure {
-    padding-top: 12px;
+    padding: 12px;
     float: left;
+}
+
+div.titleError {
+    text-align: center;
+    background-color: red;
+    border-radius: 6px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    min-height: 50px;
+    font-weight: bold;
+    font-size: 21px;
+    padding-top: 7px;
 }

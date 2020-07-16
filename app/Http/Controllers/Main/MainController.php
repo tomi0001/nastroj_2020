@@ -26,16 +26,21 @@ class MainController extends Controller  {
        $Mood->downloadMood($year,$month,$day);
        $Mood->downloadSleep($year,$month,$day);
        $Mood->sortMoodsSleep($Mood->listMood,$Mood->listSleep,"off",true);
-       //$date = 
        $dateAction = date("Y-m-d",StrToTime(date("Y-m-d") )+ 86400);
        $Calendar = new Calendar($year, $month, $day, $action);
        $Action2 = new Action2;
        $Action2->downloadAction(Auth::id(),$year, $month,$day);
-       //print ("<pre>");
        $Action2->separateShare($year, $month,$day);
+      
+       //if (count($Mood->arrayList) != 0) {
+       $Mood->sumColorForMood(Auth::User()->id,$Calendar->year,$Calendar->month);
+       //}
+       /*
        print ("<pre>");
        print_r ($Action2->listActionMoodSeparate);
        print ("</pre>");
+        * 
+        */
        return View("Main.Main")->with("text_month",$Calendar->text_month)
                                ->with("year",$Calendar->year)
                                ->with("day2",1)
@@ -55,7 +60,7 @@ class MainController extends Controller  {
                                ->with("count",count($Mood->arrayList))
                                ->with("listPercent",$Mood->listPercent)
                                ->with("listActionMood",$Action2->listActionMoodSeparate)
-                               ->with("bool",false);
+                               ->with("color",$Mood->color);
                                //->with("listActionMood",$Action2->listActionMood);
     }
 }

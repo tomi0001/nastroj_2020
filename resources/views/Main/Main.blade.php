@@ -24,10 +24,24 @@
         </div>
     </div>
     <div id='moodShow' style='display: inline;'>
-        @include ('Main.showMood')
+            @if (count($listMood) == 0)
+                <div class="titleError">
+                    Nie ma żadnych nastrojów dla tego dnia
+                </div>
+            @else
+                @include ('Main.showMood')
+            @endif
+        
     </div>
     <div id='actionShow' style='display: none;'>
-        @include ('Main.showAction')
+        @if (count($listActionMood) == 0)
+            <div class="titleError">
+                    Nie ma żadnych akcji dla tego dnia
+            </div>
+        @else
+            @include ('Main.showAction')
+        
+        @endif
     </div>
     
     

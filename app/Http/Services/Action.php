@@ -178,7 +178,7 @@ class Action {
         if ($request->get("name") == "") {
              array_push($this->errors,"Uzupełnij pole nazwa");
         }
-        if (!($request->get("pleasure") > -20 and $request->get("pleasure") < 20) or !is_numeric($request->get("pleasure")) ) {
+        if (!($request->get("pleasure") >= -20 and $request->get("pleasure") <= 20) or !is_numeric($request->get("pleasure")) ) {
             array_push($this->errors,"Poziom przyjemności musi być w graniach od -20 do +20");
         }
         if (!empty(ActionApp::IfNameExist($request->get("name")))) {
@@ -199,8 +199,10 @@ class Action {
         $this->initStartDay();
         $this->setHourMood($year,$month,$day);
         $this->listActionMood = $Action->where("id_users",$idUsers)
-                                      ->whereRaw("(date_start >= '" . $this->dateStart . "' and date_end < '" . $this->dateEnd . "') "
-                                              . "or (date_start < '" . $this->dateEnd . "' and date_end >= '" . $this->dateStart . "')")
+                                      ->whereRaw("(date_start > '" . $this->dateStart . "' and date_end < '" . $this->dateEnd . "') "
+                                              . "or (date_start < '" . $this->dateEnd . "' and date_end > '" . $this->dateStart . "')"
+                                              
+                                              )
                                         ->get();
     }
     public function separateShare($year,$month,$day) {
@@ -219,10 +221,12 @@ class Action {
             foreach ($this->listActionMood as $list) {
             
                 if (strtoTime($list->date_start) > $i  and strToTime($list->date_end) <  $i  + ($second)
-                        or (strToTime($list->date_start) < $i  + ($second)) and strToTime($list->date_end) > $i   ) {
+                        or (strToTime($list->date_start) < $i  + ($second)) and strToTime($list->date_end) > $i   
+                            ) {
                         if ($i == $end) {
                             continue;
                         }
+                    
                             $array[$z]["date_start"] = date(" H:i",($i));
                         
             

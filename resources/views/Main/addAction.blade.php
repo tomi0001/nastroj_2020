@@ -58,7 +58,7 @@
                                     <div  style="overflow-y: scroll;  height:250;">
                                         <div id="parentsAction">
                                             @foreach ($Action as $list)
-                                                <a class="Action___" id = "{{$list->id}}">{{$list->name}}</a> |
+                                                <a class="Action___2" id = "{{$list->id}}">{{$list->name}}</a> |
                                             @endforeach
                                         </div>
                                     </div>

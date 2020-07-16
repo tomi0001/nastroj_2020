@@ -119,7 +119,7 @@ class calendar
       private function set_beginning_day($data) {
         return date("w",strtotime($data));
       }
-        public function check_month($month,$year) {
+        public static function check_month($month,$year) {
 
             if ($month == 12) {
             return 31;

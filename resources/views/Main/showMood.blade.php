@@ -16,6 +16,9 @@
         Poziom pobudzenia dla tego dnia {{$colorForDay["stimulation"]}}
     </div>
 @endif
+
+
+
 <table class="table" style="width: 90%; margin-left: auto;margin-right: auto;">
     <thead class="titleThead">
         <td width="10%" class="center">

@@ -1,4 +1,5 @@
 var actionList = [];
+var actionList2 = [];
 
 
 $(document).ready(function(){
@@ -29,6 +30,35 @@ Array.prototype.remove=function(s){
 const getNumber = function ( num, arr ) {
     return arr.includes( num );
 }
+
+
+$(document).ready(function(){
+    $(".Action___2").click(function(){
+     if (getNumber($(this).attr("id"),actionList2)) {
+        actionList2.remove2($(this).attr("id"));
+        $(this).css("background-color","transparent");
+        $(this).css("border-radius",'0px');
+        $(this).css("color","#4288BA");
+    }
+    else {
+        actionList2.push($(this).attr("id"));
+        $(this).css("background-color","#95721F");
+        $(this).css("border-radius",'30px');
+        $(this).css("color","white");
+    }
+    //alert(actionList.length);
+    });
+});
+Array.prototype.remove2=function(s){
+                        for(i=0;i<actionList2.length;i++){
+                           //alert(actionList[i]);
+                           if(s==actionList2[i]) actionList2.splice(i, 1);
+                           //alert(actionList[i]);
+                        }
+                }
+                
+
+
 
 function switchVisibleMoodDobule(array,bool = false) {
     if (bool == true) {
@@ -129,7 +159,7 @@ function addAction(url) {
     $("#form4").find(":hidden").filter("[name!='idAction']").remove();
 
 
-    changeArrayAtHidden(4);
+    changeArrayAtHidden2(4);
     //alert($("form").serialize());
     
     //$('form')[0].reset();
@@ -374,3 +404,40 @@ function deleteArray() {
     }
 }
 
+function changeArrayAtHidden2(z) {
+    for (i=0;i < actionList2.length;i++) {
+        if (isIst2(actionList2[i])) {
+            $("#form" + z).append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList2[i] + " class=\'form-control typeMood\'>");
+        }
+    }
+}
+/*
+function changeArrayAtHiddenAction() {
+    for (i=0;i < actionList.length;i++) {
+        if (isIst(actionList[i])) {
+            $("#form ").append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
+        }
+    }
+}
+ * 
+ */
+function isIst2(id) {
+    if (actionList2.length == 0) {
+        return false;
+    }
+    for (i=0;i < actionList2.length;i++) {
+        if (actionList2[i] == id) {
+            return true;
+            
+        }
+    }
+    return false;
+}
+function deleteArray2() {
+    $("#parentsAction").children().css("background-color","transparent").css("border-radius",'0px').css("color","#4288BA");
+    for (i=0;i < actionList2.length;i++) {
+        //
+        actionList2.splice(i, 1);
+        
+    }
+}
