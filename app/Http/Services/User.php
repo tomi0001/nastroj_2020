@@ -11,27 +11,36 @@ use Illuminate\Http\Request;
 use Hash;
 use Auth;
 use App\User as User2;
+use App\Action;
 use App\Http\Services\Mood;
 class User {
     public $errors = [];
-    public function saveUser() {
+    public function saveUser(Request $request) {
         $User = new User2;
-        $User->login = Request::get("login");
-        $User->email = Request::get("email");
-        $User->password = Hash::make(Request::get("password"));
-        $User->start_day = Request::get("start_day");
+        $User->login = $request->get("login");
+        $User->email = $request->get("email");
+        $User->password = Hash::make($request->get("password"));
+        $User->start_day = $request->get("start_day");
         $User->save();
     }
-    
+    public function changeNameAction(Request $request) {
+        $Action = new Action;
+        $Action->where("id",$request->get("actionName"))->update(["name" => $request->get("nameActionChange")]);
+    }
     public function setMinutes($minutes) {
         $User = new User2;
         $User->where("id",Auth::User()->id)->update(["minutes" => $minutes]);
     }
+    public function selectAction() {
+        $Action = new Action;
+        return $Action->where("id_users",Auth::User()->id)->get();
+    }
     public function CheckIfLevelMood() {
         $Mood = new Mood;
-        $array = User2::checkExistLevelMood();
-        //var_dump($array);
-        if (empty($array)) {
+        $check = User2::checkExistLevelMood();
+        $array = User2::selectLevelMood();
+
+        if ($check->level_mood0 == 0 and $check->level_mood1 == 0) {
             return $Mood->levelMood;
         }
         else {

@@ -15,4 +15,8 @@ class Action extends Model
     public static function selectActions($idAction) {
         return self::where("id",$idAction)->first();
     }
+    public static function selectNameAction($id) {
+        return self::select("name")->where("id",$id)->where("id_users",Auth::User()->id)->first();
+    }
+
 }

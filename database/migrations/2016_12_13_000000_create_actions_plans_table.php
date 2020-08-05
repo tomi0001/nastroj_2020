@@ -23,6 +23,7 @@ class CreateActionsPlansTable extends Migration
             $table->dateTime('date_start')->nullable();
             $table->dateTime('date_end')->nullable();
             $table->integer('long')->nullable();
+            $table->tinyInteger('if_all_day')->default(0);
             $table->timestamps();
         });
     }

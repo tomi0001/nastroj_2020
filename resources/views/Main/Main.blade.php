@@ -4,10 +4,12 @@
 
 @if (Session("setAction") == true)
 
-<body onload="switchVisibleMoodDobule([1,2],true)">
+    <body onload="switchVisibleMoodDobule([1,2],true)">
 @else
-<body onload="switchVisibleMoodDobule([1,2])">
+    <body onload="switchVisibleMoodDobule([1,2],{{$boolMood}})">
 @endif
+
+
 
     
     @include('Layout.Calendar')<br>
@@ -16,8 +18,14 @@
         <div class='col-md-6 col-lg-4 col-sm-10 col-xs-10'>
             <form method='get'>
                 <select name='typeMood' class='form-control' onchange='switchVisibleMoodShow()'>
-                    <option value='mood' selected>Wyswietl nastroje</option>
-                    <option value='action'>Wyswielt akcje</option>
+                    @if (Session("setAction") == true or $boolMood == true)
+                        <option value='action' selected>Wyswielt akcje</option>
+                        <option value='mood'>Wyswietl nastroje</option>
+                    @else
+                        <option value='mood' seelected>Wyswietl nastroje</option>
+                        <option value='action'>Wyswielt akcje</option>
+                    @endif
+                    
                 </select>
                 
             </form>

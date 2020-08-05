@@ -99,13 +99,13 @@
               <a href="{{ route('change.minutes',120)}}"><button class="btn btn-info">2 godziny</button> </a>
         </div>
         <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
-               <a href="{{ route('change.minutes',180)}}"><button class="btn btn-info">3 godziny</button> </a>
+               <a href="{{ route('change.minutes',240)}}"><button class="btn btn-info">4 godzin</button> </a>
         </div>
         <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
-               <a href="{{ route('change.minutes',300)}}"><button class="btn btn-info">5 godzin</button> </a>
+               <a href="{{ route('change.minutes',360)}}"><button class="btn btn-info">6 godzin</button> </a>
         </div>
         <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
-              <a href="{{ route('change.minutes',600)}}"><button class="btn btn-info">10 godzin</button></a>
+              <a href="{{ route('change.minutes',720)}}"><button class="btn btn-info">12 godzin</button></a>
         </div>  
         <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1">
              <a href="{{ route('change.minutes',1440)}}"> <button class="btn btn-info">24 godzin</button></a>

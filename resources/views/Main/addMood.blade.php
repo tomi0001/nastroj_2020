@@ -89,7 +89,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div  style="overflow-y: scroll;  height:250;">
+                                    <div  style="overflow-y: scroll;  height:250; max-width: 300px;">
                                         <div id="parentsAction">
                                             @foreach ($Action as $list)
                                                 <a class="Action___" id = "{{$list->id}}">{{$list->name}}</a> |

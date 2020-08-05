@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Action as ActionApp;
 use App\Actions_plan;
 use App\Moods_action;
+use App\Http\Services\Common as common;
 use Auth;
 
 class Action {
@@ -117,6 +118,9 @@ class Action {
             if (((strtotime($request->get("dateEnd") . " " .  "00:00:00") - strtotime($request->get("dateStart") . " " . "00:00:00")) <  ($request->get("long") * 60))) {
                 array_push($this->errors,"Ilośc s minut w długośc trwania akcji jest większa od przedziału datowego");
             }
+            if ($request->get("allDay") == "on") {
+                array_push($this->errors,"Musiz uzupełnić czas wzięcia");
+            }
         }
         //else {
             if ($request->get("long") == "" and !($request->get("dateStart") and $request->get("dateEnd"))) {
@@ -128,6 +132,36 @@ class Action {
          * 
          */
 
+    }
+    
+    
+    public function checkAddAction(Request $request) {
+        //$Action = new Actions_plan;
+        if (!empty($request->get("idAction"))) {
+            for ($i = 0;$i < count($request->get("idAction"));$i++) {
+                if ($this->separateAllDay($request->get("idAction")[$i]) == 1) {
+                    if (!empty(Actions_plan::checkTimeExistActionAllDay($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00"))
+                         ) {
+                         array_push($this->errors,"Godziny akcji  nachodza na inne akcje 2");
+                     }
+                }
+                else if (!empty(Actions_plan::checkTimeExistAction($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00",$request->get("idAction")[$i]))
+                         ){
+                         array_push($this->errors,"Godziny akcji  nachodza na inne akcje 1");
+                }
+                
+            }
+        }
+    }
+    
+    private function separateAllDay($idAction) {
+        //$array = [];
+        $Action = new Actions_plan;
+        //for ($i=0;$i < count($idAction);$i++) {
+        $array = $Action->select("if_all_day")->where("id_actions",$idAction)->first();
+        //}
+        
+        return $array->if_all_day;
     }
     public function checkAddMood(Request $request) {
         if ($request->get("moodLevel") != "" and $request->get("moodLevel") < -20 or $request->get("moodLevel") > 20) {
@@ -164,8 +198,11 @@ class Action {
                     $Actions_plan->date_end = $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00";
                 }
                 else if ($request->get("timeStart") == "") {
-                    $Actions_plan->date_start = $request->get("dateStart");
-                    $Actions_plan->date_end = $request->get("dateEnd");
+                    $Actions_plan->date_start = $request->get("dateStart")  .  " ". Auth::User()->start_day . ":00:00";
+                    $Actions_plan->date_end = $request->get("dateEnd") . " ".  Auth::User()->start_day . ":00:00";
+                }
+                if ($request->get("allDay") == "on") {
+                    $Actions_plan->if_all_day  = 1;
                 }
                 if ($request->get("long") != "") {
                     $Actions_plan->long = $request->get("long");
@@ -209,6 +246,7 @@ class Action {
         $this->initStartDay();
         $this->setHourMood($year,$month,$day);
         $this->setMinutes();
+        
         $start = strtotime($this->dateStart);
         $end = strtotime($this->dateEnd);
         $result = $end - $start;
@@ -216,6 +254,7 @@ class Action {
         $j = 0;
         $second = ($this->timeTnterval * 60);
         $z = 0;
+        
         for ($i = $start;$i <= $end;$i += $second) {
             
             foreach ($this->listActionMood as $list) {
@@ -226,11 +265,18 @@ class Action {
                         if ($i == $end) {
                             continue;
                         }
-                    
+
+
+                        if ((($list->if_all_day  == 1 and  !((common::sumMinutesHour(((date("G",strtoTime($list->date_start)))),date("i",strtoTime($list->date_start))) > common::sumMinutesHour((date("G",$i)),date("i",$i)) 
+                                and common::sumMinutesHour((date("G",strtoTime($list->date_end))),date("i",strtoTime($list->date_end))) < common::sumMinutesHour(date("G",$i + ($second) ),date("i",$i + ($second))) 
+                                or common::sumMinutesHour((date("G",strtoTime($list->date_start))),date("i",(strtoTime($list->date_start)))) < common::sumMinutesHour(date("G",$i + ($second)),date("i",$i + ($second)))) 
+                                and common::sumMinutesHour(date("G",strtoTime($list->date_end)),date("i",strtoTime($list->date_end))) > common::sumMinutesHour((date("G",$i  )),date("i",$i))))) and $second != 86400   ) {
+                            continue;
+                        }
                             $array[$z]["date_start"] = date(" H:i",($i));
-                        
+       
             
-                        if (($i + $second) > $end) {
+                        if (($i + $second) > $end ) {
                             $array[$z]["date_end"] = date(" H:i",$end);
                         }
                         else {

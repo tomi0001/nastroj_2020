@@ -26,9 +26,13 @@
         <td class="center">
            
         @endif
+       
          <div class='namePleasure'>
+             
         <span class=" level_pleasure level_pleasure_{{$listActionMood[$i]['level_pleasure']}}"> {{$listActionMood[$i]["name"]}}</span>
+             
         </div>
+        
         
         @if (($i < count($listActionMood)-1 and $listActionMood[$i]["date_start"] != $listActionMood[$i+1]["date_start"]) or $i == count($listActionMood))
             

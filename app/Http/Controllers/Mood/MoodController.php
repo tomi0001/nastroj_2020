@@ -50,6 +50,7 @@ class MoodController extends Controller  {
     public function Actionadd(Request $request) {
         $Action = new Action;
         $Action->checkAddActionDate($request);
+        $Action->checkAddAction($request);
         //$Action->checkAddMood($request);
         if (count($Action->errors) != 0) {
             return View("ajax.error")->with("error",$Action->errors);
@@ -58,6 +59,7 @@ class MoodController extends Controller  {
         else {
             if (!empty($request->get("idAction"))) {
                 $id = $Action->saveAction($request);
+                
             }
             
         }

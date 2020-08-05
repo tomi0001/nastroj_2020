@@ -32,7 +32,7 @@ class UserRegisterController extends Controller {
         }
         else {
             $User = new ServiceUser;
-            $User->saveUser();
+            $User->saveUser($request);
             return redirect()->route('login')->withSuccess("Rejestracja zakończona możesz się zalogować");
         }
     }

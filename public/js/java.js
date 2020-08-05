@@ -94,39 +94,63 @@ function switchVisibleMood() {
         $("#SleepAdd").css("display","inline");
     }
 }
+var ifMood = "mood";
+
+
+function idMood(mood) {
+    if (mood == ifMood) {
+        return "selected";
+    }
+}
+
 function switchVisibleMoodShow(bool = false) {
     if (bool == true) {
         $("#actionShow").css("display","inline");
         $("#moodShow").css("display","none"); 
+        ifMood = "action";
     }
     else if ($("[name='typeMood']").val() == "mood") {
         $("#actionShow").css("display","none");
         $("#moodShow").css("display","inline");        
+        ifMood = "mood";
     }
     else if ($("[name='typeMood']").val() == "action"){  
         $("#actionShow").css("display","inline");
         $("#moodShow").css("display","none");   
+        ifMood = "action";
     }
     
 }
-var arraySetting = ["settingAction","levelMood"];
-var arraySetting2 = ["settingPosition_1","settingPosition_2"];
+var arraySetting = ["settingAction","levelMood","changeNameAction"];
+var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3"];
 function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
     for (i=0;i < arraySetting.length;i++) {
         if (id == arraySetting[i]) {
             $("#" + id).css("display","inline");
             $( "#" + id2).addClass("settingPositionSelected");
-             
+            
         }
- 
-        else {
+    
+    }
+    setNone(id);
+}
+function setNone(id) {
+    
+    for (var i=0;i < arraySetting.length;i++) {
+        
+        if (id != arraySetting[i]) {
             $("#" + arraySetting2[i]).removeClass("settingPositionSelected").addClass("settingPosition");
             $("#" + arraySetting[i]).css("display","none");
         }
-     
-        
-        
     }
+}
+
+
+function loadActionChange(url) {
+    $("#changeNameActionForm").load(url + "?" + $("form").serialize());
+}
+function changeNameAction(url) {
+    $("#changeNameActionForm2").load(url + "?" + $("form").serialize());
 }
 function SettingchangeLevelMood(url) {
        $.ajax({

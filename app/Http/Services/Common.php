@@ -79,5 +79,8 @@ class common {
 	
     }
     
+    public static function sumMinutesHour($hour,$minutes) {
+        return (int) $hour  . $minutes;
+    }
  
 }

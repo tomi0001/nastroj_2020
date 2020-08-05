@@ -47,6 +47,14 @@
                                     <input type='number' name='long' class='form-control' min='1' onkeypress="return runScriptAddActionMood(event,'{{ route('Action.Add')}}')">
                                 </td>
                             </tr>
+                            <tr>
+                                <td class='value'>
+                                    Zaznacz tą opcje jeżeli chcesz, żeby była wykonywana w wielu dniach tylkow okreslonych godzinach
+                                </td>
+                                <td>
+                                    <input type='checkbox' name='allDay' class='form-control' >
+                                </td>
+                            </tr>
                              <tr>
                                 <td class='value'  style='padding-top: 20%; ' rowspan="2">
                                     Co zamierzam robić
@@ -55,7 +63,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div  style="overflow-y: scroll;  height:250;">
+                                    <div  style="overflow-y: scroll;  height:250; max-width: 335px;">
                                         <div id="parentsAction">
                                             @foreach ($Action as $list)
                                                 <a class="Action___2" id = "{{$list->id}}">{{$list->name}}</a> |

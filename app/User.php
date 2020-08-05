@@ -38,6 +38,9 @@ class User extends Authenticatable
     ];
     
     public static function checkExistLevelMood() {
+        return User::select("level_mood0")->select("level_mood1")->where("id",Auth::User()->id)->first();
+    }
+    public static function selectLevelMood() {
         return User::where("id",Auth::User()->id)->first();
     }
 }

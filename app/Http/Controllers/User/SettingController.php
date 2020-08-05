@@ -12,13 +12,15 @@ use Illuminate\Routing\Controller as BaseController;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Services\Action;
+use App\Action as ActionApp;
 use App\Http\Services\User as ServiceUser;
 
 class SettingController  extends Controller  {
     public function Setting() {
         $Users = new ServiceUser;
         $array = $Users->CheckIfLevelMood();
-        return View("User.Setting.index")->with("levelMood",$array);
+        $actionName = $Users->selectAction();
+        return View("User.Setting.index")->with("levelMood",$array)->with("actionName",$actionName);
     }
     public function SettingActionAdd(Request $request) {
         $Action = new Action;
@@ -29,6 +31,24 @@ class SettingController  extends Controller  {
         else {
             $Action->saveSettingAction($request);
         }
+    }
+    public function SettingaChangeActionName2(Request $request) {
+        if ($request->get("actionName") == "") {
+            return View("ajax.error")->with("error",["Uzupełnij akcje"]);
+        }
+        else {
+            $Users = new ServiceUser;
+            $Users->changeNameAction($request);
+            return View("ajax.succes")->with("succes","Pomyślnie zmieniono nazwę");
+        }
+    }
+    public function SettingaChangeActionName(Request $request) {
+        
+        $name = ActionApp::selectNameAction($request->get("actionName"));
+        print $name->name;
+        //print $request->get("actionName");
+        //var_dump($request);
+        //$Action->selectNameAction($request->get("id"));
     }
     public function SettingchengeMood(Request $request) {
         $Users = new ServiceUser;

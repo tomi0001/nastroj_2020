@@ -25,6 +25,12 @@ class MainController extends Controller  {
        $Mood = new Mood;
        $Mood->downloadMood($year,$month,$day);
        $Mood->downloadSleep($year,$month,$day);
+       if ((count($Mood->listMood) == 0 and count($Mood->listSleep) == 0)) {
+           $boolMood = true;
+       }
+       else {
+           $boolMood = false;
+       }
        $Mood->sortMoodsSleep($Mood->listMood,$Mood->listSleep,"off",true);
        $dateAction = date("Y-m-d",StrToTime(date("Y-m-d") )+ 86400);
        $Calendar = new Calendar($year, $month, $day, $action);
@@ -60,7 +66,8 @@ class MainController extends Controller  {
                                ->with("count",count($Mood->arrayList))
                                ->with("listPercent",$Mood->listPercent)
                                ->with("listActionMood",$Action2->listActionMoodSeparate)
-                               ->with("color",$Mood->color);
+                               ->with("color",$Mood->color)
+                               ->with("boolMood",$boolMood);
                                //->with("listActionMood",$Action2->listActionMood);
     }
 }
