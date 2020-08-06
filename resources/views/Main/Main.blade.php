@@ -66,6 +66,10 @@
             </form>
         </div>
     </div>
+    
+    
+
+    
     <div id='moodAdd' style='display: inline;'>
         @include('Main.addMood')
     </div>

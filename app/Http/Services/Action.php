@@ -140,14 +140,14 @@ class Action {
         if (!empty($request->get("idAction"))) {
             for ($i = 0;$i < count($request->get("idAction"));$i++) {
                 if ($this->separateAllDay($request->get("idAction")[$i]) == 1) {
-                    if (!empty(Actions_plan::checkTimeExistActionAllDay($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00"))
+                    if (!empty(Actions_plan::checkTimeExistActionAllDay($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00",$request->get("idAction")[$i]))
                          ) {
-                         array_push($this->errors,"Godziny akcji  nachodza na inne akcje 2");
+                         array_push($this->errors,"Godziny akcji  nachodza na inne akcje");
                      }
                 }
                 else if (!empty(Actions_plan::checkTimeExistAction($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00",$request->get("idAction")[$i]))
                          ){
-                         array_push($this->errors,"Godziny akcji  nachodza na inne akcje 1");
+                         array_push($this->errors,"Godziny akcji  nachodza na inne akcje");
                 }
                 
             }

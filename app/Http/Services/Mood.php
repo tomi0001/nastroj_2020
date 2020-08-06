@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Action;
 use App\Mood as AppMood;
 use App\Moods_action;
+use App\Actions_plan;
 use App\Sleep;
 //use App\Services\Common;
 use App\Http\Services\Calendar;
@@ -178,12 +179,41 @@ class Mood {
         $Sleep->id_users = Auth::User()->id;
         $Sleep->save();
     }
+    private function calculatePerentingMoods(int $idAction,int $idMood) {
+        $diff =  AppMood::differenceDate($idMood);
+        //return $diff->diff;
+        
+        $result2 = Actions_plan::checkTimeExist2($diff->date_start,$diff->date_end,$idAction);
+        //var_dump($result2);
+        if (empty($result2)) {
+            return null;
+        }
+        
+        
+        if ($result2->long != "" and $result2->if_all_day == 0) {
+            $percent = $result2->long;
+        }
+        else if ($result2->long == "" and $result2->if_all_day == 0) {
+            $percent = (strtotime($result2->date_end) - strtotime($result2->date_start)) / 60;
+        }
+        else if ($result2->long == "" and $result2->if_all_day == 1) {
+            
+        }
+        $percent2 = ($diff->diff / $percent) * 1000;
+        return $percent2;
+        
+         
+        //return 1;
+        
+    }
     public function saveAction(Request $request,int $idMood) :void {
         for ($i = 0;$i < count($request->get("idAction"));$i++) {
             if ($request->get("idAction")[$i] != "") {
+                $result = $this->calculatePerentingMoods($request->get("idAction")[$i],$idMood);
                 $Moods_action = new Moods_action;
                 $Moods_action->id_moods = $idMood;
                 $Moods_action->id_actions = $request->get("idAction")[$i];
+                $Moods_action->percent_executing = $result;
                 $Moods_action->save();
             }
         }

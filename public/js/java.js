@@ -61,6 +61,7 @@ Array.prototype.remove2=function(s){
 
 
 function switchVisibleMoodDobule(array,bool = false) {
+     switchVisibleMood();
     if (bool == true) {
         switchVisibleMoodShow(true);
     }
