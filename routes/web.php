@@ -28,8 +28,13 @@ Route::group(
     Route::get('/User/SettingaMood', 'User\SettingController@SettingchengeMood')->name('Setting.levelMoodChange');
     Route::get('/User/SettingaChangeActionName', 'User\SettingController@SettingaChangeActionName')->name('user.changeActionName');
     Route::get('/User/SettingaChangeActionName2', 'User\SettingController@SettingaChangeActionName2')->name('user.changeActionName2');
+    Route::get('/User/SettingaChangeActionDateName', 'User\SettingController@SettingaChangeActionDateName')->name('user.changeActionDateName');
+    Route::get('/User/SettingaChangeActionDateName2', 'User\SettingController@SettingaChangeActionDateName2')->name('user.changeActionDateName2');
+    
+    
     Route::get("/Mood/SleepAdd",'Mood\MoodController@Sleepadd')->name("Sleep.Add");
     Route::get("/Mood/changeMinutes/{minutes}",'Mood\MoodController@changeMinutes')->name("change.minutes");
+    
         /*
          * Routy dla userów z rolą partner
          */

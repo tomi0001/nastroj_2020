@@ -104,48 +104,53 @@ div.separateAction {
 }
 
 span.level_pleasure {
-    border-radius: 15px;
-    width: 100%;
-    color: white;
-    padding: 5px;
+ 
 }
-span.level_pleasure_8 {
+div.divpleasure {
+
+    
+}
+.level_pleasure_8 {
     background-color: #A47EFC;
 }
-span.level_pleasure_7 {
+.level_pleasure_7 {
     background-color: #D583FC;
 }
-span.level_pleasure_5 {
+.level_pleasure_5 {
     background-color: #FF46B2;
 }
-span.level_pleasure_4 {
+.level_pleasure_4 {
     background-color: #FF498D;
 }
-span.level_pleasure_2 {
+.level_pleasure_2 {
     background-color: #FF3F50;
 }
-span.level_pleasure_3 {
+.level_pleasure_3 {
     background-color: #C44F7B;
 }
-span.level_pleasure_6 {
+.level_pleasure_6 {
     background-color: #8335A5;
 }
-span.level_pleasure_10 {
+.level_pleasure_10 {
     background-color: #6FBEFC;
 }
-span.level_pleasure_9 {
+.level_pleasure_9 {
     background-color: #817EFC;
 }
-span.level_pleasure_1 {
+.level_pleasure_1 {
     background-color: #FC086E;
 }
-span.level_pleasure_0 {
+.level_pleasure_0 {
     background-color: #FC1713;
 }
 
 div.namePleasure {
-    padding: 12px;
-    float: left;
+    padding: 3px;
+  
+       border-radius: 15px;
+    width: 100%;
+    color: white;
+    
     
 }
 

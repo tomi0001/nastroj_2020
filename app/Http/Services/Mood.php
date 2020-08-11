@@ -182,24 +182,57 @@ class Mood {
     private function calculatePerentingMoods(int $idAction,int $idMood) {
         $diff =  AppMood::differenceDate($idMood);
         //return $diff->diff;
-        
         $result2 = Actions_plan::checkTimeExist2($diff->date_start,$diff->date_end,$idAction);
-        //var_dump($result2);
-        if (empty($result2)) {
+        //print "<pre>";
+        //print_r($result2);
+        //print "</pre>";
+        if (($result2) === null) {
             return null;
         }
+        if ($result2->if_all_day != 0) {
+            $result2 = Actions_plan::checkTimeExist3($diff->date_start,$diff->date_end,$idAction);
+        }
         
+        //var_dump($result2);
+
         
-        if ($result2->long != "" and $result2->if_all_day == 0) {
+
+        if (!empty($result2->long) ) {
             $percent = $result2->long;
         }
-        else if ($result2->long == "" and $result2->if_all_day == 0) {
-            $percent = (strtotime($result2->date_end) - strtotime($result2->date_start)) / 60;
-        }
-        else if ($result2->long == "" and $result2->if_all_day == 1) {
+        else if (!empty($result2->if_all_day) and $result2->if_all_day == 1) { 
+            $second = 0;
+            $difff  = explode(" ",$result2->date_start);
+            $difff2 = explode(" ",$result2->date_end);
+            $division = (strtotime($difff[0]) - strtotime($difff2[0]));
+            
+            if ($division != 0) {
+                $second += 86400;
+            }
+            
+            $date1 = "1970-01-01 " . $difff[1];
+            $date2 = "1970-01-01 " . $difff2[1];
+            //różnica w akcjach
+            $division4 = (strtotime($date2) - strtotime($date1)) + $second;
+            //akcje
+            $division2 = (strtotime($result2->date_end) - strtotime($result2->date_start));
+            //nastroje
+            $division3 = (strtotime($diff->date_end) - strtotime($diff->date_start));
+            
+            $day = round($division2) / 86400;
+            $division5 = ($division4 * $day) - $division2 ;
+            
+            $percent = ((($division5 )) /60 );
+            //$hour = Auth::User()->start_day * 3600;
+            
             
         }
+        else {
+            $percent = (strtotime($result2->date_end) - strtotime($result2->date_start)) / 60;
+        }
+       
         $percent2 = ($diff->diff / $percent) * 1000;
+        //print $percent2;
         return $percent2;
         
          

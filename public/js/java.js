@@ -122,8 +122,8 @@ function switchVisibleMoodShow(bool = false) {
     }
     
 }
-var arraySetting = ["settingAction","levelMood","changeNameAction"];
-var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3"];
+var arraySetting = ["settingAction","levelMood","changeNameAction","changeDateAction"];
+var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4"];
 function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
     for (i=0;i < arraySetting.length;i++) {
         if (id == arraySetting[i]) {
@@ -150,8 +150,58 @@ function setNone(id) {
 function loadActionChange(url) {
     $("#changeNameActionForm").load(url + "?" + $("form").serialize());
 }
+
+function loadActionDateChange(url) {
+    $.ajax({
+    url : url,
+        method : "get",
+        data : 
+          $("form").serialize()
+        ,
+        dataType : "html",
+})
+.done(function(response) {
+    $("#changeNameActionDateForm").val(response);
+    var tags = $.parseJSON( response );
+    //alert(response);
+    $("#dateStart").val(tags.date_start);
+    $("#dateEnd").val(tags.date_end);
+    $("#timeStart").val(tags.time_start);
+    $("#timeEnd").val(tags.time_end);
+    
+    $("#longer").val(tags.longer);
+    if (tags.if_all_day == 1) {
+        $("#if_all_day").prop('checked',true);
+    
+    }
+    else {
+        $("#if_all_day").prop('checked',false);
+    }
+    makeSelect(tags);
+    
+})
+.fail(function() {
+    $("#form3").html( "<div class='ajaxError'>Wystąpił błąd</div>" );
+})
+}
+function makeSelect(response) {
+    var select;
+    for (i=0;i < response.count;i++) {
+        if (response[i].id2 == response.id_actions) {
+            select += "<option value='" + response[i].id2 + "' selected>" + response[i].name2 + "</option>";
+        }
+        else {
+            select += "<option value='" + response[i].id2 + "'>" + response[i].name2 + "</option>";
+        }
+    }
+    $("#idAction").html(select);
+}
 function changeNameAction(url) {
     $("#changeNameActionForm2").load(url + "?" + $("form").serialize());
+}
+
+function changeNameDateAction(url) {
+    $("#changeNameDateActionForm2").load(url + "?" + $("#form4").serialize());
 }
 function SettingchangeLevelMood(url) {
        $.ajax({

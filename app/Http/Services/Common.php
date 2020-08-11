@@ -7,7 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 namespace App\Http\Services;
-
+use Auth;
 /**
  * Description of common
  *
@@ -80,7 +80,11 @@ class common {
     }
     
     public static function sumMinutesHour($hour,$minutes) {
-        return (int) $hour  . $minutes;
+        $hour2 = $hour - Auth::User()->start_day;
+        if ($hour2 < 0) {
+            $hour2 = 24 + $hour2;
+        }
+        return (int) ($hour2)  . $minutes;
     }
  
 }

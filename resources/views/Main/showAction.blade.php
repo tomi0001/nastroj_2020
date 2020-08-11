@@ -24,18 +24,20 @@
                 {{$listActionMood[$i]["date_end"]}}
             </td>
         <td class="center">
-           
+           <div class='divpleasure'>
         @endif
        
-         <div class='namePleasure'>
+         <div class='namePleasure level_pleasure_{{$listActionMood[$i]['level_pleasure']}}'>
              
-        <span class=" level_pleasure level_pleasure_{{$listActionMood[$i]['level_pleasure']}}"> {{$listActionMood[$i]["name"]}}</span>
+            <span class=" level_pleasure" > {{$listActionMood[$i]["name"]}}</span>
              
         </div>
-        
+        <div class='blank'>
+            &nbsp;
+        </div>
         
         @if (($i < count($listActionMood)-1 and $listActionMood[$i]["date_start"] != $listActionMood[$i+1]["date_start"]) or $i == count($listActionMood))
-            
+           </div>
         </td>
  
         </tr>

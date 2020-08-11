@@ -28,6 +28,7 @@ class MoodController extends Controller  {
         }
         else {
             $id = $Mood->saveMood($request);
+            
             if (!empty($request->get("idAction"))) {
                 $Mood->saveAction($request,$id);
             }

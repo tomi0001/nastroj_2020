@@ -23,8 +23,9 @@ class MainController extends Controller  {
     public function index($year = "",$month  ="",$day = "",$action = "") {
        $Action = Action::selectAction(Auth::id());
        $Mood = new Mood;
-       $Mood->downloadMood($year,$month,$day);
-       $Mood->downloadSleep($year,$month,$day);
+       $Calendar = new Calendar($year, $month, $day, $action);
+       $Mood->downloadMood($Calendar->year,$Calendar->month,$Calendar->day);
+       $Mood->downloadSleep($Calendar->year,$Calendar->month,$Calendar->day);
        if ((count($Mood->listMood) == 0 and count($Mood->listSleep) == 0)) {
            $boolMood = true;
        }
@@ -33,10 +34,10 @@ class MainController extends Controller  {
        }
        $Mood->sortMoodsSleep($Mood->listMood,$Mood->listSleep,"off",true);
        $dateAction = date("Y-m-d",StrToTime(date("Y-m-d") )+ 86400);
-       $Calendar = new Calendar($year, $month, $day, $action);
+
        $Action2 = new Action2;
-       $Action2->downloadAction(Auth::id(),$year, $month,$day);
-       $Action2->separateShare($year, $month,$day);
+       $Action2->downloadAction(Auth::id(),$Calendar->year, $Calendar->month,$Calendar->day);
+       $Action2->separateShare($Calendar->year, $Calendar->month,$Calendar->day);
       
        //if (count($Mood->arrayList) != 0) {
        $Mood->sumColorForMood(Auth::User()->id,$Calendar->year,$Calendar->month);

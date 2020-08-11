@@ -12,6 +12,7 @@ use Hash;
 use Auth;
 use App\User as User2;
 use App\Action;
+use App\Actions_plan;
 use App\Http\Services\Mood;
 class User {
     public $errors = [];
@@ -22,6 +23,12 @@ class User {
         $User->password = Hash::make($request->get("password"));
         $User->start_day = $request->get("start_day");
         $User->save();
+    }
+    public function selectActionPlans() {
+        $Action = new Actions_plan;
+        $list = $Action->selectRaw("LEFT(actions.name,15) as name")->selectRaw("actions_plans.created_at as created_at")->selectRaw("actions_plans.id as id")
+                ->join("actions","actions.id","actions_plans.id_actions")->where("actions_plans.date_start",">",date("Y-m-d H:i:s"))->where("actions.id_users",Auth::User()->id)->orderBy("actions_plans.created_at","DESC")->get();
+        return $list;
     }
     public function changeNameAction(Request $request) {
         $Action = new Action;

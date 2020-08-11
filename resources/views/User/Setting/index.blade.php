@@ -27,11 +27,15 @@
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_3'  onclick="switchSetting('changeNameAction','settingPosition_3')">ZMIEŃ NAZWY AKCJI</a>
         </div>
+        <div class='settingPosition' >
+            <a class='settingPosition' id='settingPosition_4'  onclick="switchSetting('changeDateAction','settingPosition_4')">ZMIEŃ DATY AKCJI</a>
+        </div>
         <hr class='hrMenu'>
     </div>
     @include ('User.Setting.addActionSetting')
     @include ('User.Setting.levelMoodChange')
     @include ('User.Setting.changeNameAction')
+    @include ('User.Setting.changeDateAction')
     
     
     

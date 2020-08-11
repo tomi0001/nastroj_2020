@@ -13,6 +13,7 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Services\Action;
 use App\Action as ActionApp;
+use App\Actions_plan;
 use App\Http\Services\User as ServiceUser;
 
 class SettingController  extends Controller  {
@@ -20,7 +21,8 @@ class SettingController  extends Controller  {
         $Users = new ServiceUser;
         $array = $Users->CheckIfLevelMood();
         $actionName = $Users->selectAction();
-        return View("User.Setting.index")->with("levelMood",$array)->with("actionName",$actionName);
+        $actionDate = $Users->selectActionPlans();
+        return View("User.Setting.index")->with("levelMood",$array)->with("actionName",$actionName)->with("actionDate",$actionDate);
     }
     public function SettingActionAdd(Request $request) {
         $Action = new Action;
@@ -31,6 +33,53 @@ class SettingController  extends Controller  {
         else {
             $Action->saveSettingAction($request);
         }
+    }
+    public function SettingaChangeActionDateName2(Request $request) {
+        
+        $Action = new Action;
+        $Action->checkAddActionDate($request);
+        $Action->checkAddActionName($request);
+        //$Action->checkAddAction($request);
+        //$Action->checkAddMood($request);
+        
+        if (count($Action->errors) != 0) {
+            return View("ajax.error")->with("error",$Action->errors);
+            
+        }
+        else {
+            if (!empty($request->get("idAction"))) {
+                $id = $Action->updateActions($request);
+                return View("ajax.succes")->with("succes","Pomyślnie zmodyfikowano");
+                
+            }
+            
+        }
+         
+         
+         
+         
+         
+         
+         
+         
+         
+    }
+
+    public function SettingaChangeActionDateName(Request $request) {
+        //$actionArray = Actions_plan::selectAction($request->get("actionNameDate"));
+        if (!empty($request->get("actionNameDate"))) {
+            $actionArray = Actions_plan::selectAction($request->get("actionNameDate"));
+            $actionArray2 = ActionApp::selectActionName();
+            $array = [];
+            //array_push($array,$actionArray);
+            //array_push($array,$actionArray);
+            //array_push($array,$actionArray);
+            //, json_decode(count($actionArray2))
+            $array = array_merge(json_decode($actionArray,true),json_decode($actionArray2,true));
+            $array2 = array_merge($array,array("count" => count($actionArray2)));
+            print json_encode($array2, true);
+        }
+        //print json_encode($actionArray);
     }
     public function SettingaChangeActionName2(Request $request) {
         if ($request->get("actionName") == "") {
