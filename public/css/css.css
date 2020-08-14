@@ -103,13 +103,7 @@ div.separateAction {
     color: #5AABFF;
 }
 
-span.level_pleasure {
- 
-}
-div.divpleasure {
 
-    
-}
 .level_pleasure_8 {
     background-color: #A47EFC;
 }
@@ -153,7 +147,10 @@ div.namePleasure {
     
     
 }
-
+div.blank {
+    min-height: 13px;
+    max-height: 13px;
+}
 div.titleError {
     text-align: center;
     background-color: red;

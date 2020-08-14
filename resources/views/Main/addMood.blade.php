@@ -100,7 +100,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2" class="center">
-                                    <input type="button" onclick="addMood('{{ route('Mood.Add')}}')" class="btn btn-success" value="Dodaj nastrój" >
+                                    <input type="button" onclick="addMood('{{ route('Mood.Add')}}')" class="btn btn-success btn-lg" value="Dodaj nastrój" >
                                 </td>
                             </tr>    
                             <tr>

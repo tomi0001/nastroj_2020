@@ -153,12 +153,12 @@ class calendar
             }
             else if ($month == 2) {
 
-            if ( $this->or_affordable($year) == 1) {
-                return 29;
-            }
-            else {
-                return 28;
-            }
+                if ( self::or_affordable($year) == 1) {
+                    return 29;
+                }
+                else {
+                    return 28;
+                }
 
             }
             else if ($month == 1) {
@@ -168,7 +168,7 @@ class calendar
 
   }
   
-    private function or_affordable($year)
+    private static function or_affordable($year)
     {
          return (($year%4 == 0 && $year%100 != 0) || $year%400 == 0);
     }

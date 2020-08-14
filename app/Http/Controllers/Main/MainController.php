@@ -20,7 +20,7 @@ use App\Action;
 use Auth;
 class MainController extends Controller  {
     
-    public function index($year = "",$month  ="",$day = "",$action = "") {
+    public function index($year = "",$month  ="",$day = "",$action = "") {        
        $Action = Action::selectAction(Auth::id());
        $Mood = new Mood;
        $Calendar = new Calendar($year, $month, $day, $action);
@@ -41,6 +41,8 @@ class MainController extends Controller  {
       
        //if (count($Mood->arrayList) != 0) {
        $Mood->sumColorForMood(Auth::User()->id,$Calendar->year,$Calendar->month);
+       $Mood->sumColorForMoodDay(Auth::id(),$Calendar->year,$Calendar->month,$Calendar->day);
+       //dd($Mood->colorDay);
        //}
        /*
        print ("<pre>");
@@ -68,7 +70,9 @@ class MainController extends Controller  {
                                ->with("listPercent",$Mood->listPercent)
                                ->with("listActionMood",$Action2->listActionMoodSeparate)
                                ->with("color",$Mood->color)
-                               ->with("boolMood",$boolMood);
+                               ->with("boolMood",$boolMood)
+                               ->with("colorForDay",$Mood->colorDay)
+                               ->with("dayList",$Mood->DayList);
                                //->with("listActionMood",$Action2->listActionMood);
     }
 }

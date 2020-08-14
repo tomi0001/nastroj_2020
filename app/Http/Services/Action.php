@@ -267,12 +267,10 @@ class Action {
 
     public function downloadAction(int $idUsers,$year,$month,$day) {
         $Action = new Actions_plan;
-        //print $year;
         $this->initStartDay();
         $this->setHourMood($year,$month,$day);
-        $this->listActionMood = $Action->where("id_users",$idUsers)
-                                      ->whereRaw("(date_start > '" . $this->dateStart . "' and date_end < '" . $this->dateEnd . "') "
-                                              . "or (date_start < '" . $this->dateEnd . "' and date_end > '" . $this->dateStart . "')"
+        $this->listActionMood = $Action->whereRaw("((date_start > '" . $this->dateStart . "' and date_end < '" . $this->dateEnd . "') "
+                                              . "or (date_start < '" . $this->dateEnd . "' and date_end > '" . $this->dateStart . "')) and id_users = '$idUsers'"
                                               
                                               )
                                         ->get();

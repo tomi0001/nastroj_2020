@@ -18,31 +18,31 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     ['middleware' => ['auth']],
     function () {
-    Route::get('/home', 'Main\MainController@index')->name('home');
-    Route::get('/', 'Main\MainController@index')->name('mainmain');
-    Route::get('/main/{year?}/{month?}/{day?}/{action?}', 'Main\MainController@index')->name('main');
-    Route::get('/Mood/Add', 'Mood\MoodController@add')->name('Mood.Add');
-    Route::get('/Mood/ActionAdd', 'Mood\MoodController@Actionadd')->name('Action.Add');
-    Route::get('/User/Setting', 'User\SettingController@Setting')->name('user.setting');
-    Route::get('/User/Settingas', 'User\SettingController@SettingActionAdd')->name('Setting.ActionAdd');
-    Route::get('/User/SettingaMood', 'User\SettingController@SettingchengeMood')->name('Setting.levelMoodChange');
-    Route::get('/User/SettingaChangeActionName', 'User\SettingController@SettingaChangeActionName')->name('user.changeActionName');
-    Route::get('/User/SettingaChangeActionName2', 'User\SettingController@SettingaChangeActionName2')->name('user.changeActionName2');
-    Route::get('/User/SettingaChangeActionDateName', 'User\SettingController@SettingaChangeActionDateName')->name('user.changeActionDateName');
-    Route::get('/User/SettingaChangeActionDateName2', 'User\SettingController@SettingaChangeActionDateName2')->name('user.changeActionDateName2');
-    
-    
-    Route::get("/Mood/SleepAdd",'Mood\MoodController@Sleepadd')->name("Sleep.Add");
-    Route::get("/Mood/changeMinutes/{minutes}",'Mood\MoodController@changeMinutes')->name("change.minutes");
-    
-        /*
-         * Routy dla userów z rolą partner
-         */
-        Route::group(
-            ['middleware' => ['role:partner']],
-            function () {
-            
-            });
+                                               Route::get('/home', 'Main\MainController@index')->name('home');
+                    Route::get('/', 'Main\MainController@index')->name('mainmain');
+                    Route::get('/main/{year?}/{month?}/{day?}/{action?}', 'Main\MainController@index')->name('main');
+                    Route::get('/Mood/Add', 'Mood\MoodController@add')->name('Mood.Add');
+                    Route::get('/Mood/ActionAdd', 'Mood\MoodController@Actionadd')->name('Action.Add');
+                    Route::get('/User/Setting', 'User\SettingController@Setting')->name('user.setting');
+                    Route::get('/User/Settingas', 'User\SettingController@SettingActionAdd')->name('Setting.ActionAdd');
+                    Route::get('/User/SettingaMood', 'User\SettingController@SettingchengeMood')->name('Setting.levelMoodChange');
+                    Route::get('/User/SettingaChangeActionName', 'User\SettingController@SettingaChangeActionName')->name('user.changeActionName');
+                    Route::get('/User/SettingaChangeActionName2', 'User\SettingController@SettingaChangeActionName2')->name('user.changeActionName2');
+                    Route::get('/User/SettingaChangeActionDateName', 'User\SettingController@SettingaChangeActionDateName')->name('user.changeActionDateName');
+                    Route::get('/User/SettingaChangeActionDateName2', 'User\SettingController@SettingaChangeActionDateName2')->name('user.changeActionDateName2');
+
+
+                    Route::get("/Mood/SleepAdd",'Mood\MoodController@Sleepadd')->name("Sleep.Add");
+                    Route::get("/Mood/changeMinutes/{minutes}",'Mood\MoodController@changeMinutes')->name("change.minutes");
+
+            /*
+             * Routy dla userów z rolą partner
+             */
+            Route::group(
+                ['middleware' => ['role:user']],
+                function () {
+
+                });
     }
     );
 
@@ -54,6 +54,12 @@ Route::post('/loginSubmit', 'User\UserLoginController@store')->name('user.loginS
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 Route::get('/logout', 'Auth\LoginController@logout')->name("logout");
+
+
+Route::post('/loginDrSubmit', 'Dr\User\UserLoginController@loginDr')->name('userDr.loginSubmit');
+Route::get('/loginDr', 'Dr\User\UserLoginController@loginDrView')->name('userDr.login');
+
+
 Auth::routes();
 
 

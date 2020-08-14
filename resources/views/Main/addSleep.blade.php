@@ -50,7 +50,7 @@
                             
                             <tr>
                                 <td colspan="2" class="center">
-                                    <input type="button" onclick="addSleep('{{ route('Sleep.Add')}}')" class="btn btn-success" value="Dodaj sen" >
+                                    <input type="button" onclick="addSleep('{{ route('Sleep.Add')}}')" class="btn btn-success btn-lg" value="Dodaj sen" >
                                 </td>
                             </tr>    
                             <tr>

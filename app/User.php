@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Auth;
 class User extends Authenticatable
 {
+    
+    const ROLE_DOCTOR   = 'doctor';
+    const ROLE_USER= 'user';
     use Notifiable;
 
     /**
@@ -36,7 +39,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     public static function checkExistLevelMood() {
         return User::select("level_mood0")->select("level_mood1")->where("id",Auth::User()->id)->first();
     }

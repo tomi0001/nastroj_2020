@@ -45,11 +45,13 @@ class Mood {
     public $colorDay = [];
     public $colorForMonth = [];
     public $color = [];
+    public $colorForDay;
     public $arraySecond = [];
     public $listPercent;
     public $dateStart;
     public $dateEnd;
     public $startDay = 0;
+    public $DayList = [];
     public $listMood = [];
     public $dateStartHour;
     public $dateEndHour;
@@ -305,6 +307,7 @@ class Mood {
     
     
     private function selectAverageMoods($listMood) {
+        
         $array = [];
         $i = 0;
         $mood = 0;
@@ -323,10 +326,25 @@ class Mood {
         if ($i == 0) {
             return;
         }
+        
         $array["mood"] = round($mood   / $division,2);
+        //if ($array["mood"] == -0) {
+            //$array["mood"] = -$array["mood"];
+        //}
         $array["anxiety"] = round($anxiety / $division,2);
+        //if ($array["anxiety"] == -0) {
+            //$array["anxiety"] = -$array["anxiety"];
+        //}
+        
         $array["nervousness"]  = round($nervousness / $division,2);
+        //if ($array["nervousness"] == -0) {
+            //$array["nervousness"] = -$array["nervousness"];
+        //}
+        
         $array["stimulation"] = round($stimulation / $division,2);
+        //if ($array["stimulation"] == -0) {
+            //$array["stimulation"] = -$array["stimulation"];
+        //}
         return $array;
     }
     public function downloadSleep($year,$month,$day) {
@@ -395,7 +413,19 @@ class Mood {
             }
         
     }
-    
+    public function sumColorForMoodDay($idUsers,$year,$month,$day) {
+        
+   
+        
+            $array = $this->downloadMoods($idUsers,$year,$month,$day);
+            $this->DayList = $array;
+            $this->colorDay["mood"] = $this->setColor($array);
+            $this->colorDay["anxiety"] = -$this->setColor($array,"anxiety");
+            $this->colorDay["nervousness"] = -$this->setColor($array,"nervousness");
+            $this->colorDay["stimulation"] = $this->setColor($array,"stimulation");
+        
+        
+        }
     public function sortMoodsSleep($listMoods,$listSleep,$whatWork,$bool = false) :bool {
         
         $arraySecond = [];
