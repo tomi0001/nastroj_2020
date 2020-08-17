@@ -139,23 +139,23 @@
     <tr>
         <td colspan="7"  class="idMood{{$i-1}}">
             @if ( ($list["type"] == 0))
-                <button onclick="deleteSleep('{{ url('/Sleep/delete')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class='btn btn-danger btn-lg'>usuń sen</button>
+                <button onclick="deleteSleep('{{ route('sleep.delete')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class='btn btn-danger btn-lg'>usuń sen</button>
             @else
                 <div class="buttonMood">
-                    @if ($listPercent[$i-1]["drugs"] != "")
-                        <button onclick="showDrugs('{{url('/Drugs/show')}}',{{$i-1}},{{$listPercent[$i-1]["id"]}})" class="btn btn-primary btn-lg">Pokaż leki</button>
+                    @if ($listPercent[$i-1]["name"] != 0)
+                        <button onclick="showAction('{{route('action.show')}}',{{$i-1}},{{$listPercent[$i-1]["id"]}})" class="btn btn-primary btn-lg">Pokaż akcje</button>
                     @else
-                        <button class="btn btn-danger btn-lg" disabled>Nie było leków</button>
+                        <button class="btn btn-danger btn-lg" disabled>Nie było akcji</button>
                     @endif
                         @if ($listPercent[$i-1]["what_work"] == true)
-                            <button onclick="showDescription('{{url('/Mood/showDescription')}}',{{$listPercent[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">Pokaż opis</button>
+                            <button onclick="showDescription('{{route('mood.showDescription')}}',{{$listPercent[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">Pokaż opis</button>
                         @else
                             <button  class="btn btn-danger btn-lg" disabled>Nie było opisu</button>
                         @endif
-                        <button id="addDrugsButton{{$i-1}}" onclick="addDrugs('{{ url('/Drugs/addDrugs')}}',{{$i-1}},{{$listMood[$i-1]["id"]}})" class="btn btn-primary btn-lg" id="addDrugsButton{{$i}}">Dodaj leki</button>
-                        <button onclick="editMood('{{url('/Mood/edit')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">Edytuj nastrój</button>
-                        <button onclick="deleteMood('{{url('/Mood/delete')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-danger btn-lg">Usuń nastrój</button>
-                        <button onclick="addDescription('{{url('/Mood/addDescription')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">Edytuj dodaj opis</button>
+                        
+                        <button onclick="editMood('{{route('mood.edit')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">Edytuj nastrój</button>
+                        <button onclick="deleteMood('{{route('mood.delete')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-danger btn-lg">Usuń nastrój</button>
+                        <button onclick="addDescription('{{route('mood.addDescription')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">Edytuj dodaj opis</button>
                 </div>
             @endif
 
@@ -163,7 +163,7 @@
 
 
             <br>
-                <div id="showDrugss{{$i-1}}"></div>
+                <div id="showActions{{$i-1}}"></div>
             <div id="showDescription{{$i-1}}"></div>
                 <div id="showFieldText{{$i-1}}" class='center' style='width: 50%;'></div>
                 <div id="viewEditMood{{$i-1}}"></div>

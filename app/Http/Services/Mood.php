@@ -296,7 +296,8 @@ class Mood {
                 ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_anxiety) as average_anxiety")
                 ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_nervousness) as average_nervousness")
                 ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_stimulation) as average_stimulation")
-                ->selectRaw("moods.what_work  as what_work ")
+                ->selectRaw("count(moods_actions.id_moods)  as name ")
+
                 ->where("moods.id_users",Auth::id())
                 ->where("moods.date_start",">=",$this->dateStart)
                 ->where("moods.date_start","<",$this->dateEnd)
@@ -601,7 +602,8 @@ class Mood {
             $this->arrayList[$this->i]["color_anxiety"] = -$this->setColor(array("mood"=>$this->arrayList[$this->i]["level_mood"],"anxiety"));
             $this->arrayList[$this->i]["color_nervousness"] = -$this->setColor(array("mood"=>$this->arrayList[$this->i]["level_mood"],"nervousness"));
             $this->arrayList[$this->i]["color_stimulation"] = $this->setColor(array("mood"=>$this->arrayList[$this->i]["level_mood"],"stimulation"));
-            $this->arrayList[$this->i]["drugs"] = $Moodss->drugs;
+            
+            $this->arrayList[$this->i]["name"] = $Moodss->name;
             if ($whatWork == "on") {
                 $this->arrayList[$this->i]["what_work"] = Common::charset_utf_fix($Moodss->what_work,true);
                 
@@ -613,7 +615,6 @@ class Mood {
                 $this->arrayList[$this->i]["what_work"] = false;
             }
 
-            
             $this->arrayList[$this->i]["epizodes_psychotik"] = $Moodss->epizodes_psychotik;
             $this->arrayList[$this->i]["type"] = 1;
             $this->arrayList[$this->i]["percent"] = 0;

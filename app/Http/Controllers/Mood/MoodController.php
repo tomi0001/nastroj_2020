@@ -66,6 +66,15 @@ class MoodController extends Controller  {
         }
         
     }
+    
+    
+    public function ActionShow(Request $request) {
+        $Action = new Action;
+        $list = $Action->showListActionMood($request);
+        return View("ajax.ActionShow")->with("list",$list);
+        
+    }
+    
     public function changeMinutes($minutes) {
         $User = new ServiceUser;
         $User->setMinutes($minutes);

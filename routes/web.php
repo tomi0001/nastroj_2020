@@ -23,6 +23,12 @@ Route::group(
                     Route::get('/main/{year?}/{month?}/{day?}/{action?}', 'Main\MainController@index')->name('main');
                     Route::get('/Mood/Add', 'Mood\MoodController@add')->name('Mood.Add');
                     Route::get('/Mood/ActionAdd', 'Mood\MoodController@Actionadd')->name('Action.Add');
+                    Route::get('/Mood/Edit', 'Mood\MoodController@dit')->name('mood.edit');
+                    Route::get('/Mood/Delete', 'Mood\MoodController@delete')->name('mood.delete');
+                    Route::get('/Mood/AddDescription', 'Mood\MoodController@AddDescription')->name('mood.addDescription');
+                    Route::get('/Mood/ShowDescription', 'Mood\MoodController@ShowDescription')->name('mood.showDescription');
+                    Route::get('/Mood/ActionShow', 'Mood\MoodController@ActionShow')->name('action.show');
+                    
                     Route::get('/User/Setting', 'User\SettingController@Setting')->name('user.setting');
                     Route::get('/User/Settingas', 'User\SettingController@SettingActionAdd')->name('Setting.ActionAdd');
                     Route::get('/User/SettingaMood', 'User\SettingController@SettingchengeMood')->name('Setting.levelMoodChange');
@@ -31,9 +37,10 @@ Route::group(
                     Route::get('/User/SettingaChangeActionDateName', 'User\SettingController@SettingaChangeActionDateName')->name('user.changeActionDateName');
                     Route::get('/User/SettingaChangeActionDateName2', 'User\SettingController@SettingaChangeActionDateName2')->name('user.changeActionDateName2');
 
-
+                    Route::get("/Mood/SleepDelete",'Mood\MoodController@Sleepadd')->name("sleep.delete");
                     Route::get("/Mood/SleepAdd",'Mood\MoodController@Sleepadd')->name("Sleep.Add");
                     Route::get("/Mood/changeMinutes/{minutes}",'Mood\MoodController@changeMinutes')->name("change.minutes");
+                    
 
             /*
              * Routy dla userów z rolą partner

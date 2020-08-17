@@ -26,8 +26,34 @@ class Action {
         $this->timeTnterval = Auth::User()->minutes;
     }
     
-    
-    private  static function setColorPleasure($color) {
+    public function showListActionMood(Request $request) {
+        $Moods_action = new Moods_action;
+        $list = $Moods_action->join("actions","actions.id","moods_actions.id_actions")
+                ->selectRaw("actions.name as name")
+                ->selectRaw("moods_actions.percent_executing as percent_executing")
+                ->selectRaw("actions.level_pleasure as level_pleasure")
+                ->where("moods_actions.id_moods",$request->get("id"))
+                ->get();
+        return $list;
+    }
+    public static function setColorPercent($percent) {
+        if ($percent == 0) {
+            return 0;
+        }
+        else if ($percent > 0 and $percent < 20) {
+            return 1;
+        }
+        else if ($percent >= 20 and $percent < 75) {
+            return 2;
+        }
+        else if ($percent >= 75 and $percent <= 100) {
+            return 3;
+        }
+        else {
+            return 4;
+        }
+    }
+    public  static function setColorPleasure($color) {
         if ($color <= -16) {
             return 0;
         }

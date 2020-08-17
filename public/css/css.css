@@ -164,3 +164,42 @@ div.titleError {
     font-size: 21px;
     padding-top: 7px;
 }
+
+
+
+div.silverActions {
+    background-color: rgba(79,125,109,0.8);
+    min-height: 40px;
+    
+    padding-top: 7px;
+    border-radius: 9px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    
+  
+   
+}
+
+div.colorLevel_percent_0 {
+    background-color: #BCEBEC;
+}
+div.colorLevel_percent_1 {
+    background-color: #B5C89B;
+}
+div.colorLevel_percent_2 {
+    background-color: #968A69;
+}
+div.colorLevel_percent_3 {
+    background-color: #967640;
+}
+div.colorLevel_percent_4 {
+    background-color: #D65320;
+}
+
+
+div.colorLevel_percent {
+    border-radius: 25px;
+    max-width: 80px;
+    color: black;
+}

@@ -516,3 +516,7 @@ function deleteArray2() {
         
     }
 }
+
+function showAction(url,i,id) {
+    $("#showActions"+i).load(url + "?id=" + id).toggle();
+}
