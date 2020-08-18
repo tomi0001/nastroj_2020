@@ -15,6 +15,7 @@ use Redirect;
 use App\Http\Services\User as ServiceUser;
 use App\Http\Services\Calendar;
 use App\Http\Services\Mood;
+use App\Mood as AppMood;
 use App\Http\Services\Action;
 use App\Action_plan;
 use Auth;
@@ -37,6 +38,33 @@ class MoodController extends Controller  {
         
        
     }
+    
+    public function edit(Request $request) {
+        $Mood = new Mood;
+        $mood = $Mood->selectMood($request);
+        return View("ajax.editMood")->with("list",$mood)->with("i",$request->get("i"));
+        
+    }
+    
+    public function EditAction(Request $request) {
+        $Mood = new Mood;
+
+            $levelMood = $Mood->checkLevel($request->get("levelMood"),"nastroju");
+            $levelAnxiety = $Mood->checkLevel($request->get("levelAnxiety"),"lęku");
+            $levelNervousness = $Mood->checkLevel($request->get("levelNervousness"),"zdenerowania");
+            $levelStimulation = $Mood->checkLevel($request->get("levelStimulation"),"pobudzenia");
+            if (count($Mood->errors) != 0) {
+                return View("ajax.error")->with("error",$Mood->errors);
+            }
+            else {
+                $Mood->updateMood($request);
+                return View("ajax.succes")->with("succes","Pomyslnie zmodyfikowany nastrój");
+            }
+            
+        
+    }
+
+
     public function Sleepadd(Request $request) {
         $Mood = new Mood;
         $Mood->checkAddSleepDate($request);
@@ -48,6 +76,19 @@ class MoodController extends Controller  {
             $Mood->saveSleep($request);
         }
     }
+    public function AddDescription(Request $request) {
+        $description = AppMood::showDescription($request->get("id"));
+        return View("ajax.editDescription")->with("description",$description->what_work)->with("idMood",$request->get("id"));
+    }
+    
+    
+    public function EditDescription(Request $request) {
+        $Mood = new Mood;
+        $Mood->updateDescription($request);
+        return View("ajax.succes")->with("succes","pomyslnie zmodyfikowano");
+    }
+    
+    
     public function Actionadd(Request $request) {
         $Action = new Action;
         $Action->checkAddActionDate($request);
@@ -67,6 +108,11 @@ class MoodController extends Controller  {
         
     }
     
+    public function ShowDescription(Request $request) {
+        $description = AppMood::showDescription($request->get("id"));
+        return View("ajax.description")->with("description",$description->what_work);
+    }
+    
     
     public function ActionShow(Request $request) {
         $Action = new Action;
@@ -80,4 +126,11 @@ class MoodController extends Controller  {
         $User->setMinutes($minutes);
         return Redirect::back()->with("setAction",true);
     }
+    
+    
+    public function delete(Request $request) {
+        $Mood = new Mood;
+        $Mood->deleteMood($request);
+    }
+    
 }

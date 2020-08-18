@@ -23,11 +23,14 @@ Route::group(
                     Route::get('/main/{year?}/{month?}/{day?}/{action?}', 'Main\MainController@index')->name('main');
                     Route::get('/Mood/Add', 'Mood\MoodController@add')->name('Mood.Add');
                     Route::get('/Mood/ActionAdd', 'Mood\MoodController@Actionadd')->name('Action.Add');
-                    Route::get('/Mood/Edit', 'Mood\MoodController@dit')->name('mood.edit');
+                    Route::get('/Mood/Edit', 'Mood\MoodController@edit')->name('mood.edit');
                     Route::get('/Mood/Delete', 'Mood\MoodController@delete')->name('mood.delete');
                     Route::get('/Mood/AddDescription', 'Mood\MoodController@AddDescription')->name('mood.addDescription');
                     Route::get('/Mood/ShowDescription', 'Mood\MoodController@ShowDescription')->name('mood.showDescription');
                     Route::get('/Mood/ActionShow', 'Mood\MoodController@ActionShow')->name('action.show');
+                    Route::get('/Mood/EditDescription', 'Mood\MoodController@EditDescription')->name('Mood.editDescription');
+                    Route::get('/Mood/EditAction', 'Mood\MoodController@EditAction')->name('Mood.editAction');
+                    
                     
                     Route::get('/User/Setting', 'User\SettingController@Setting')->name('user.setting');
                     Route::get('/User/Settingas', 'User\SettingController@SettingActionAdd')->name('Setting.ActionAdd');

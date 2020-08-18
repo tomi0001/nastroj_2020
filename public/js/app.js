@@ -72,8 +72,8 @@ function resetDrugs(i) {
             $("#addDrugsButton"+i).prop('disabled', false);
 }
 function editMood(url,id,i) {
-    $("#showFieldText"+i).toggle(120);
-    $("#showFieldText"+i).load(url + "?id=" + id + "&i=" + i);
+    $("#viewEditMood"+i).toggle();
+    $("#viewEditMood"+i).load(url + "?id=" + id + "&i=" + i);
 }
 function deleteDrugsId(url,id) {
     var con = confirm("Czy na pewno usunąć");
@@ -87,7 +87,7 @@ function editMoodAction(url,id,i) {
     var levelNervousness = $("#levelNervousness_" + id).val();
     var levelStimulation = $("#levelStimulation_" + id).val();
     //alert(i);
-    $("#viewEditMood"+i).load(url + "?id=" + id + "&levelMood=" + levelMood + "&levelAnxiety=" + levelAnxiety + "&levelNervousness=" + levelNervousness + "&levelStimulation=" + levelStimulation);
+    $("#viewEditMood2"+i).load(url + "?id=" + id + "&levelMood=" + levelMood + "&levelAnxiety=" + levelAnxiety + "&levelNervousness=" + levelNervousness + "&levelStimulation=" + levelStimulation);
 }
 
 function getDiv() {
@@ -127,7 +127,7 @@ function deleteDrugs(bool = false,i=0) {
 
 
 function addDescription(url,id,i) {
-    $("#showFieldText"+i).toggle(120);
+    $("#showFieldText"+i).toggle();
     $("#showFieldText"+i).load(url + "?id=" + id);
 }
 
@@ -135,20 +135,15 @@ function hideDiv(count) {
     for (i=0;i < count;i++) {
         $("#showDescription"+i).hide();
         $("#showFieldText"+i).hide();
-        $("#showDrugss"+i).hide();
+        $("#showActions"+i).hide();
+        $("#viewEditMood"+i).hide();
     }
 }
 function editDescription(url,id) {
     
-    var description = $("#description").val();
-    if (description == "") {
-        alert("Musisz wpisać jakąś wartość");
-        
-    }
-    else {
-        
+
         $("#editDescription"+id).load(url + "?" + $("form").serialize() + "&id=" + id);
-    }
+    
     
 }
 
@@ -223,7 +218,7 @@ function changeMood() {
 }
 function showDescription(url,id,i) {
     
-        $("#showDescription"+i).toggle(120);
+        $("#showDescription"+i).toggle();
         $("#showDescription"+i).load(url + "?id=" + id);
     
 }

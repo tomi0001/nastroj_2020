@@ -209,7 +209,9 @@ class Action {
         //for ($i=0;$i < count($idAction);$i++) {
         $array = $Action->select("if_all_day")->where("id_actions",$idAction)->first();
         //}
-        
+        if (empty($array)) {
+            return 0;
+        }
         return $array->if_all_day;
     }
     public function checkAddMood(Request $request) {

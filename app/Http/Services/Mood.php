@@ -58,6 +58,7 @@ class Mood {
     public $listSleep = [];
     public $arrayList = [];
     public $errors = [];
+    public $level = [];
     private $i;
     public function checkAddMoodDate(Request $request) {
         $bool = 4;
@@ -297,7 +298,7 @@ class Mood {
                 ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_nervousness) as average_nervousness")
                 ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_stimulation) as average_stimulation")
                 ->selectRaw("count(moods_actions.id_moods)  as name ")
-
+                ->selectRaw("moods.what_work  as what_work ")
                 ->where("moods.id_users",Auth::id())
                 ->where("moods.date_start",">=",$this->dateStart)
                 ->where("moods.date_start","<",$this->dateEnd)
@@ -625,6 +626,44 @@ class Mood {
                    $this->arrayList[$this->i]["dat"] = $Moodss->dat;
             $this->i++;
         }
-    }    
+    }
+
+    public function updateDescription(Request $request) {
+        $Mood = new AppMood;
+        $Mood->where("id",$request->get('id'))->update(["what_work" => $request->get("description")]);
+    }
+    public function deleteMood(Request $request) {
+        $Mood = new AppMood;
+        $Mood->where("id",$request->get("id"))->where("id_users",Auth::User()->id)->delete();
+    }
     
+    
+    public function selectMood(Request $request) {
+        $Mood = new AppMood;
+        $mood = $Mood->where("id",$request->get("id"))->first();
+        return $mood;
+    }
+    public function updateMood(Request $request) {
+        $Mood = new AppMood;
+        $Mood->where("id_users",Auth::User()->id)->where("id",$request->get("id"))->update(["level_mood" => $request->get("levelMood"),
+            "level_anxiety" => $request->get("levelAnxiety"),
+            "level_nervousness" => $request->get('levelNervousness'),
+            "level_stimulation" => $request->get("levelStimulation")]);
+    }
+    
+    public function checkLevel($level,string $what) {
+        if ($level == "") {
+            array_push($this->level, 0);
+            return;
+        }
+        if (!is_numeric($level)) {
+            array_push($this->errors, $what . " nie jest liczbą");
+        }
+        else if ($level > 20 or $level < -20) {
+            array_push($this->errors, $what . " musi się mieścić w przedziele od -20 do +20");
+        }
+        else {
+            array_push($this->level, $level);
+        }
+    }
 }

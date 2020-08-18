@@ -1,4 +1,4 @@
-<body onload='hideDiv({{$count}})'>
+
 @php
     $i = 1;
 @endphp
@@ -164,18 +164,11 @@
 
             <br>
                 <div id="showActions{{$i-1}}"></div>
-            <div id="showDescription{{$i-1}}"></div>
+                <div id="showDescription{{$i-1}}"></div>
                 <div id="showFieldText{{$i-1}}" class='center' style='width: 50%;'></div>
                 <div id="viewEditMood{{$i-1}}"></div>
 
-                    <form id='addDrugsssss{{$i-1}}' method='get'>
-                        <div class="drugss{{$i-1}} center " style='width: 80%;'>
-
-
-
-                        </div>
-                    </form>
-                <div class="drugsss{{$i-1}} center"></div>
+               
 
 
             <table width="60%" align="center">
@@ -203,3 +196,8 @@
 
     @endforeach
 </table>
+
+ <script>
+    window.onload=hideDiv({{$count}});
+
+    </script>

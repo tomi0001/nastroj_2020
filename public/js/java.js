@@ -386,6 +386,14 @@ function runScriptAddActionMood(e,url) {
         return false;
     }
 }
+function runScriptEditMood(e,url,id,i) {
+    if (e.keyCode == 13) {
+        
+        editMoodAction(url,id,i);
+        eval(tb.value);
+        return false;
+    }
+}
 function runScriptSettingAddAction(e,url) {
     //See notes about 'which' and 'key'
     if (e.keyCode == 13) {

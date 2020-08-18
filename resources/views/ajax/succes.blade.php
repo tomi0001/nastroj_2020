@@ -1,3 +1,3 @@
-  <div class="ajaxSucces">
+  <div class="ajaxSucces center">
         {{$succes}}
     </div>
