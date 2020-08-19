@@ -135,6 +135,40 @@ function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
     }
     setNone(id);
 }
+function addActionSearch() {
+    //alert("ss");
+    $("#actionSearch").append("<input type=\'text\' name=\'actions[]\' class=\'form-control\'>");
+    
+    //$("#what_work").append($("#what_work4").html());
+}
+
+
+var arraySettingSearch = ["mainSearch","SearchSleep","averageMood","howHourMood","PDF"];
+var arraySettingSearch2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5"];
+function switchSettingSearch(id = "mainSearch",id2 = "settingPosition_1") {
+    for (i=0;i < arraySettingSearch.length;i++) {
+        if (id == arraySettingSearch[i]) {
+            $("#" + id).css("display","inline");
+            $( "#" + id2).addClass("settingPositionSelected");
+            
+        }
+    
+    }
+    setNone2(id);
+}
+
+function setNone2(id) {
+    
+    for (var i=0;i < arraySettingSearch.length;i++) {
+        
+        if (id != arraySettingSearch[i]) {
+            $("#" + arraySettingSearch2[i]).removeClass("settingPositionSelected").addClass("settingPosition");
+            $("#" + arraySettingSearch[i]).css("display","none");
+        }
+    }
+}
+
+
 function setNone(id) {
     
     for (var i=0;i < arraySetting.length;i++) {

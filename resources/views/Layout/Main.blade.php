@@ -26,7 +26,7 @@
                     <a class="menu" href="{{route('main')}}">GŁÓWNA STRONA</a>
                 </div>
                 <div class="menu">
-                    <a class="menu" href="{{url('/Produkt/Search')}}">WYSZUKAJ</a>
+                    <a class="menu" href="{{route('Search.main')}}">WYSZUKAJ</a>
                 </div>
                 
                 <div class="menu">

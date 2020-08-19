@@ -180,10 +180,11 @@ function deleteWorld() {
 }
 function addWorld() {
     //alert("ss");
-    $("#what_work").append("<input type=\'text\' name=\'what_work3[]\' class=\'form-control typeMood\'>");
+    $("#what_work").append("<input type=\'text\' name=\'descriptions[]\' class=\'form-control\'>");
     
     //$("#what_work").append($("#what_work4").html());
 }
+
 /*
  * 
  * 

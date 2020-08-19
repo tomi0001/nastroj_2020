@@ -45,6 +45,9 @@ Route::group(
                     Route::get("/Mood/changeMinutes/{minutes}",'Mood\MoodController@changeMinutes')->name("change.minutes");
                     
 
+                    
+                    Route::get("/Search/main","Search\SearchController@main")->name("Search.main");
+                    Route::get("/Search/mainAction","Search\SearchController@mainAction")->name("search.mainAction");
             /*
              * Routy dla userów z rolą partner
              */
