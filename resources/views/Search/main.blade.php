@@ -42,7 +42,7 @@
     
     <div id="error">
         @if (!empty(session('errors')))
-        @foreach ($errors->all() as $error)
+        @foreach ($errors as $error)
         {{$error}}<br>
        @endforeach
        @endif

@@ -15,6 +15,7 @@ use Redirect;
 use App\Http\Services\User as ServiceUser;
 use App\Http\Services\Calendar;
 use App\Http\Services\Mood;
+use App\Http\Services\Search;
 use App\Mood as AppMood;
 use App\Http\Services\Action;
 use App\Action_plan;
@@ -25,7 +26,13 @@ class SearchController extends Controller  {
         return View("Search.main");
     }
     public function mainAction(Request $request) {
-        
-        dd($request->get("descriptions"));
+        $Search  = new Search;
+        $Search->checkErrorMood($request);
+        $list = $Search->createQuestion($request);
+        if (count($Search->errors) > 0) {
+            return Redirect::back()->with("errors",$Search->errors)->withInput();
+        }
+        print ("<pre>");
+        print_r($list);
     }
 }
