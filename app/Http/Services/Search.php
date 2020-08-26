@@ -27,19 +27,88 @@ class Search {
         $this->question =  AppMood::query();
         $this->setDate($request);
         $this->setTime($request);
+        
+        $this->question->selectRaw("TIMESTAMPDIFF (SECOND, date_start , date_end) as longMood");
+        if ($request->get("valueAllDay") == "on") {
+            
+            $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_mood) / "
+                   . "sum(TIMESTAMPDIFF(second,moods.date_start,moods.date_end)),2) as nas");
+            $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  * level_anxiety) / "
+                   . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas2");
+            $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  *  	level_nervousness ) / "
+                   . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas3");
+            $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  * level_stimulation) / "
+                   . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas4");
+        }
         //$hour = Auth::User()->start_day;
         //$this->selectRaw(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) "));
+        $this->question->selectRaw("moods.date_start as date_start");
+        $this->question->selectRaw("moods.date_end as date_end");
+        if ($this->emptyArray($request->get("actions")) or $request->get("ifactions") == "on") {
+            $this->question->leftjoin("moods_actions","moods_actions.id_moods","moods.id")->leftjoin("actions","actions.id","moods_actions.id_actions");
+        }
         if ($request->get("valueAllDay") == "on") {
             $this->setGroup($request);
         }
         else {
             $this->setWhereMoods($request);
             $this->setLongMoods($request);
+            $this->whereEpizodes($request);
             if (count($request->get("descriptions")) > 0) {
                 $this->setWhatWork($request);
             }
+            if ($this->emptyArray($request->get("actions"))) {
+                $this->setWhatAction($request);
+            }
+            if ($request->get("ifDescriptions") == "on") {
+                $this->question->where("moods.what_work", "!=" ,  ""  );
+            }
+            if ($request->get("ifactions") == "on") {
+                $this->question->where("moods_actions.id", "!=" ,  ""  );
+            }
+        }
+        if ($request->get("valueAllDay") == "on") {
+            $this->setSortAllDay($request);
+        }
+        else {
+            $this->setSort($request);
         }
         return $this->question->paginate(15);
+    }
+    private function setSort(Request $request) {
+        switch ($request->get("sort")) {
+            case 'date': $this->question->orderBy("moods.date_start","DESC");
+                break;
+            case 'hour': $this->question->orderByRaw("time(moods.date_start)","DESC");
+                break;
+            case 'mood': $this->question->orderBy("moods.level_mood","DESC");
+                break;
+            case 'anxiety': $this->question->orderBy("moods.level_anxiety","DESC");
+                break;
+            case 'voltage': $this->question->orderBy("moods.level_nervousness","DESC");
+                break;
+            case 'stimulation': $this->question->orderBy("moods.level_stimulation","DESC");
+                break;
+            case 'longMood': $this->question->orderBy("longMood","DESC");
+                break;
+            
+        }
+    }
+    private function setSortAllDay(Request $request) {
+        switch ($request->get("sort")) {
+            case 'date': $this->question->orderBy("moods.date_start","DESC");
+                break;
+            case 'mood': $this->question->orderBy("nas","DESC");
+                break;
+            case 'anxiety': $this->question->orderBy("nas2","DESC");
+                break;
+            case 'voltage': $this->question->orderBy("nas3","DESC");
+                break;
+            case 'stimulation': $this->question->orderBy("nas4","DESC");
+                break;
+
+            
+        }
     }
     private function setWhatWork(Request $request) {
         $this->question->where(function ($query) use ($request) {
@@ -50,8 +119,33 @@ class Search {
         }}});
                 
      }
-        
-    
+     
+    private function setWhatAction(Request $request) {
+        $this->question->where(function ($query) use ($request) {
+        for ($i=0;$i < count($request->get("actions"));$i++) {
+            if ($request->get("actions")[$i] != null) {
+                
+                    $query->orwhereRaw("actions.name like '%" . $request->get("actions")[$i]  . "%'");
+        }}});         
+    } 
+    private function emptyArray($array) {
+        $bool = false;
+        for ($i = 0;$i < count($array);$i++) {
+            if ($array[$i] != "") {
+                $bool = true;
+                break;
+            }
+        }
+        return $bool;
+    }
+    private function whereEpizodes(Request $request) {
+        if ($request->get("epizodesFrom") != "") {
+            $this->question->where("epizodes_psychotik",">=",$request->get("epizodesFrom"));
+        }
+        if ($request->get("epizodesTo") != "") {
+            $this->question->where("epizodes_psychotik","<=",$request->get("epizodesTo"));
+        }
+    }
     private function setDate(Request $request) {
         if ($request->get("dateFrom") != "") {
             $this->question->where("date_start", ">=" , $request->get("dateFrom"));
@@ -61,14 +155,51 @@ class Search {
         }
         
     }
+    private function sumHour($hour) {
+        $sumHour = $hour[0] - Auth::User()->start_day;
+        if ($sumHour < 0) {
+            $sumHour = 24 + $sumHour;
+        }
+        if (strlen($sumHour) == 1) {
+            $sumHour = "0" .$sumHour;
+        }
+        if (strlen($hour[1]) == 1) {
+            $hour[1] = "0" . $hour[1];
+        }
+        return $sumHour . ":" .  $hour[1] . ":00";
+    }
     private function setTime(Request $request) {
-        if ($request->get("timeFrom") != "") {
-            $this->question->whereRaw("time(date_start) <= " . "'" . $request->get("timeTo") . ":00'");
+        $hour = Auth::User()->start_day;
+
+        
+        $timeFrom = explode(":",$request->get("timeFrom"));
+        $timeTo = explode(":",$request->get("timeTo"));
+        $hourFrom = $this->sumHour($timeFrom);
+        $hourTo = $this->sumHour($timeTo);
+            
+
+        
+        if ($request->get("timeFrom") != "" and $request->get("timeTo") != "") {
+        
+
+                $this->question->whereRaw("(time(date_add(date_start,INTERVAL - 5 hour))) <= '$hourTo'");
+                $this->question->whereRaw("(time(date_add(date_end,INTERVAL - 5 hour))) >= '$hourFrom'");
+
+            
+                 
+                 
+                
+           
         }
-        if ($request->get("timeTo") != "") {
-            $this->question->whereRaw("time(date_end) >= " . "'" .  $request->get("timeFrom") . ":00'");
+        else if ($request->get("timeTo") != "") {
+            $this->question->whereRaw("time(date_end) <= " . "'" .  $request->get("timeTo") . ":00'");
         }
-        //"date_start","<=",$dateEnd)->where("date_end",">=",$dateStar
+        else if ($request->get("timeFrom") != "") {
+            $this->question->whereRaw("time(date_start) >= " . "'" .  $request->get("timeFrom") . ":00'");
+        }
+
+        
+         
     }
     private function setLongMoods(Request $request) {
         if ($request->get("longMoodFromHour") != "" or $request->get("longMoodFromMinutes") != "") {

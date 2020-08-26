@@ -132,6 +132,12 @@ class Action {
                 if (strtotime($date1) >= strtotime($date2)) {
                     array_push($this->errors,"Czas zakończenia jest mniejszy bądź równy czasu zaczęcia");
                 }
+                else {
+                    if ((strtotime($date2) - strtotime($date1)) < ($request->get("long") * 60)) {
+                        array_push($this->errors,"Czas wykonywania zadania jest większy od przedziału datowego");
+                    }
+                        
+                }
             }
         
             else if ((strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00") - strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00")) <  ($request->get("long") * 60)) {
@@ -265,9 +271,15 @@ class Action {
                     $Actions_plan->date_end = $request->get("dateEnd") . " ".  Auth::User()->start_day . ":00:00";
                 }
                 if ($request->get("allDay") == "on") {
+                    $date_start = $request->get("dateStart") . " " . $request->get("timeStart") . ":00";
+                    $date_end = $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00";
+                    $day = round((strtotime($date_end) - strtotime($date_start))/(60*60*24));
+                if ($request->get("long") != "") {
+                    $Actions_plan->long = $request->get("long") * $day;
+                }
                     $Actions_plan->if_all_day  = 1;
                 }
-                if ($request->get("long") != "") {
+                else if ($request->get("long") != "" ) {
                     $Actions_plan->long = $request->get("long");
                 }
                 $Actions_plan->save();
