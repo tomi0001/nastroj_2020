@@ -115,9 +115,12 @@ class MoodController extends Controller  {
     
     
     public function ActionShow(Request $request) {
+        
         $Action = new Action;
         $list = $Action->showListActionMood($request);
         return View("ajax.ActionShow")->with("list",$list);
+        
+         
         
     }
     

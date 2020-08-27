@@ -511,7 +511,7 @@ class Mood {
     }
     
     
-    private function setColor($array,$type = "mood") {
+    public function setColor($array,$type = "mood") {
         if (empty($array)) {
             return 1000;
         }

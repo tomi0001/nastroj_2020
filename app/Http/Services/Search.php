@@ -12,6 +12,7 @@ use App\Mood as AppMood;
 use App\Moods_action;
 use App\Actions_plan;
 use App\Sleep;
+use App\Http\Services\Mood;
 use DB;
 //use App\Services\Common;
 
@@ -23,11 +24,74 @@ class Search {
     public $question;
     private $second1 = 0;
     private $second2 = 0;
+    public $arrayList = [];
+    public $arraySecond = [];
+    public $listPercent = [];
+    private $i = 0;
+    private function sortMoods2($listMoods) {
+        $Mood = new Mood;
+        foreach ($listMoods as $Moodss) {
+            $this->arrayList[$this->i]["second"] = strtotime($Moodss->date_end) - strtotime($Moodss->date_start);
+            $this->arraySecond[$this->i] = $this->arrayList[$this->i]["second"];
+            $this->arrayList[$this->i]["color_nas"] = $Mood->setColor(array("mood"=>$Moodss->nas));
+            $this->arrayList[$this->i]["color_mood"] = $Mood->setColor(array("mood"=>$Moodss->level_mood));
+            $this->arrayList[$this->i]["percent"] = 0;
+            $this->i++;
+        }
+    }
+    private function sumPercent(int $second,array $list) {
+        for ($i=0;$i < count($list);$i++) {
+            $list[$i]["percent"] = round(($list[$i]["second"] / $second) * 100);
+            if ($list[$i]["percent"] == 0) {
+                $list[$i]["percent"] = 1;
+            }
+            $list[$i]["second"] = $this->changeSecondAtHour($list[$i]["second"] / 3600);
+            
+        }
+        return $list;
+    }    
+    public function sortMoods($listMoods,$bool = false) :bool {
+        
+        $arraySecond = [];
+        $this->sortMoods2($listMoods);
+
+
+        if ($this->i != 0) {
+            
+            array_multisort($this->arraySecond,SORT_ASC);
+            if ($bool == true) {
+                array_multisort($this->arrayList,SORT_ASC);
+            }
+            $longSecond = count($this->arraySecond);
+            $this->listPercent = $this->sumPercent($this->arraySecond[$longSecond-1],$this->arrayList);
+            return true;
+        }
+        return false;
+    }
+    
+    private function changeSecondAtHour($hour) {
+        if (strstr($hour,".")) {
+            $div = explode(".",$hour);
+            if ($div[0] == 0) {
+                $min = "0." . $div[1];
+                $min *= 60;
+                return round($min) . " minut";
+            }
+            else {
+                $hour = $div[0] . " Godzin i ";
+                $min = "0." . $div[1];
+                $min *= 60;
+                return $hour . round($min) . " minut";
+            }
+        }
+        return $hour . " Godzin";
+        
+    }
     public function createQuestion(Request $request) {
         $this->question =  AppMood::query();
         $this->setDate($request);
         $this->setTime($request);
-        
+        $hour = Auth::User()->start_day;
         $this->question->selectRaw("TIMESTAMPDIFF (SECOND, date_start , date_end) as longMood");
         if ($request->get("valueAllDay") == "on") {
             
@@ -41,12 +105,24 @@ class Search {
                    . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas4");
         }
         //$hour = Auth::User()->start_day;
-        //$this->selectRaw(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) "));
+        $this->question->selectRaw(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as dat"));
+        $this->question->selectRaw(DB::Raw("(YEAR(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as year"));
+        $this->question->selectRaw(DB::Raw("(MONTH(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as month"));
+        $this->question->selectRaw(DB::Raw("(DAY(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as day"));
         $this->question->selectRaw("moods.date_start as date_start");
         $this->question->selectRaw("moods.date_end as date_end");
-        if ($this->emptyArray($request->get("actions")) or $request->get("ifactions") == "on") {
+        $this->question->selectRaw("moods.level_mood  as level_mood ");
+        $this->question->selectRaw("moods.level_anxiety as level_anxiety");
+        $this->question->selectRaw("moods.level_nervousness as level_nervousness");
+        $this->question->selectRaw("moods.level_stimulation as level_stimulation");
+        $this->question->selectRaw("moods.epizodes_psychotik as epizodes_psychotik");
+        $this->question->selectRaw("moods.what_work as what_work");
+        $this->question->selectRaw("moods.id as id");
+       
+        //if ($request->get("actions") != null and $this->emptyArray($request->get("actions")) or $request->get("ifactions") == "on") {
             $this->question->leftjoin("moods_actions","moods_actions.id_moods","moods.id")->leftjoin("actions","actions.id","moods_actions.id_actions");
-        }
+            $this->question->selectRaw("moods_actions.id_actions as id_actions");
+        //}
         if ($request->get("valueAllDay") == "on") {
             $this->setGroup($request);
         }
@@ -54,10 +130,10 @@ class Search {
             $this->setWhereMoods($request);
             $this->setLongMoods($request);
             $this->whereEpizodes($request);
-            if (count($request->get("descriptions")) > 0) {
+            if ($request->get("descriptions") != null and count($request->get("descriptions")) > 0) {
                 $this->setWhatWork($request);
             }
-            if ($this->emptyArray($request->get("actions"))) {
+            if ( $request->get("actions") != null and  $this->emptyArray($request->get("actions"))) {
                 $this->setWhatAction($request);
             }
             if ($request->get("ifDescriptions") == "on") {
@@ -113,7 +189,7 @@ class Search {
     private function setWhatWork(Request $request) {
         $this->question->where(function ($query) use ($request) {
         for ($i=0;$i < count($request->get("descriptions"));$i++) {
-            if ($request->get("descriptions")[$i] != null) {
+            if (isset($request->get("descriptions")[$i]) and  $request->get("descriptions")[$i] != null ) {
                 
                     $query->orwhereRaw("what_work like '%" . $request->get("descriptions")[$i]  . "%'");
         }}});
@@ -122,12 +198,28 @@ class Search {
      
     private function setWhatAction(Request $request) {
         $this->question->where(function ($query) use ($request) {
-        for ($i=0;$i < count($request->get("actions"));$i++) {
-            if ($request->get("actions")[$i] != null) {
+        for ($i=0;$i < count($request->get("actions") );$i++) {
+            if ($request->get("actions")[$i] != null and $request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] == "") {
                 
                     $query->orwhereRaw("actions.name like '%" . $request->get("actions")[$i]  . "%'");
-        }}});         
-    } 
+        }
+        else if ($request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] == "") {
+            $percent = $request->get("actionsNumberFrom")[$i] * 10;
+            $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing >= '$percent')");
+        }
+        else if ($request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] != "") {
+            $percent = $request->get("actionsNumberTo")[$i] * 10;
+            
+            $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing <= '$percent')");
+        }
+        else  {
+            $percent = $request->get("actionsNumberFrom")[$i] * 10;
+            $percent2 = $request->get("actionsNumberTo")[$i] * 10;
+            $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%'  and moods_actions.percent_executing >= '$percent'  and moods_actions.percent_executing <= '$percent2')");
+        }
+
+            }});
+    }
     private function emptyArray($array) {
         $bool = false;
         for ($i = 0;$i < count($array);$i++) {
@@ -172,23 +264,18 @@ class Search {
         $hour = Auth::User()->start_day;
 
         
-        $timeFrom = explode(":",$request->get("timeFrom"));
-        $timeTo = explode(":",$request->get("timeTo"));
-        $hourFrom = $this->sumHour($timeFrom);
-        $hourTo = $this->sumHour($timeTo);
+        
             
 
         
         if ($request->get("timeFrom") != "" and $request->get("timeTo") != "") {
-        
+            $timeFrom = explode(":",$request->get("timeFrom"));
+            $timeTo = explode(":",$request->get("timeTo"));
+            $hourFrom = $this->sumHour($timeFrom);
+            $hourTo = $this->sumHour($timeTo);
 
-                $this->question->whereRaw("(time(date_add(date_start,INTERVAL - 5 hour))) <= '$hourTo'");
-                $this->question->whereRaw("(time(date_add(date_end,INTERVAL - 5 hour))) >= '$hourFrom'");
-
-            
-                 
-                 
-                
+            $this->question->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) <= '$hourTo'");
+            $this->question->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '$hourFrom'");   
            
         }
         else if ($request->get("timeTo") != "") {
@@ -206,7 +293,7 @@ class Search {
             $this->setHour1($request);
         }
         if ( $request->get("longMoodToHour") != "" or  $request->get("longMoodToMinutes") != "") {
-            $this->setHour1($request);
+            $this->setHour2($request);
         }        
         if ($this->second1 != 0) {
             $this->question->whereRaw("(TIMESTAMPDIFF (SECOND, date_start , date_end)) >= '" . $this->second1 . "'");
@@ -234,28 +321,28 @@ class Search {
     }
     private function setWhereMoods(Request $request) {
         if ($request->get("moodFrom") != "") {
-            $this->question->where(" moods.level_mood", ">=" ,  $request->get("moodFrom")  );
+            $this->question->where("moods.level_mood", ">=" ,  $request->get("moodFrom")  );
         }
         if ($request->get("moodTo") != "") {
-            $this->question->where(" moods.level_mood", "<=" ,  $request->get("moodTo")  );
+            $this->question->where("moods.level_mood", "<=" ,  $request->get("moodTo")  );
         }
         if ($request->get("anxietyFrom") != "") {
-            $this->question->where(" moods.level_anxiety", ">=" ,  $request->get("anxietyFrom")  );
+            $this->question->where("moods.level_anxiety", ">=" ,  $request->get("anxietyFrom")  );
         }
         if ($request->get("anxietyTo") != "") {
-            $this->question->where(" moods.level_anxiety", "<=" ,  $request->get("anxietyTo")  );
+            $this->question->where("moods.level_anxiety", "<=" ,  $request->get("anxietyTo")  );
         }
         if ($request->get("voltageFrom") != "") {
-            $this->question->where(" moods.level_nervousness", ">=" ,  $request->get("voltageFrom")  );
+            $this->question->where("moods.level_nervousness", ">=" ,  $request->get("voltageFrom")  );
         }
         if ($request->get("voltageTo") != "") {
-            $this->question->where(" moods.level_nervousness", "<=" ,  $request->get("voltageTo")  );
+            $this->question->where("moods.level_nervousness", "<=" ,  $request->get("voltageTo")  );
         }
         if ($request->get("stimulationFrom") != "") {
-            $this->question->where(" moods.level_stimulation", ">=" ,  $request->get("stimulationFrom")  );
+            $this->question->where("moods.level_stimulation", ">=" ,  $request->get("stimulationFrom")  );
         }
         if ($request->get("stimulationTo") != "") {
-            $this->question->where(" moods.level_stimulation", "<=" ,  $request->get("stimulationTo")  );
+            $this->question->where("moods.level_stimulation", "<=" ,  $request->get("stimulationTo")  );
         }
     }
 
@@ -306,6 +393,13 @@ class Search {
         $this->checkLevel($request->get("voltageTo"), "Napięcie do ");
         $this->checkLevel($request->get("stimulationFrom"), "Pobudzenie od ");
         $this->checkLevel($request->get("stimulationTo"), "Pobudzenie do ");
+        
+        for ($i = 0;$i < count($request->get("actionsNumberFrom"));$i++) {
+            $this->checkPercent($request->get("actionsNumberFrom")[$i],"Procent akcji ");
+        }
+        for ($i = 0;$i < count($request->get("actionsNumberTo"));$i++) {
+            $this->checkPercent($request->get("actionsNumberTo")[$i],"Procent akcji ");
+        }
         $this->checkLevelPsychotic($request->get("epizodesFrom"),"Liczba epizodów psychotycznych od ");
         $this->checkLevelPsychotic($request->get("epizodesTo"),"Liczba epizodów psychotycznych do ");
         $this->comparateLevel($request->get("moodFrom"),$request->get("moodTo")," nastroju ");
@@ -343,6 +437,18 @@ class Search {
         }
         else if ($number > 20 or $number < -20) {
             array_push($this->errors, $what . " musi się mieścić w przedziele od -20 do +20");
+        }
+
+    }
+    private function checkPercent($number,string $what) {
+        if ($number == "") {
+            return;
+        }
+        if (!is_numeric($number)) {
+            array_push($this->errors, $what . " nie jest liczbą");
+        }
+        else if ($number > 3000 or $number < 0) {
+            array_push($this->errors, $what . " musi się mieścić w przedziele od 0 do +3000");
         }
 
     }

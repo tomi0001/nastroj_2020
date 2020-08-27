@@ -4,9 +4,9 @@
 
 @if (Session("setAction") == true)
 
-    <body onload="switchVisibleMoodDobule([1,2],true)">
+    <body onload="switchVisibleMoodDobule([1,2],1)">   
 @else
-    <body onload="switchVisibleMoodDobule([1,2],{{$boolMood}})">
+    <body onload="switchVisibleMoodDobule([1,2],'{{$boolMood}}')">
 @endif
 
 

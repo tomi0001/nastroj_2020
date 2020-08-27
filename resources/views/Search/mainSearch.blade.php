@@ -152,8 +152,16 @@
                         Słowa kluczowe akcji
                     </td>
                     <td colspan="3">
-                        <div id="actionSearch">
-                            <input type="text" name="actions[]" class="form-control" >
+                        <div id="actionSearch" >
+                            <div style='float: left; width: 40%;'>
+                                <input type="text" name="actions[]" class="form-control" placeholder="nazwa">
+                            </div>
+                            <div style='float: left; width: 29%; padding-left: 20px;' >
+                                <input type="text" name="actionsNumberFrom[]" class="form-control" placeholder="wartość od">
+                            </div>
+                            <div style='float: right; width: 25%;' >
+                                <input type="text" name="actionsNumberTo[]" class="form-control" placeholder="wartość do">
+                            </div>
                         </div>
                     </td>
                     <td width="5%">

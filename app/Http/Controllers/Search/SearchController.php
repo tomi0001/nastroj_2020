@@ -28,11 +28,19 @@ class SearchController extends Controller  {
     public function mainAction(Request $request) {
         $Search  = new Search;
         $Search->checkErrorMood($request);
-        $list = $Search->createQuestion($request);
         if (count($Search->errors) > 0) {
             return Redirect::back()->with("errors",$Search->errors)->withInput();
         }
-        print ("<pre>");
-        print_r($list);
+        else {
+                 $list = $Search->createQuestion($request);
+                 $lista = $Search->sortMoods($list);
+
+                 return View("Search.searchMood")->with("list",$list)->with("lista",$Search->arrayList)->with("percent",$Search->listPercent);
+        }
+        
+       
+            //print ("<pre>");
+            //print_r ($list);
+   
     }
 }

@@ -40,6 +40,17 @@ a.Action___2:hover {
 div.ajax {
    
 }
+.ajaxlist {
+    background-color: inherit;
+    
+}
+table.tableAction {
+    width: 100%;
+    
+}
+td.tdAction {
+    padding: 6px;
+}
 div.ajaxError {
     width: 70%;
     margin-left: auto;

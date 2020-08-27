@@ -44,7 +44,7 @@
         </td>
     </thead>
     @foreach ($listMood as $list)
-        <tr class="idMood{{$i-1}}">
+        <tr class="idMood{{$i-1}}" id="id_{{$list["id"]}}">
             @if ($list["type"] == 0)
                 <td colspan="7" class=" titlemood" >
 
@@ -163,10 +163,10 @@
 
 
             <br>
-                <div id="showActions{{$i-1}}"></div>
-                <div id="showDescription{{$i-1}}"></div>
-                <div id="showFieldText{{$i-1}}" class='center' style='width: 50%;'></div>
-                <div id="viewEditMood{{$i-1}}"></div>
+                <div id="showActions{{$i-1}}" style='display: none;'></div>
+                <div id="showDescription{{$i-1}}" style='display: none;'></div>
+                <div id="showFieldText{{$i-1}}" class='center' style='width: 50%; display: none;'></div>
+                <div id="viewEditMood{{$i-1}}" style='display: none;'></div>
 
                
 
@@ -197,7 +197,3 @@
     @endforeach
 </table>
 
- <script>
-    window.onload=hideDiv({{$count}});
-
-    </script>

@@ -60,10 +60,10 @@ Array.prototype.remove2=function(s){
 
 
 
-function switchVisibleMoodDobule(array,bool = false) {
-     switchVisibleMood();
-    if (bool == true) {
-        switchVisibleMoodShow(true);
+function switchVisibleMoodDobule(array,bool = 0) {
+    switchVisibleMood();
+    if (bool == 1) {
+        switchVisibleMoodShow(1);
     }
     else {
         for (i=0;i < array.length;i++) {
@@ -104,8 +104,8 @@ function idMood(mood) {
     }
 }
 
-function switchVisibleMoodShow(bool = false) {
-    if (bool == true) {
+function switchVisibleMoodShow(bool = 0) {
+    if (bool == 1) {
         $("#actionShow").css("display","inline");
         $("#moodShow").css("display","none"); 
         ifMood = "action";
@@ -137,7 +137,7 @@ function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
 }
 function addActionSearch() {
     //alert("ss");
-    $("#actionSearch").append("<input type=\'text\' name=\'actions[]\' class=\'form-control\'>");
+    $("#actionSearch").append("<div style='float: left; width: 40%;'><input type='text' name='actions[]' class='form-control' placeholder='nazwa'></div><div style='float: left; width: 29%; padding-left: 20px;' ><input type='text' name='actionsNumberFrom[]' class='form-control' placeholder='wartość od'>                           </div><div style='float: right; width: 25%;' ><input type='text' name='actionsNumberTo[]' class='form-control' placeholder='wartość do'></div>");
     
     //$("#what_work").append($("#what_work4").html());
 }
@@ -146,6 +146,7 @@ function addActionSearch() {
 var arraySettingSearch = ["mainSearch","SearchSleep","averageMood","howHourMood","PDF"];
 var arraySettingSearch2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5"];
 function switchSettingSearch(id = "mainSearch",id2 = "settingPosition_1") {
+    
     for (i=0;i < arraySettingSearch.length;i++) {
         if (id == arraySettingSearch[i]) {
             $("#" + id).css("display","inline");
@@ -561,4 +562,5 @@ function deleteArray2() {
 
 function showAction(url,i,id) {
     $("#showActions"+i).load(url + "?id=" + id).toggle();
+    //$("#showActions"+i).text("sss");
 }
