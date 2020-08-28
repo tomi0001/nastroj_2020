@@ -14,7 +14,7 @@ use App\Actions_plan;
 use App\Sleep;
 use App\Http\Services\Mood;
 use DB;
-//use App\Services\Common;
+use App\Http\Services\Common;
 
 use Auth;
 
@@ -91,6 +91,7 @@ class Search {
         $this->question =  AppMood::query();
         $this->setDate($request);
         $this->setTime($request);
+        
         $hour = Auth::User()->start_day;
         $this->question->selectRaw("TIMESTAMPDIFF (SECOND, date_start , date_end) as longMood");
         if ($request->get("valueAllDay") == "on") {
@@ -129,6 +130,7 @@ class Search {
         else {
             $this->setWhereMoods($request);
             $this->setLongMoods($request);
+            $this->setIdUsers();
             $this->whereEpizodes($request);
             if ($request->get("descriptions") != null and count($request->get("descriptions")) > 0) {
                 $this->setWhatWork($request);
@@ -150,6 +152,9 @@ class Search {
             $this->setSort($request);
         }
         return $this->question->paginate(15);
+    }
+    private function setIdUsers() {
+        $this->question->where("moods.id_users",Auth::User()->id);
     }
     private function setSort(Request $request) {
         switch ($request->get("sort")) {
@@ -190,7 +195,8 @@ class Search {
         $this->question->where(function ($query) use ($request) {
         for ($i=0;$i < count($request->get("descriptions"));$i++) {
             if (isset($request->get("descriptions")[$i]) and  $request->get("descriptions")[$i] != null ) {
-                
+                    $string = Common::charset_utf_fix2($request->get("descriptions")[$i]);
+                    $query->orwhereRaw("what_work like '%" . $string  . "%'");
                     $query->orwhereRaw("what_work like '%" . $request->get("descriptions")[$i]  . "%'");
         }}});
                 
@@ -199,24 +205,24 @@ class Search {
     private function setWhatAction(Request $request) {
         $this->question->where(function ($query) use ($request) {
         for ($i=0;$i < count($request->get("actions") );$i++) {
-            if ($request->get("actions")[$i] != null and $request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] == "") {
-                
+                if ($request->get("actions")[$i] != null and $request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] == "") {
+
                     $query->orwhereRaw("actions.name like '%" . $request->get("actions")[$i]  . "%'");
-        }
-        else if ($request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] == "") {
-            $percent = $request->get("actionsNumberFrom")[$i] * 10;
-            $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing >= '$percent')");
-        }
-        else if ($request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] != "") {
-            $percent = $request->get("actionsNumberTo")[$i] * 10;
-            
-            $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing <= '$percent')");
-        }
-        else  {
-            $percent = $request->get("actionsNumberFrom")[$i] * 10;
-            $percent2 = $request->get("actionsNumberTo")[$i] * 10;
-            $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%'  and moods_actions.percent_executing >= '$percent'  and moods_actions.percent_executing <= '$percent2')");
-        }
+                }
+                else if ($request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] == "") {
+                    $percent = $request->get("actionsNumberFrom")[$i] * 10;
+                    $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing >= '$percent')");
+                }
+                else if ($request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] != "") {
+                    $percent = $request->get("actionsNumberTo")[$i] * 10;
+
+                    $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing <= '$percent')");
+                }
+                else  {
+                    $percent = $request->get("actionsNumberFrom")[$i] * 10;
+                    $percent2 = $request->get("actionsNumberTo")[$i] * 10;
+                    $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%'  and moods_actions.percent_executing >= '$percent'  and moods_actions.percent_executing <= '$percent2')");
+                }
 
             }});
     }
@@ -412,7 +418,7 @@ class Search {
         if ($number == "") {
             return;
         }
-        if (strstr(".",$number)) {
+        if (strstr($number,".")) {
             array_push($this->errors, $what . " nie jest liczbą całkowitą");
         }
         else if ($number < 0) {

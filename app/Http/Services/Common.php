@@ -86,5 +86,5 @@ class common {
         }
         return (int) ($hour2)  . $minutes;
     }
- 
+
 }

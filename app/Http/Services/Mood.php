@@ -18,6 +18,7 @@ use App\Http\Services\Action as ServicesAction;
 use Auth;
 
 class Mood {
+   
     public $levelMood = [
         0 =>  ["from" => -20, "to" => -18],
         1 =>  ["from" => -18, "to" => -16],
@@ -184,18 +185,21 @@ class Mood {
     }
     private function calculatePerentingMoods(int $idAction,int $idMood) {
         $diff =  AppMood::differenceDate($idMood);
+        
         //return $diff->diff;
         $result2 = Actions_plan::checkTimeExist2($diff->date_start,$diff->date_end,$idAction);
         //print "<pre>";
         //print_r($result2);
         //print "</pre>";
+        
         if (($result2) === null) {
             return null;
         }
         if ($result2->if_all_day != 0) {
             $result2 = Actions_plan::checkTimeExist3($diff->date_start,$diff->date_end,$idAction);
         }
-        
+        //print ("<pre>");
+        //print_r ($result2);
         //var_dump($result2);
 
         
@@ -231,10 +235,15 @@ class Mood {
             
         }
         else {
-            $percent = (strtotime($result2->date_end) - strtotime($result2->date_start)) / 60;
+            if (isset($result2->date_end) and isset($result2->date_start)) {
+                $percent = (strtotime($result2->date_end) - strtotime($result2->date_start)) / 60;
+            }
+            else {
+                return null;
+            }
         }
        
-        $percent2 = ($diff->diff / $percent) * 1000;
+        $percent2 = ($diff->diff / $percent) * 10000;
         //print $percent2;
         return $percent2;
         
@@ -633,10 +642,15 @@ class Mood {
         $Mood->where("id",$request->get('id'))->update(["what_work" => $request->get("description")]);
     }
     public function deleteMood(Request $request) {
+        $MoodsAction = new Moods_action;
+        $MoodsAction->where("id_moods",$request->get("id"))->delete();
         $Mood = new AppMood;
         $Mood->where("id",$request->get("id"))->where("id_users",Auth::User()->id)->delete();
     }
-    
+    public function deleteSleep(Request $request) {
+        $Sleep = new Sleep;
+        $Sleep->where("id",$request->get("id"))->where("id_users",Auth::User()->id)->delete();
+    }
     
     public function selectMood(Request $request) {
         $Mood = new AppMood;
@@ -650,7 +664,35 @@ class Mood {
             "level_nervousness" => $request->get('levelNervousness'),
             "level_stimulation" => $request->get("levelStimulation")]);
     }
-    
+    public function updateSleep(Request $request) {
+        
+        
+            $Sleep = New Sleep;
+            $Sleep->where("id",$request->get("id"))->where("id_users",Auth::User()->id)->update(["how_wake_up"=>$request->get("sleep")]);
+        
+        
+        
+    }
+    public function IfInt($number,string $what) {
+        
+        
+        if ($number == "") {
+            return;
+        }
+        
+ 
+        
+        if (strstr($number,".")) {
+            array_push($this->errors, $what . " nie jest liczbą całkowitą");
+        }
+        if (!is_numeric($number)) {
+            array_push($this->errors, $what . " nie jest liczbą");
+        }
+        else if ($number < 0) {
+            array_push($this->errors, $what . " nie jest liczbą dodatnią");
+        }
+
+    }
     public function checkLevel($level,string $what) {
         if ($level == "") {
             array_push($this->level, 0);

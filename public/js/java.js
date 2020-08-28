@@ -157,7 +157,13 @@ function switchSettingSearch(id = "mainSearch",id2 = "settingPosition_1") {
     }
     setNone2(id);
 }
-
+function editSleep(url,i,id) {
+    $("#sleepEdit"+i).load(url + "?id=" + id + "&i=" + i).toggle();
+}
+function editSleepAction(url,id,i) {
+    var sleep = $("#sleep" + i).val();
+    $("#viewEditSleep2"+i).load(url + "?id=" + id + "&sleep=" + sleep);
+}
 function setNone2(id) {
     
     for (var i=0;i < arraySettingSearch.length;i++) {
@@ -425,6 +431,14 @@ function runScriptEditMood(e,url,id,i) {
     if (e.keyCode == 13) {
         
         editMoodAction(url,id,i);
+        eval(tb.value);
+        return false;
+    }
+}
+function runScriptEditSleep(e,url,id,i) {
+    if (e.keyCode == 13) {
+        
+        editSleepAction(url,id,i);
         eval(tb.value);
         return false;
     }

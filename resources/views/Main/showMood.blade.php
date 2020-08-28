@@ -139,7 +139,12 @@
     <tr>
         <td colspan="7"  class="idMood{{$i-1}}">
             @if ( ($list["type"] == 0))
+            <div class="buttonMood">
                 <button onclick="deleteSleep('{{ route('sleep.delete')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class='btn btn-danger btn-lg'>usuń sen</button>
+                <button onclick="editSleep('{{route('sleep.edit')}}',{{$i-1}},{{$listPercent[$i-1]["id"]}})" class="btn btn-primary btn-lg">Edytuj Sen</button>
+            </div>
+            <br>
+            <div id='sleepEdit{{$i-1}}' style='display: none;'></div>
             @else
                 <div class="buttonMood">
                     @if ($listPercent[$i-1]["name"] != 0)

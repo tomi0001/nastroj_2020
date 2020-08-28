@@ -16,6 +16,7 @@ use App\Http\Services\User as ServiceUser;
 use App\Http\Services\Calendar;
 use App\Http\Services\Mood;
 use App\Mood as AppMood;
+use App\Sleep;
 use App\Http\Services\Action;
 use App\Action_plan;
 use Auth;
@@ -107,12 +108,25 @@ class MoodController extends Controller  {
         }
         
     }
-    
+    public function SleepEdit(Request $request) {
+        $awek = Sleep::selectAwek($request->get("id"));
+        return View("ajax.editSleep")->with("awek",$awek->how_wake_up)->with("id",$request->get("id"))->with("i",$request->get("i"));
+    }
     public function ShowDescription(Request $request) {
         $description = AppMood::showDescription($request->get("id"));
         return View("ajax.description")->with("description",$description->what_work);
     }
-    
+    public function SleepEditAction(Request $request) {
+        $Mood = new Mood;
+        $Mood->IfInt($request->get("sleep")," ilośc wybudzen ");
+        if (count($Mood->errors) > 0 ) {
+            return View("ajax.error")->with("error",$Mood->errors);
+        }
+        else {
+            $Mood->updateSleep($request);
+            return View("ajax.succes")->with("succes","Pomyslnie edytowano");
+        }
+    }
     
     public function ActionShow(Request $request) {
         
@@ -135,5 +149,8 @@ class MoodController extends Controller  {
         $Mood = new Mood;
         $Mood->deleteMood($request);
     }
-    
+    public function SleepDelete(Request $request) {
+        $Mood = new Mood;
+        $Mood->deleteSleep($request);
+    }
 }
