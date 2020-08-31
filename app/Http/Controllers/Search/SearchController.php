@@ -25,6 +25,23 @@ class SearchController extends Controller  {
     public function main() {
         return View("Search.main");
     }
+    
+    public function sleepAction(Request $request) {
+        $Search  = new Search;
+        $Search->checkErrorSleep($request);
+        if (count($Search->errors) > 0) {
+            return Redirect::back()->with("errors",$Search->errors)->withInput();
+        }
+        else {
+                 $list = $Search->createQuestionForSleep($request);
+                 $lista = $Search->sortSleeps($list);
+
+
+                 return View("Search.SearchSleeps2")->with("list",$list)->with("lista",$Search->arrayList)->with("percent",$Search->listPercent);
+        }
+                
+    }
+    
     public function mainAction(Request $request) {
         $Search  = new Search;
         $Search->checkErrorMood($request);

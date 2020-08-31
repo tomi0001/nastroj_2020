@@ -39,6 +39,36 @@ class Search {
             $this->i++;
         }
     }
+ 
+    public function sortSleeps($listMoods,$bool = false) :bool {
+        
+        $arraySecond = [];
+        $this->sortSleeps2($listMoods);
+
+
+        if ($this->i != 0) {
+            
+            array_multisort($this->arraySecond,SORT_ASC);
+            if ($bool == true) {
+                array_multisort($this->arrayList,SORT_ASC);
+            }
+            $longSecond = count($this->arraySecond);
+            $this->listPercent = $this->sumPercent($this->arraySecond[$longSecond-1],$this->arrayList);
+            return true;
+        }
+        return false;
+    }
+        private function sortSleeps2($listMoods) {
+        $Mood = new Mood;
+        foreach ($listMoods as $Moodss) {
+            $this->arrayList[$this->i]["second"] = strtotime($Moodss->date_end) - strtotime($Moodss->date_start);
+            $this->arraySecond[$this->i] = $this->arrayList[$this->i]["second"];
+            $this->arrayList[$this->i]["color_nas"] = $Mood->setColor(array("mood"=>$Moodss->nas));
+            $this->arrayList[$this->i]["color_mood"] = $Mood->setColor(array("mood"=>$Moodss->level_mood));
+            $this->arrayList[$this->i]["percent"] = 0;
+            $this->i++;
+        }
+    }
     private function sumPercent(int $second,array $list) {
         for ($i=0;$i < count($list);$i++) {
             $list[$i]["percent"] = round(($list[$i]["second"] / $second) * 100);
@@ -153,8 +183,43 @@ class Search {
         }
         return $this->question->paginate(15);
     }
+    
+    
+    public function createQuestionForSleep(Request $request) {
+        $this->question =  Sleep::query();
+        $this->setDateSleep($request);
+        $this->setTimeSleep($request);
+        
+        $hour = Auth::User()->start_day;
+        $this->question->selectRaw("TIMESTAMPDIFF (SECOND, date_start , date_end) as longMood");
+
+        //$hour = Auth::User()->start_day;
+        $this->question->selectRaw(DB::Raw("(DATE(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as dat"));
+        $this->question->selectRaw(DB::Raw("(YEAR(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as year"));
+        $this->question->selectRaw(DB::Raw("(MONTH(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as month"));
+        $this->question->selectRaw(DB::Raw("(DAY(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as day"));
+        $this->question->selectRaw("date_start as date_start");
+        $this->question->selectRaw("date_end as date_end");
+
+        $this->question->selectRaw("how_wake_up as how_wake_up");
+        $this->question->selectRaw("id as id");
+
+        $this->setLongSleep($request);
+        $this->setIdUsersSleep();
+        $this->whereWakeUp($request);
+
+ 
+        $this->setSortSleep($request);
+        
+        return $this->question->paginate(15);
+    }
+    
+    
     private function setIdUsers() {
         $this->question->where("moods.id_users",Auth::User()->id);
+    }
+    private function setIdUsersSleep() {
+        $this->question->where("id_users",Auth::User()->id);
     }
     private function setSort(Request $request) {
         switch ($request->get("sort")) {
@@ -169,6 +234,17 @@ class Search {
             case 'voltage': $this->question->orderBy("moods.level_nervousness","DESC");
                 break;
             case 'stimulation': $this->question->orderBy("moods.level_stimulation","DESC");
+                break;
+            case 'longMood': $this->question->orderBy("longMood","DESC");
+                break;
+            
+        }
+    }
+    private function setSortSleep(Request $request) {
+        switch ($request->get("sort")) {
+            case 'date': $this->question->orderBy("date_start","DESC");
+                break;
+            case 'hour': $this->question->orderByRaw("time(date_start)","DESC");
                 break;
             case 'longMood': $this->question->orderBy("longMood","DESC");
                 break;
@@ -244,6 +320,14 @@ class Search {
             $this->question->where("epizodes_psychotik","<=",$request->get("epizodesTo"));
         }
     }
+    private function whereWakeUp(Request $request) {
+        if ($request->get("wakeUpFrom") != "") {
+            $this->question->where("how_wake_up",">=",$request->get("wakeUpFrom"));
+        }
+        if ($request->get("wakeUpTo") != "") {
+            $this->question->where("how_wake_up","<=",$request->get("wakeUpTo"));
+        }
+    }
     private function setDate(Request $request) {
         if ($request->get("dateFrom") != "") {
             $this->question->where("date_start", ">=" , $request->get("dateFrom"));
@@ -253,8 +337,17 @@ class Search {
         }
         
     }
-    private function sumHour($hour) {
-        $sumHour = $hour[0] - Auth::User()->start_day;
+    private function setDateSleep(Request $request) {
+        if ($request->get("dateFrom") != "") {
+            $this->question->where("date_start", ">=" , $request->get("dateFrom"));
+        }
+        if ($request->get("dateTo") != "") {
+            $this->question->where("date_end", "<=" , $request->get("dateTo"));
+        }
+        
+    }
+    private function sumHour($hour,$start) {
+        $sumHour = $hour[0] - $start;
         if ($sumHour < 0) {
             $sumHour = 24 + $sumHour;
         }
@@ -264,6 +357,7 @@ class Search {
         if (strlen($hour[1]) == 1) {
             $hour[1] = "0" . $hour[1];
         }
+        
         return $sumHour . ":" .  $hour[1] . ":00";
     }
     private function setTime(Request $request) {
@@ -277,8 +371,36 @@ class Search {
         if ($request->get("timeFrom") != "" and $request->get("timeTo") != "") {
             $timeFrom = explode(":",$request->get("timeFrom"));
             $timeTo = explode(":",$request->get("timeTo"));
-            $hourFrom = $this->sumHour($timeFrom);
-            $hourTo = $this->sumHour($timeTo);
+            $hourFrom = $this->sumHour($timeFrom,$hour);
+            $hourTo = $this->sumHour($timeTo,$hour);
+
+            $this->question->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) <= '$hourTo'");
+            $this->question->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '$hourFrom'");   
+           
+        }
+        else if ($request->get("timeTo") != "") {
+            $this->question->whereRaw("time(date_end) <= " . "'" .  $request->get("timeTo") . ":00'");
+        }
+        else if ($request->get("timeFrom") != "") {
+            $this->question->whereRaw("time(date_start) >= " . "'" .  $request->get("timeFrom") . ":00'");
+        }
+
+        
+         
+    }
+    private function setTimeSleep(Request $request) {
+        $hour = 13;
+
+        
+        
+            
+
+        
+        if ($request->get("timeFrom") != "" and $request->get("timeTo") != "") {
+            $timeFrom = explode(":",$request->get("timeFrom"));
+            $timeTo = explode(":",$request->get("timeTo"));
+            $hourFrom = $this->sumHour($timeFrom,$hour);
+            $hourTo = $this->sumHour($timeTo,$hour);
 
             $this->question->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) <= '$hourTo'");
             $this->question->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '$hourFrom'");   
@@ -306,6 +428,37 @@ class Search {
         }
         if ($this->second2 != 0) {
             $this->question->whereRaw("(TIMESTAMPDIFF (SECOND, date_start , date_end)) <= '" . $this->second2 . "'");
+        }
+    }
+    private function setLongSleep(Request $request) {
+        if ($request->get("longSleepFromHour") != "" or $request->get("longSleepFromMinutes") != "") {
+            $this->setHourSleep1($request);
+        }
+        if ( $request->get("longSleepToHour") != "" or  $request->get("longSleepToMinutes") != "") {
+            $this->setHourSleep2($request);
+        }        
+        if ($this->second1 != 0) {
+            $this->question->whereRaw("(TIMESTAMPDIFF (SECOND, date_start , date_end)) >= '" . $this->second1 . "'");
+        }
+        if ($this->second2 != 0) {
+            $this->question->whereRaw("(TIMESTAMPDIFF (SECOND, date_start , date_end)) <= '" . $this->second2 . "'");
+        }
+    }
+    private function setHourSleep1(Request $request) {
+        if ($request->get("longSleepFromHour") != "") {
+            $this->second1 += ($request->get("longSleepFromHour") * 3600);
+        }
+        if ($request->get("longSleepFromMinutes") != "") {
+            $this->second1 += ($request->get("longSleepFromMinutes") * 60);
+        }
+  
+    }
+    private function setHourSleep2(Request $request) {
+        if ($request->get("longSleepToHour") != "") {
+            $this->second2 += ($request->get("longSleepToHour") * 3600);
+        }
+        if ($request->get("longSleepToMinutes") != "") {
+            $this->second2 += ($request->get("longSleepToMinutes") * 60);
         }
     }
     private function setHour1(Request $request) {
@@ -413,7 +566,10 @@ class Search {
         $this->comparateLevel($request->get("voltageFrom"),$request->get("voltageTo")," nastroju ");
         $this->comparateLevel($request->get("stimulationFrom"),$request->get("stimulationTo")," nastroju ");
     }
-    
+    public function checkErrorSleep(Request $request) {
+        $this->checkLevelPsychotic($request->get("wakeUpFrom"),"Liczba wybudzeń  od ");
+        $this->checkLevelPsychotic($request->get("wakeUpTo"),"Liczba wybudzen do ");
+    }
     private function checkLevelPsychotic($number,string $what) {
         if ($number == "") {
             return;

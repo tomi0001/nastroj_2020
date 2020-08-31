@@ -51,6 +51,7 @@ Route::group(
                     
                     Route::get("/Search/main","Search\SearchController@main")->name("Search.main");
                     Route::get("/Search/mainAction","Search\SearchController@mainAction")->name("search.mainAction");
+                    Route::get("/Search/sleepAction","Search\SearchController@sleepAction")->name("search.sleepAction");
             /*
              * Routy dla userów z rolą partner
              */
