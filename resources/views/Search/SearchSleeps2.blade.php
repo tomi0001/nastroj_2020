@@ -26,7 +26,19 @@
     
         @for ($i=0;$i < count($list);$i++)
             
+        @if ($i == 0 or ($list[$i]->dat != $list[$i-1]->dat ))
+        <tr>
+            <td colspan="6">
+                <br>
+                <div class="title center">{{$list[$i]->dat}}</div>
+                <br>
+           
+        
 
+            </td>
+        </tr>
+            
+        @endif
         
         <tr class="search">
             <td colspan="6">
@@ -82,7 +94,7 @@
                               Ilość wybudzeń {{$list[$i]["how_wake_up"]}}
                         </td>
                     @else
-                    <td    colspan="1">
+                    <td    colspan="3">
                         
                     </td>
                     @endif

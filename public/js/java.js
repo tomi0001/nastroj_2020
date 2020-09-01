@@ -143,7 +143,7 @@ function addActionSearch() {
 }
 
 
-var arraySettingSearch = ["mainSearch","SearchSleep","averageMood","howHourMood","PDF"];
+var arraySettingSearch = ["mainSearch","SearchSleep","averageMoods","howHourMood","PDF"];
 var arraySettingSearch2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5"];
 function switchSettingSearch(id = "mainSearch",id2 = "settingPosition_1") {
     

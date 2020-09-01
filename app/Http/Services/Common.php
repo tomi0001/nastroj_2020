@@ -86,5 +86,39 @@ class common {
         }
         return (int) ($hour2)  . $minutes;
     }
+    public static function subHour($hourStart,$hourEnd) {
+        $hourStart = explode(":",$hourStart);
+        $hourEnd = explode(":",$hourEnd);
+        if ($hourStart[0] == $hourEnd[0]) {
+            return ($hourEnd[1] - $hourStart[1]) * 60;
+        }
+        else {
+            $sum = ($hourEnd[0] - $hourStart[0]) * 3600;
+            if ($hourStart[1] > $hourEnd[1]) {
+                $sum += ($hourEnd[1] - $hourStart[1]) * 60;
+            }
+            else {
+                $sum -= ($hourStart[1] - $hourEnd[1]) * 60;
+            }
+            return $sum;
+        }
+    }
+    public static function changeTime($time) {
+        $time1 = explode(":",$time);
+        $hour2 = $time1[0] - Auth::User()->start_day;
+        if ($hour2 < 0) {
+            $hour2 = 24 + $hour2;
+        }
+        if (strlen($hour2) == 1) {
+            $hour2 = "0"  . $hour2;
+        }
+        if (strlen($time1[1]) == 1) {
+            $time2 =  "0" .  $time1[1];
+        }
+        else {
+            $time2 = $time1[1];
+        }
+        return $hour2 . ":" . $time2;
+    }
 
 }

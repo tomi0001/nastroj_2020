@@ -17,6 +17,7 @@ use App\Http\Services\Calendar;
 use App\Http\Services\Mood;
 use App\Http\Services\Search;
 use App\Mood as AppMood;
+use App\Http\Services\AIMood as AI;
 use App\Http\Services\Action;
 use App\Action_plan;
 use Auth;
@@ -60,4 +61,25 @@ class SearchController extends Controller  {
             //print_r ($list);
    
     }
+    
+    public function searchAI(Request $request) {
+        $AI = new AI;
+        
+            $list = $AI->selectDays($request->get("timeFrom"), $request->get("timeTo"), $request->get("dateFrom"),
+                    $request->get("dateTo"),$request->get("sumDay"),Auth::User()->start_day,Auth::User()->id,$request->get("day"),$request->get("allDay"));
+            //print ("<pre>");
+            //print_r ($list);
+  //          print ("<pre>");
+            
+            //var_dump($list);
+            
+//print_r($list);
+            //$a = $AI->sortMood([0.1,1,0.1,1]);
+            //var_dump($a);
+            return View("ajax.showAverage")->with("days",$AI->days)->with("list",$list)
+                   ->with("day",$request->get("allDay"))->with("harmonyMood",$AI->tableMood)->with("harmonyAnxiety",$AI->tableAnxiety)
+                    ->with("harmonyNer",$AI->tableNer)->with("harmonyStimu",$AI->tableStimu)->with("hour","Godzina od " . $request->get("timeFrom") . " do "  .  $request->get("timeTo"));
+        
+    }
+    
 }

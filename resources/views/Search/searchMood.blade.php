@@ -109,9 +109,9 @@
                             <br>
                          
                             @if (!isset($list->nas))
-                            <div class="level{{$lista[$i]['color_mood']}}" style='width: {{$percent[$i]["percent"]}}%';>&nbsp;</div>
+                            <div class="titlemood{{$lista[$i]['color_mood']}}" style='width: {{$percent[$i]["percent"]}}%';>&nbsp;</div>
                             @else
-                            <div class="level{{$lista[$i]['color_nas']}}" style='width: {{$percent[$i]["percent"]}}%';>&nbsp;</div>
+                            <div class="titlemood{{$lista[$i]['color_nas']}}" style='width: {{$percent[$i]["percent"]}}%';>&nbsp;</div>
 
                             @endif
                    

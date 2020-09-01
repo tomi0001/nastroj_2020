@@ -190,14 +190,14 @@ class Search {
         $this->setDateSleep($request);
         $this->setTimeSleep($request);
         
-        $hour = Auth::User()->start_day;
+        $hour = 24  - 3;
         $this->question->selectRaw("TIMESTAMPDIFF (SECOND, date_start , date_end) as longMood");
 
         //$hour = Auth::User()->start_day;
-        $this->question->selectRaw(DB::Raw("(DATE(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as dat"));
-        $this->question->selectRaw(DB::Raw("(YEAR(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as year"));
-        $this->question->selectRaw(DB::Raw("(MONTH(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as month"));
-        $this->question->selectRaw(DB::Raw("(DAY(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as day"));
+        $this->question->selectRaw(DB::Raw("(DATE(IF(HOUR(date_end) >= '$hour', date_start,Date_add(date_end, INTERVAL - 0 DAY) )) ) as dat"));
+        $this->question->selectRaw(DB::Raw("(YEAR(IF(HOUR(date_end) >= '$hour', date_start,Date_add(date_end, INTERVAL - 0 DAY) )) ) as year"));
+        $this->question->selectRaw(DB::Raw("(MONTH(IF(HOUR(date_end) >= '$hour', date_start,Date_add(date_end, INTERVAL - 0 DAY) )) ) as month"));
+        $this->question->selectRaw(DB::Raw("(DAY(IF(HOUR(date_end) >= '$hour', date_start,Date_add(date_end, INTERVAL - 0 DAY) )) ) as day"));
         $this->question->selectRaw("date_start as date_start");
         $this->question->selectRaw("date_end as date_end");
 

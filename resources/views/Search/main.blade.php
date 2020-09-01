@@ -25,7 +25,7 @@
             <a class='settingPosition' id='settingPosition_2'  onclick="switchSettingSearch('SearchSleep','settingPosition_2')">WYSZUKAJ SEN</a>
         </div>
         <div class='settingPosition' >
-            <a class='settingPosition' id='settingPosition_3'  onclick="switchSettingSearch('averageMood','settingPosition_3')">OBLICZ ŚREDNIĄ TRWANIA NASTROJU</a>
+            <a class='settingPosition' id='settingPosition_3'  onclick="switchSettingSearch('averageMoods','settingPosition_3')">OBLICZ ŚREDNIĄ TRWANIA NASTROJU</a>
         </div>
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_4'  onclick="switchSettingSearch('howHourMood','settingPosition_4')">OBLICZ ILE H TRWAŁY NASTROJE</a>
@@ -37,6 +37,7 @@
     </div>
    @include ('Search.mainSearch')
    @include ('Search.SearchSleep')
+   @include ('Search.averageMoods')
     
     
     
