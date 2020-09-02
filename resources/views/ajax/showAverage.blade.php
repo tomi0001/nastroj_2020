@@ -1,43 +1,49 @@
+
+
 <div class="center" style="width: 100%;">
-    <table class="table">
+    <table class="display table" id="averageTable">
       @if ($day == "on")
-      <tr>
-            <td style="width: 18%;">
+      <thead>
+            <tr>
+      
+            <th style="width: 18%;">
                 Data <br>{{$hour}}
-            </td>
-            <td>
+            </th>
+            <th>
                 Poziom nastroju
-            </td>
-            <td>
+            </th>
+            <th>
                 odchylenie nastroju
                 
-            </td>
-            <td>
+            </th>
+            <th>
                 różnica nastroju (min/max)
                 
-            </td>
-            <td>
+            </th>
+            <th>
                 Poziom lęku
-            </td>
-            <td>
+            </th>
+            <th>
                 odchylenie lęku
                 
-            </td>
-            <td>
+            </th>
+            <th>
                 Poziom zdenerowania
-            </td>
-            <td>
+            </th>
+            <th>
                 odchylenie zdenerowania
                 
-            </td>
-            <td>
+            </th>
+            <th>
                 Poziom pobudzenia
-            </td>
-            <td>
+            </th>
+            <th>
                 odchylenie pobudzenia
                 
-            </td>
+            </th>
       </tr>
+      </thead>
+      <tbody>
       <tr>
             <td>
                 Dla tego czasu
@@ -71,7 +77,7 @@
             </td>
         </tr>
       
-      
+      </tbody>
       
       @else
       <tr>
@@ -155,3 +161,9 @@
       @endif
     </table>
 </div>
+
+<script>
+    $(document).ready( function () {
+    $('#averageTable').DataTable();
+} );
+    </script>

@@ -34,43 +34,89 @@ class AIMood {
     public $tableAnxiety = [];
     public $tableStimu = [];
     public $tableNer = [];
-    public function  selectDays($hourStart,$hourEnd,$dataStart,$dataEnd,$type,$start,$id,$day,$dayInput = "") {
-        $daystart = strtotime($dataStart) + ($start * 3600);
-        $dayend = strtotime($dataEnd) + ($start * 3600);
+    private $hourStart = "";
+    private $hourEnd = "";
+    private $dateStart = "";
+    private $dateEnd = "";
+    public function setDate($dateStart,$dateEnd) {
+        $Mood = new Moods;
+        if ($dateStart == "") {
+            $tmp = explode(" ",$Mood->select("date_start")->orderBy("date_start")->first()->date_start);
+            $this->dateStart = $tmp[0];
+        }
+        else {
+            $this->dateStart = $dateStart;
+        }
+        if ($dateEnd == "") {
+            $tmp = explode(" ",$Mood->select("date_end")->orderBy("date_end","DESC")->first()->date_end);
+            $this->dateEnd = $tmp[0];
+        }
+        else {
+            $this->dateEnd = $dateEnd;
+        }
+    }
+    
+    public function setTime($hourStart,$hourEnd) {
+        $timeFrom = explode(":",$hourStart);
+        $timeTo = explode(":",$hourEnd);
+        if ($hourStart != "") {
+            $this->hourStart = $this->sumHour($timeFrom);
+        }
+        else {
+            $hourOne= Auth::User()->start_day . ":00:00";
+            $this->hourStart = $this->sumHour(explode(":",$hourOne));
+        }
+        if ($hourEnd != "") {
+            $this->hourEnd = $this->sumHour($timeTo);
+        }
+        else {
+            $hourOne = $this->subSecond(Auth::User()->start_day . ":00:00");
+            $this->hourEnd = $this->sumHour(explode(":",$hourOne));
+        }
+    }
+    
+    private function subSecond($hour) {
+        $hour1 = explode(":", $hour);
+        $newHour = [];
+        if ($hour1[0] == 0) {
+            $newHour[0] = 23; 
+        }
+        else {
+            $newHour[0] = $hour1[0] - 1;
+        }
+        $newHour[1] = 59;
+        return $newHour[0] . ":" . $newHour[1] . ":00";
+    }
+    public function  selectDays($dataStart,$dataEnd,$type,$day,$dayInput = "") {
+        $daystart = strtotime($this->dateStart) + (Auth::User()->start_day * 3600);
+        $dayend = strtotime($this->dateEnd) + (Auth::User()->start_day * 3600) + 84600;
         $days = [];
         $sumNer = 0;
-        //print $hourStart;
         $sumAnxiety = 0;
         $sumMood = 0;
         $sumStimu = 0;
         $z = 1;
         $j = 0;
-        //print common::subHour($hourStart,$hourEnd) . "<br>";
         for ($i = $daystart;$i <= $dayend;$i += 86400 ) {
             if (  $day != "") {
                 if (date('N', $i) != $day) {
                 
                     continue;
-                   //print "s";
                 }
             }
-            //print date('N', $i)  ."<br>";
-            $check = $this->check($hourStart,$hourEnd,date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),$start,$id);
+            $check = $this->check(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400));
            
             if ($check == false) {
-                //print "d";
-                //$days[0][$j]
                 continue;
             }
             else {
-                $days[0][$j] = $this->calculateAverage($hourStart,$hourEnd,date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood",$start,$id);
-                $days[1][$j] = $this->calculateAverage($hourStart,$hourEnd,date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"anxiety",$start,$id);
-                $days[2][$j] = $this->calculateAverage($hourStart,$hourEnd,date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"ner",$start,$id);
-                $days[3][$j] = $this->calculateAverage($hourStart,$hourEnd,date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"stimulation",$start,$id);
-                $tmp = $this->minMaxcalculate($hourStart,$hourEnd,date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"stimulation",$start,$id);
+                $days[0][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood");
+                $days[1][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"anxiety");
+                $days[2][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"ner");
+                $days[3][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"stimulation");
+                $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood");
                 $days[4][$j] = $tmp[0];
                 $days[5][$j] = $tmp[1];
-                //$z++;
             }
             $sumMood += $days[0][$j];
             $sumAnxiety += $days[1][$j];
@@ -99,40 +145,30 @@ class AIMood {
             
         }
         
-        //print round($this->sortMood((([0.1,0.2,0,0.3,-0.1,0.1,-0.1,0.2,0.1]) )),2);
         return $days;
     }
-    private function check($hourStart,$hourEnd,$dataStart,$dataEnd,$start,$id) {
-        $Moods = Moods::query();
-        $idUsers = $id;
-        $hour = $start;
+    private function check($dataStart,$dataEnd) {
+        $Moods = Moods::query();        
+        $hour = Auth::User()->start_day;
                 $Moods->select(DB::Raw("(DATE(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as dat  "))
-               ->selectRaw("date_start as date_start")
-                ->selectRaw("date_end as date_end")
+               ->selectRaw("Date_add(date_start, INTERVAL - '$hour' HOUR)  as date_start")
+                ->selectRaw("Date_add(date_end, INTERVAL - '$hour' HOUR)  as date_end")
                 ->selectRaw("level_anxiety as level_anxiety")
                 ->selectRaw("level_nervousness as level_nervousness")
                 ->selectRaw("level_stimulation as level_stimulation")
                 ->selectRaw("level_mood as level_mood")
                         
                 
-                      ->where("id_users",$idUsers);
+                      ->where("id_users",Auth::User()->id);
         if ($dataStart != "") {
             $Moods->where("date_start",">=",$dataStart);
             $Moods->where("date_start","<=",$dataEnd);
         }
-        //$Moods->whereRaw("week(moods.date_start) = 0");
-        if ($hourStart != "" and $hourEnd != "") {
-            
-            $timeFrom = explode(":",$hourStart);
-            $timeTo = explode(":",$hourEnd);
-            $hourFrom = $this->sumHour($timeFrom,$hour);
-            $hourTo = $this->sumHour($timeTo,$hour);
 
-            $Moods->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) <= '$hourTo'");
-            $Moods->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '$hourFrom'");   
-            
-           //$Moods->whereRaw("(hour(time(date_start)) BETWEEN $hourStart AND $hourEnd or hour(time(date_end)) BETWEEN $hourStart AND $hourEnd or hour(time(date_start)) < '$hourStart' and hour(time(date_end)) > '$hourEnd')");
-        }
+
+            $Moods->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) < '" .$this->hourEnd . "'");
+            $Moods->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '" . $this->hourStart . "'");   
+
         $list = $Moods->count();
         if ($list == 0) {
             return false;
@@ -143,8 +179,8 @@ class AIMood {
     }
     
     
-    private function sumHour($hour,$start) {
-        $sumHour = $hour[0] - $start;
+    private function sumHour($hour) {
+        $sumHour = $hour[0] - Auth::User()->start_day;
         if ($sumHour < 0) {
             $sumHour = 24 + $sumHour;
         }
@@ -157,12 +193,9 @@ class AIMood {
         
         return $sumHour . ":" .  $hour[1] . ":00";
     }
-    private function subHour($hourStart,$hourEnd) {
-        
-    }
-    private function minMaxcalculate($hourStart,$hourEnd,$dataStart,$dataEnd,$type,$start,$id,$dayInput = "") {
-        $idUsers = $id;
-        $hour = $start;
+
+    private function minMaxcalculate($dataStart,$dataEnd,$type,$dayInput = "") {
+        $hour = Auth::User()->start_day;
         $average = 0;
         $second = 0;
         $sumMood = 0;
@@ -175,39 +208,26 @@ class AIMood {
         $harmonyAnxiety = [];
         $Moods2 = Moods::query();
         $Moods2->select(DB::Raw("(DATE(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as dat  "))
-               //->selectRaw("date_start as date_start")
-                //->selectRaw("date_end as date_end")
-                //->selectRaw("level_anxiety as level_anxiety")
-                //->selectRaw("level_nervousness as level_nervousness")
-                //->selectRaw("level_stimulation as level_stimulation")
-                //->selectRaw("level_mood as level_mood")
+
                 ->selectRaw("MIN(level_mood) as min")
                 ->selectRaw("MAX(level_mood) as max")
-                //->selectRaw("level_mood as min")
-                
-                      ->where("id_users",$idUsers);
+
+                      ->where("id_users",Auth::User()->id);
         if ($dataStart != "") {
             $Moods2->where("date_start",">=",$dataStart);
             $Moods2->where("date_start","<=",$dataEnd);
         }
-        //$Moods2->whereRaw("week(moods.date_start) = 0");
-        if ($hourStart != "" and $hourEnd != "") {
-           $timeFrom = explode(":",$hourStart);
-            $timeTo = explode(":",$hourEnd);
-            $hourFrom = $this->sumHour($timeFrom,$hour);
-            $hourTo = $this->sumHour($timeTo,$hour);
 
-            $Moods2->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) <= '$hourTo'");
-            $Moods2->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '$hourFrom'");   
-        }
+
+            $Moods2->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) < '" .$this->hourEnd . "'");
+            $Moods2->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '" .$this->hourStart . "'");   
         $list2 = $Moods2->first();
         return array($list2->min,$list2->max);
     }
     
-    private function calculateAverage($hourStart,$hourEnd,$dataStart,$dataEnd,$type,$start,$id,$dayInput = "") {
+    private function calculateAverage($dataStart,$dataEnd,$type,$dayInput = "") {
         $Moods = Moods::query();
-        $idUsers = $id;
-        $hour = $start;
+        $hour = Auth::User()->start_day;
         $average = 0;
         $second = 0;
         $sumMood = 0;
@@ -220,78 +240,43 @@ class AIMood {
         $harmonyAnxiety = [];
 
         $Moods->select(DB::Raw("(DATE(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as dat  "))
-               ->selectRaw("date_start as date_start")
-                ->selectRaw("date_end as date_end")
+               ->selectRaw("Date_add(date_start, INTERVAL - '$hour' HOUR) as date_start")
+                ->selectRaw("Date_add(date_end, INTERVAL - '$hour' HOUR) as date_end")
+                ->selectRaw("time(Date_add(date_end,INTERVAL - '$hour' HOUR)) as d")
                 ->selectRaw("level_anxiety as level_anxiety")
                 ->selectRaw("level_nervousness as level_nervousness")
                 ->selectRaw("level_stimulation as level_stimulation")
                 ->selectRaw("level_mood as level_mood")
-                //->selectRaw("level_mood as min")
-                
-                      ->where("id_users",$idUsers);
+
+                      ->where("id_users",Auth::User()->id);
         if ($dataStart != "") {
             $Moods->where("date_start",">=",$dataStart);
             $Moods->where("date_start","<",$dataEnd);
         }
-        //$Moods->whereRaw("week(moods.date_start) = 0");
-        if ($hourStart != "" and $hourEnd != "") {
-            $timeFrom = explode(":",$hourStart);
-            $timeTo = explode(":",$hourEnd);
-            $hourFrom_ = $this->sumHour($timeFrom,$hour);
-            $hourTo_ = $this->sumHour($timeTo,$hour);
 
-            $Moods->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) < '$hourTo_'");
-            $Moods->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '$hourFrom_'");   
-        }
+
+            $Moods->whereRaw("time(Date_add(date_start,INTERVAL - '$hour' HOUR)) < '" .$this->hourEnd . "'");
+            $Moods->whereRaw("time(Date_add(date_end,INTERVAL - '$hour' HOUR)) >= '" .$this->hourStart . "'");   
+
         
         $list = $Moods->get();
-        
-        //$min = min($list);
+
         $i = 0;
         
         foreach ($list as $moodss) {
-            //print $moodss->level_mood . "<br>";
             $time1 = strtotime($moodss->date_start);
-            
             $time2 = strtotime($moodss->date_end);
-            //print $moodss->date_end . "<br>";
-            
-            $time1_1 = $time1 - (Auth::User()->start_day * 3600);
-            $time2_2 = $time2 - (Auth::User()->start_day * 3600);
+
+
              $divi1 = explode(" ",$moodss->date_start);
              $divi2 = explode(" ",$moodss->date_end);
-                
-               // $hourStart__ = common::changeTime($hourStart);
-                //$hourEnd = common::changeTime($hourEnd);
-                //print $hourStart  . "<br>";
-             
-                $sumHour = ((common::subHour($hourStart,$hourEnd) ));
+ 
                 $dataa = explode(" ",$dataEnd);
-                if ($divi2[0] != $dataa[0] and $divi1[0] != $divi2[0]) {
-                    print "fff";
-                    $dateComparate2= strtotime($divi2[0] . " " . $hourEnd . ":00");
-                }
-                else if ($divi1[0] != $divi2[0]) {
-                    print "ddd";
-                     $dateComparate2= strtotime($divi2[0] . " " . $hourEnd . ":00");
-                }
-                /*
-                else if ($divi1[0] != $dataa[0]){
-                    $dateComparate2 = strtotime($divi2[0] . " " . $hourEnd . ":00");
-                }
-                 * 
-                 */
-                else {
-                    print "ccc";
-                    $dateComparate2 = strtotime($divi2[0] . " " . $hourEnd . ":00");
-                }
-                
-                    //$dateComparate2 = $divi2[0] . " " . $hourEnd . ":00";
-                
-                $dateComparate1 = strtotime($divi1[0] . " " . $hourStart . ":00");
-                //print $dateComparate1 . " ";
-                //print strtotime($dateComparate1) . "<br>";
-            
+
+                    $dateComparate1 = strtotime($divi1[0] . " " . $this->hourStart );
+
+                $dateComparate2 = strtotime($divi2[0] . " " . $this->hourEnd);
+
             if ($time1 <= $dateComparate1) {
                 $div = $dateComparate1;
                 
@@ -301,20 +286,11 @@ class AIMood {
             }
             if ($time2 >= $dateComparate2) {
                 $div2 = $dateComparate2;
-                //$div2 = $time2;
             }
             else {
                 $div2 = $time2;
             }
-            print ($div2  -$div) / 60 . "<br>";
-            /*
-            if ($div > $div2) {
-                $tmp = $div2;
-                $div = $tmp;
-                $div2 = $div;
-            }
-             * 
-             */
+
 
                     $sumAnxiety += ($div2 - $div) * $moodss->level_anxiety;
                     $harmonyAnxiety[$i] = $moodss->level_anxiety;
@@ -333,10 +309,11 @@ class AIMood {
 
             $i++;
         }
-                if ($i == 0) {
-            //return 200;
+        if ($i == 0) {
+            //return;
         }
                  if ($type == "anxiety") {
+                     
         array_push($this->tableAnxiety,round(($this->sortMood($harmonyAnxiety) ),2));
          }
          else if ($type=="ner") {
@@ -406,18 +383,9 @@ class AIMood {
         $tmp = 0;
         $tmp2 = 0;       
         for ($i=0;$i < count($list)-1;$i++) {
-            //if (count($list)-1 == $i) {
-                //break;
-            //}
-            
-            //if ($list[$i+1] == 0) {
-                //$tmp  =100;
-            //}
-             
-            //else {
+
            
                 $tmp = ((((($list[$i]) )) ) -  ((($list[$i+1] ) )  ));
-            //}
             if ($tmp < 0) {
                 $tmp = -$tmp;
             }
@@ -427,6 +395,9 @@ class AIMood {
         if ($average == 0) {
             $average = 0.5;
         }
+        if (count($list) == 0) {
+            return;
+        }
         if ((((($tmp2 / count($list))) ) ) < 0) {
             return -(((($tmp2 / count($list))) ));
         }
@@ -434,7 +405,6 @@ class AIMood {
     }
     
     public function standardDeviation($list) {
-                    //$tablica = [0.2,0.1,0.1,0.1,0.1,0.1,0.2,0.2];
             $n=count($list);
             $average=0;
 
@@ -457,7 +427,7 @@ class AIMood {
                 $result+=$list2[$i]; //dostajesz sume tych wszystkich kwadratow roznicy wyrazu i sredniej;
             }
             return sqrt($result);
-            //print $wynik;
+            
     }
             
             

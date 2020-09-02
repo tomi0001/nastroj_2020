@@ -64,9 +64,15 @@ class SearchController extends Controller  {
     
     public function searchAI(Request $request) {
         $AI = new AI;
+
         
-            $list = $AI->selectDays($request->get("timeFrom"), $request->get("timeTo"), $request->get("dateFrom"),
-                    $request->get("dateTo"),$request->get("sumDay"),Auth::User()->start_day,Auth::User()->id,$request->get("day"),$request->get("allDay"));
+        
+            $AI->setTime($request->get("timeFrom"), $request->get("timeTo"));
+            $AI->setDate($request->get("dateFrom"), $request->get("dateTo"));
+            
+            //print $AI->hourEnd;
+            $list = $AI->selectDays($request->get("dateFrom"),
+                   $request->get("dateTo"),$request->get("allDay"),$request->get("day"),$request->get("sumDay"));
             //print ("<pre>");
             //print_r ($list);
   //          print ("<pre>");
@@ -77,8 +83,10 @@ class SearchController extends Controller  {
             //$a = $AI->sortMood([0.1,1,0.1,1]);
             //var_dump($a);
             return View("ajax.showAverage")->with("days",$AI->days)->with("list",$list)
-                   ->with("day",$request->get("allDay"))->with("harmonyMood",$AI->tableMood)->with("harmonyAnxiety",$AI->tableAnxiety)
+                   ->with("day",$request->get("sumDay"))->with("harmonyMood",$AI->tableMood)->with("harmonyAnxiety",$AI->tableAnxiety)
                     ->with("harmonyNer",$AI->tableNer)->with("harmonyStimu",$AI->tableStimu)->with("hour","Godzina od " . $request->get("timeFrom") . " do "  .  $request->get("timeTo"));
+             
+             
         
     }
     

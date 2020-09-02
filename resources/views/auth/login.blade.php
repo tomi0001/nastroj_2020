@@ -59,7 +59,9 @@
        @endif
     </div>
 </div>
-
+<div class="center">
+<a href="{{route('register')}}"><button class="btn btn-success btn-lg">Zarejestruj się</button></a>
+</div>
 <div id="login">
     <form action="{{ route('userDr.loginSubmit')}}" method="post">
     <table class="table login">
