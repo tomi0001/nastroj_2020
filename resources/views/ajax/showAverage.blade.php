@@ -161,9 +161,9 @@
       @endif
     </table>
 </div>
-
 <script>
-    $(document).ready( function () {
-    $('#averageTable').DataTable();
+$('#averageTable').dataTable( {
+  paginate: true,
+  scrollY: 300
 } );
-    </script>
+</script>

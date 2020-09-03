@@ -552,12 +552,15 @@ class Search {
         $this->checkLevel($request->get("voltageTo"), "Napięcie do ");
         $this->checkLevel($request->get("stimulationFrom"), "Pobudzenie od ");
         $this->checkLevel($request->get("stimulationTo"), "Pobudzenie do ");
-        
-        for ($i = 0;$i < count($request->get("actionsNumberFrom"));$i++) {
-            $this->checkPercent($request->get("actionsNumberFrom")[$i],"Procent akcji ");
+        if (!empty($request->get("actionsNumberFrom"))) {
+            for ($i = 0;$i < count($request->get("actionsNumberFrom"));$i++) {
+                $this->checkPercent($request->get("actionsNumberFrom")[$i],"Procent akcji ");
+            }
         }
-        for ($i = 0;$i < count($request->get("actionsNumberTo"));$i++) {
-            $this->checkPercent($request->get("actionsNumberTo")[$i],"Procent akcji ");
+        if (!empty($request->get("actionsNumberTo"))) {
+            for ($i = 0;$i < count($request->get("actionsNumberTo"));$i++) {
+                $this->checkPercent($request->get("actionsNumberTo")[$i],"Procent akcji ");
+            }
         }
         $this->checkLevelPsychotic($request->get("epizodesFrom"),"Liczba epizodów psychotycznych od ");
         $this->checkLevelPsychotic($request->get("epizodesTo"),"Liczba epizodów psychotycznych do ");

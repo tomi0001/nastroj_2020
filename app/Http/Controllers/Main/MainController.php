@@ -66,6 +66,7 @@ class MainController extends Controller  {
                                ->with("Action",$Action)
                                ->with("dateAction",$dateAction)
                                ->with("listMood",$Mood->arrayList)
+                               ->with("count2",count($Mood->listMood))
                                ->with("count",count($Mood->arrayList))
                                ->with("listPercent",$Mood->listPercent)
                                ->with("listActionMood",$Action2->listActionMoodSeparate)

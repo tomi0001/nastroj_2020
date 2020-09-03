@@ -71,13 +71,29 @@ class SettingController  extends Controller  {
             $actionArray = Actions_plan::selectAction($request->get("actionNameDate"));
             $actionArray2 = ActionApp::selectActionName();
             $array = [];
+            $longer  =[];
             //array_push($array,$actionArray);
             //array_push($array,$actionArray);
             //array_push($array,$actionArray);
+
             //, json_decode(count($actionArray2))
             $array = array_merge(json_decode($actionArray,true),json_decode($actionArray2,true));
             $array2 = array_merge($array,array("count" => count($actionArray2)));
-            print json_encode($array2, true);
+            if ($actionArray->longer == "") {
+                $longer["longer"] = "";
+            }
+            else if ($actionArray->datediff == 0 and $actionArray->longer != "") {
+                $longer["longer"] = $actionArray->longer;
+                
+            }
+            else if ($actionArray->datediff == 0) {
+                $longer["longer"] = $actionArray->longer;
+            }
+            else {
+                $longer["longer"] = round($actionArray->longer / $actionArray->datediff);
+            }
+            $array3 = array_merge($array2,$longer);
+            print json_encode($array3, true);
         }
         //print json_encode($actionArray);
     }

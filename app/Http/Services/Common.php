@@ -44,6 +44,12 @@ class common {
         
 	
     }
+    public static function diffDate($dateStart,$dateEnd) {
+        $timeSecond2 = strtotime($dateEnd);
+        $timeSecond = strtotime($dateStart);
+        $result = ($timeSecond2 - $timeSecond) / 86400;
+        return round($result) + 1;
+    }
     public static function charset_utf_fix($string,$bool = false) {
  
 	$utf = array(

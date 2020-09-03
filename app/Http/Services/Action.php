@@ -124,7 +124,7 @@ class Action {
                 
                array_push($this->errors,"Godzina zaczęcia jest wieksza bądź równa godzinie skończenia");
             }
-            if ($request->get("allDay") == "on") {
+            //if ($request->get("allDay") == "on") {
                 $date1 = "1970-01-01 " . $request->get("timeStart");
                 $date2 = "1970-01-02 " . $request->get("timeEnd");
                 $date1 = date("H:i:s",strtotime($date1) - (3600 * Auth::User()->start_day));
@@ -138,8 +138,8 @@ class Action {
                     }
                         
                 }
-            }
-        
+            //}
+        /*
             else if ((strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00") - strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00")) <  ($request->get("long") * 60)) {
                 array_push($this->errors,"Ilośc minut w długośc trwania akcji jest większa od przedziału datowego");
             }
@@ -251,13 +251,17 @@ class Action {
        else {
            $allDay = 0;
        }
+       $diff = common::diffDate($request->get("dateStart") , $request->get("dateEnd") );
        $Action->where("id",$request->get("actionNameDate"))->update(["id_actions" => $request->get("idAction")
-               ,"long" => $request->get("long"),"if_all_day" => $allDay,
+               ,"long" => $request->get("long") * $diff,"if_all_day" => $allDay,
            "date_start" => $request->get("dateStart") . " " . $request->get("timeStart") . ":00",
            "date_end" => $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00"]);
    }
     public function saveAction(Request $request) {
         for ($i = 0;$i < count($request->get("idAction"));$i++) {
+            $date_start = $request->get("dateStart") . " " . $request->get("timeStart") . ":00";
+            $date_end = $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00";
+            $day = round((strtotime($date_end) - strtotime($date_start))/(60*60*24));
             if ($request->get("idAction")[$i] != "") {
                 $Actions_plan = new Actions_plan;
                 $Actions_plan->id_users = Auth::User()->id;
@@ -271,16 +275,14 @@ class Action {
                     $Actions_plan->date_end = $request->get("dateEnd") . " ".  Auth::User()->start_day . ":00:00";
                 }
                 if ($request->get("allDay") == "on") {
-                    $date_start = $request->get("dateStart") . " " . $request->get("timeStart") . ":00";
-                    $date_end = $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00";
-                    $day = round((strtotime($date_end) - strtotime($date_start))/(60*60*24));
-                if ($request->get("long") != "") {
-                    $Actions_plan->long = $request->get("long") * $day;
-                }
+
+                    if ($request->get("long") != "") {
+                        $Actions_plan->long = $request->get("long") * ($day + 1);
+                    }
                     $Actions_plan->if_all_day  = 1;
                 }
                 else if ($request->get("long") != "" ) {
-                    $Actions_plan->long = $request->get("long");
+                    $Actions_plan->long = $request->get("long") * ($day  +1);
                 }
                 $Actions_plan->save();
             }

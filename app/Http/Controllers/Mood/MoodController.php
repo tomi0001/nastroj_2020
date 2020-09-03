@@ -19,6 +19,7 @@ use App\Mood as AppMood;
 use App\Sleep;
 use App\Http\Services\Action;
 use App\Action_plan;
+use App\Http\Services\Common;
 use Auth;
 class MoodController extends Controller  {
     public function add(Request $request) {
@@ -113,7 +114,7 @@ class MoodController extends Controller  {
         return View("ajax.editSleep")->with("awek",$awek->how_wake_up)->with("id",$request->get("id"))->with("i",$request->get("i"));
     }
     public function ShowDescription(Request $request) {
-        $description = AppMood::showDescription($request->get("id"));
+        $description = (AppMood::showDescription($request->get("id")));
         return View("ajax.description")->with("description",$description->what_work);
     }
     public function SleepEditAction(Request $request) {

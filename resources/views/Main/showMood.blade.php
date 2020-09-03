@@ -2,7 +2,7 @@
 @php
     $i = 1;
 @endphp
-@if (!empty($colorForDay) )
+@if ($count2 != 0  )
     <div class='level{{$colorForDay["mood"]}}' style='width: 30%; text-align: center; margin-left: auto;margin-right: auto;'>
         Poziom nastróju dla tego dnia {{$dayList["mood"]}}
     </div>
