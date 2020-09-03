@@ -337,17 +337,22 @@ class Action {
                 if (strtoTime($list->date_start) > $i  and strToTime($list->date_end) <  $i  + ($second)
                         or (strToTime($list->date_start) < $i  + ($second)) and strToTime($list->date_end) > $i   
                             ) {
+             
+             
+                
                         if ($i == $end) {
                             continue;
                         }
 
 
-                        if ((($list->if_all_day  == 1 and  !((common::sumMinutesHour(((date("G",strtoTime($list->date_start)))),date("i",strtoTime($list->date_start))) > common::sumMinutesHour((date("G",$i)),date("i",$i)) 
-                                and common::sumMinutesHour((date("G",strtoTime($list->date_end))),date("i",strtoTime($list->date_end))) < common::sumMinutesHour(date("G",$i + ($second) ),date("i",$i + ($second))) 
-                                or common::sumMinutesHour((date("G",strtoTime($list->date_start))),date("i",(strtoTime($list->date_start)))) < common::sumMinutesHour(date("G",$i + ($second)),date("i",$i + ($second)))) 
-                                and common::sumMinutesHour(date("G",strtoTime($list->date_end)),date("i",strtoTime($list->date_end))) > common::sumMinutesHour((date("G",$i  )),date("i",$i))))) and $second != 86400   ) {
+                        if ((($list->if_all_day  == 1 and  !((common::sumMinutesHour(date("d",strtoTime($list->date_start)),((date("G",strtoTime($list->date_start)))),date("i",strtoTime($list->date_start))) > common::sumMinutesHour(date("d",strtoTime($list->date_start)),(date("G",$i)),date("i",$i)) 
+                                and (common::sumMinutesHour(date("d",strtoTime($list->date_start)),(date("G",strtoTime($list->date_end))),date("i",strtoTime($list->date_end))) < common::sumMinutesHour(date("d",strtoTime($list->date_start)),date("G",$i + ($second) ),date("i",$i + ($second)))) 
+                                or common::sumMinutesHour(date("d",strtoTime($list->date_start)),(date("G",strtoTime($list->date_start))),date("i",(strtoTime($list->date_start)))) < common::sumMinutesHour(date("d",strtoTime($list->date_start)),date("G",$i + ($second)),date("i",$i + ($second)))) 
+                                and common::sumMinutesHour(date("d",strtoTime($list->date_start)),date("G",strtoTime($list->date_end)),date("i",strtoTime($list->date_end))) > common::sumMinutesHour(date("d",strtoTime($list->date_start)),(date("G",$i  )),date("i",$i))))) and $second != 86400   
+                                ) {
                             continue;
                         }
+                     
                             $array[$z]["date_start"] = date(" H:i",($i));
        
             

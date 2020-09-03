@@ -85,8 +85,10 @@ class common {
 	
     }
     
-    public static function sumMinutesHour($hour,$minutes) {
+    public static function sumMinutesHour($day,$hour,$minutes) {
+        
         $hour2 = $hour - Auth::User()->start_day;
+        
         if ($hour2 < 0) {
             $hour2 = 24 + $hour2;
         }

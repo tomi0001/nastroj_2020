@@ -1,7 +1,7 @@
 
 
 <div class="center" style="width: 100%;">
-    <table class="display table" id="averageTable">
+    <table class="display table" id="tblSort">
       @if ($day == "on")
       <thead>
             <tr>
@@ -9,7 +9,7 @@
             <th style="width: 18%;">
                 Data <br>{{$hour}}
             </th>
-            <th>
+            <th >
                 Poziom nastroju
             </th>
             <th>
@@ -80,43 +80,48 @@
       </tbody>
       
       @else
+      <thead>
+      
       <tr>
-            <td style="width: 18%;">
+            <th style="width: 18%;">
                 Data <br>{{$hour}}
-            </td>
-            <td>
+            </th>
+            <th>
                 Poziom nastroju
-            </td>
-            <td>
+            </th>
+            <th>
                 odchylenie nastroju
                 
-            </td>
-            <td>
+            </th>
+            <th>
                 różnica nastroju (min/max)
                 
-            </td>
-            <td>
+            </th>
+            <th>
                 Poziom lęku
-            </td>
-            <td>
+            </th>
+            <th>
                 odchylenie lęku
                 
-            </td>
-            <td>
+            </th>
+            <th>
                 Poziom zdenerowania
-            </td>
-            <td>
+            </th>
+            <th>
                 odchylenie zdenerowania
                 
-            </td>
-            <td>
+            </th>
+            <th>
                 Poziom pobudzenia
-            </td>
-            <td>
+            </th>
+            <th>
                 odchylenie pobudzenia
                 
-            </td>
+            </th>
       </tr>
+       </thead>
+       <tbody>
+     
         @for ($i=0;$i < count($days);$i++)
         <tr>
             <td>
@@ -157,13 +162,17 @@
                 
             </td>
         </tr>
+        
         @endfor
+        </tbody>
       @endif
     </table>
 </div>
 <script>
-$('#averageTable').dataTable( {
-  paginate: true,
-  scrollY: 300
+$(document).ready( function () {
+    
+    $('#tblSort').DataTable({
+        "bPaginate": false,
+    });
 } );
 </script>

@@ -170,7 +170,7 @@ class Mood {
         if ($request->get("epizodesPsychotic") != "") {
             $Mood->epizodes_psychotik = $request->get("epizodesPsychotic");
         }
-        $Mood->what_work = $request->get("whatWork");
+        $Mood->what_work = str_replace("\n", "<br>", $request->get("whatWork"));
         $Mood->id_users = Auth::User()->id;
         $Mood->save();
         return $Mood->id;
@@ -639,7 +639,7 @@ class Mood {
 
     public function updateDescription(Request $request) {
         $Mood = new AppMood;
-        $Mood->where("id",$request->get('id'))->update(["what_work" => $request->get("description")]);
+        $Mood->where("id",$request->get('id'))->update(["what_work" => str_replace("\n", "<br>", $request->get("description"))]);
     }
     public function deleteMood(Request $request) {
         $MoodsAction = new Moods_action;

@@ -158,8 +158,11 @@ $.ajax({ type: "GET",
          response= text;
      }
 });
+    
     //$("#AI").load(url + "?" + $("form").serialize()).append();
     $("#AI").prepend(response);
+    
+    //$("#AI").load(url + "?" + $("form").serialize());
 }
 function sumMood(url) {
     var response;
