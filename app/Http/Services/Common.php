@@ -48,7 +48,13 @@ class common {
         $timeSecond2 = strtotime($dateEnd);
         $timeSecond = strtotime($dateStart);
         $result = ($timeSecond2 - $timeSecond) / 86400;
-        return round($result) + 1;
+        if ($result == 0) {
+            $result = round($result) + 1;
+        }
+        else {
+            $result = round($result);
+        }
+        return $result;
     }
     public static function charset_utf_fix($string,$bool = false) {
  
