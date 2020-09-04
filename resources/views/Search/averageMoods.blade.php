@@ -69,10 +69,12 @@
         </tr>
         <tr>
         <td colspan="6">
-            <div id="AI" class="tras"></div>
+            
             
         </td>
         </tr>
         </table>
+        
     </form>
+    <div id="AI" style="margin-left:  auto;margin-right: auto;"></div>
 </div>

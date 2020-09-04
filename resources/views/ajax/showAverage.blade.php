@@ -1,7 +1,7 @@
 
 
 <div class="center" style="width: 100%;">
-    <table class="display table" id="tblSort">
+    <table class="display  cell-border compact stripe row-border" id="tblSort">
       @if ($day == "on")
       <thead>
             <tr>
@@ -9,7 +9,7 @@
             <th style="width: 18%;">
                 Data <br>{{$hour}}
             </th>
-            <th >
+            <th style="width: 12%;">
                 Poziom nastroju
             </th>
             <th>
@@ -172,7 +172,14 @@
 $(document).ready( function () {
     
     $('#tblSort').DataTable({
+        columnDefs: [
+    {
+        targets: -1,
+        className: 'dt-body-right'
+    }
+  ],
         "bPaginate": false,
+
     });
 } );
 </script>
