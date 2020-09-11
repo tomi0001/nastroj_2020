@@ -47,6 +47,7 @@
       <tr>
             <td>
                 Dla tego czasu
+                {{$dateFrom}} <br> {{$dateTo}}
             </td>
             <td>
                 {{$list[0]}}

@@ -26,13 +26,14 @@ class Action {
         $this->timeTnterval = Auth::User()->minutes;
     }
     
-    public function showListActionMood(Request $request) {
+    public function showListActionMood(Request $request,$id) {
         $Moods_action = new Moods_action;
         $list = $Moods_action->join("actions","actions.id","moods_actions.id_actions")
                 ->selectRaw("actions.name as name")
                 ->selectRaw("moods_actions.percent_executing as percent_executing")
                 ->selectRaw("actions.level_pleasure as level_pleasure")
                 ->where("moods_actions.id_moods",$request->get("id"))
+                ->where("actions.id_users",$id)
                 ->get();
         return $list;
     }

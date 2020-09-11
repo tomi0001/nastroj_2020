@@ -87,7 +87,7 @@ class AIMood {
         $newHour[1] = 59;
         return $newHour[0] . ":" . $newHour[1] . ":00";
     }
-    public function  selectDays($dataStart,$dataEnd,$type,$day,$dayInput = "") {
+    public function  selectDays($dataStart,$dataEnd,$type,$day,$id,$dayInput = "") {
         $daystart = strtotime($this->dateStart) + (Auth::User()->start_day * 3600);
         $dayend = strtotime($this->dateEnd) + (Auth::User()->start_day * 3600) + 84600;
         $days = [];
@@ -104,17 +104,17 @@ class AIMood {
                     continue;
                 }
             }
-            $check = $this->check(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400));
+            $check = $this->check(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),$id);
            
             if ($check == false) {
                 continue;
             }
             else {
-                $days[0][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood");
-                $days[1][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"anxiety");
-                $days[2][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"ner");
-                $days[3][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"stimulation");
-                $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood");
+                $days[0][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood",$id);
+                $days[1][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"anxiety",$id);
+                $days[2][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"ner",$id);
+                $days[3][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"stimulation",$id);
+                $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood",$id);
                 $days[4][$j] = $tmp[0];
                 $days[5][$j] = $tmp[1];
             }
@@ -147,7 +147,7 @@ class AIMood {
         
         return $days;
     }
-    private function check($dataStart,$dataEnd) {
+    private function check($dataStart,$dataEnd,$id) {
         $Moods = Moods::query();        
         $hour = Auth::User()->start_day;
                 $Moods->select(DB::Raw("(DATE(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as dat  "))
@@ -159,7 +159,7 @@ class AIMood {
                 ->selectRaw("level_mood as level_mood")
                         
                 
-                      ->where("id_users",Auth::User()->id);
+                      ->where("id_users",$id);
         if ($dataStart != "") {
             $Moods->where("date_start",">=",$dataStart);
             $Moods->where("date_start","<=",$dataEnd);
@@ -194,7 +194,7 @@ class AIMood {
         return $sumHour . ":" .  $hour[1] . ":00";
     }
 
-    private function minMaxcalculate($dataStart,$dataEnd,$type,$dayInput = "") {
+    private function minMaxcalculate($dataStart,$dataEnd,$type,$id,$dayInput = "") {
         $hour = Auth::User()->start_day;
         $average = 0;
         $second = 0;
@@ -212,7 +212,7 @@ class AIMood {
                 ->selectRaw("MIN(level_mood) as min")
                 ->selectRaw("MAX(level_mood) as max")
 
-                      ->where("id_users",Auth::User()->id);
+                      ->where("id_users",$id);
         if ($dataStart != "") {
             $Moods2->where("date_start",">=",$dataStart);
             $Moods2->where("date_start","<=",$dataEnd);
@@ -225,7 +225,7 @@ class AIMood {
         return array($list2->min,$list2->max);
     }
     
-    private function calculateAverage($dataStart,$dataEnd,$type,$dayInput = "") {
+    private function calculateAverage($dataStart,$dataEnd,$type,$id,$dayInput = "") {
         $Moods = Moods::query();
         $hour = Auth::User()->start_day;
         $average = 0;
@@ -248,7 +248,7 @@ class AIMood {
                 ->selectRaw("level_stimulation as level_stimulation")
                 ->selectRaw("level_mood as level_mood")
 
-                      ->where("id_users",Auth::User()->id);
+                      ->where("id_users",$id);
         if ($dataStart != "") {
             $Moods->where("date_start",">=",$dataStart);
             $Moods->where("date_start","<",$dataEnd);

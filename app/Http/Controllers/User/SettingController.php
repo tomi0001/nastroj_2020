@@ -22,7 +22,19 @@ class SettingController  extends Controller  {
         $array = $Users->CheckIfLevelMood();
         $actionName = $Users->selectAction();
         $actionDate = $Users->selectActionPlans();
-        return View("User.Setting.index")->with("levelMood",$array)->with("actionName",$actionName)->with("actionDate",$actionDate);
+        $Hash = $Users->selectHash();
+        return View("User.Setting.index")->with("levelMood",$array)->with("actionName",$actionName)->with("actionDate",$actionDate)->with("hash",$Hash);
+    }
+    public function SettingupdateHash(Request $request) {
+        $Users = new ServiceUser;
+        $Users->checkErrorHash($request);
+        if (count($Users->errors) > 0) {
+            return View("ajax.error")->with("error",$Users->errors);
+        }
+        else {
+            $Users->updateHash($request);
+            return View("ajax.succes")->with("succes","Pomyslnie zmodyfikowano hash");
+        }
     }
     public function SettingActionAdd(Request $request) {
         $Action = new Action;

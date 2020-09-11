@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     ['middleware' => ['auth']],
     function () {
-                                               Route::get('/home', 'Main\MainController@index')->name('home');
+                    Route::get('/home', 'Main\MainController@index')->name('home');
                     Route::get('/', 'Main\MainController@index')->name('mainmain');
                     Route::get('/main/{year?}/{month?}/{day?}/{action?}', 'Main\MainController@index')->name('main');
                     Route::get('/Mood/Add', 'Mood\MoodController@add')->name('Mood.Add');
@@ -30,6 +30,9 @@ Route::group(
                     Route::get('/Mood/ActionShow', 'Mood\MoodController@ActionShow')->name('action.show');
                     Route::get('/Mood/EditDescription', 'Mood\MoodController@EditDescription')->name('Mood.editDescription');
                     Route::get('/Mood/EditAction', 'Mood\MoodController@EditAction')->name('Mood.editAction');
+                    Route::get('/DrMood/ShowDescription', 'Dr\Mood\MoodController@ShowDescription')->name('Drmood.showDescription');
+                    Route::get('/DrMood/ActionShow', 'Dr\Mood\MoodController@ActionShow')->name('Draction.show');
+                    
                     
                     
                     Route::get('/User/Setting', 'User\SettingController@Setting')->name('user.setting');
@@ -39,6 +42,7 @@ Route::group(
                     Route::get('/User/SettingaChangeActionName2', 'User\SettingController@SettingaChangeActionName2')->name('user.changeActionName2');
                     Route::get('/User/SettingaChangeActionDateName', 'User\SettingController@SettingaChangeActionDateName')->name('user.changeActionDateName');
                     Route::get('/User/SettingaChangeActionDateName2', 'User\SettingController@SettingaChangeActionDateName2')->name('user.changeActionDateName2');
+                    Route::get('/User/SettingupdateHash', 'User\SettingController@SettingupdateHash')->name('setting.updateHash');
 
                     Route::get("/Mood/SleepDelete",'Mood\MoodController@SleepDelete')->name("sleep.delete");
                     Route::get("/Mood/SleepAdd",'Mood\MoodController@Sleepadd')->name("Sleep.Add");
@@ -53,13 +57,24 @@ Route::group(
                     Route::get("/Search/mainAction","Search\SearchController@mainAction")->name("search.mainAction");
                     Route::get("/Search/sleepAction","Search\SearchController@sleepAction")->name("search.sleepAction");
                     Route::get("/Search/SearchAIAction","Search\SearchController@searchAI")->name("Search.AI");
+                    
+                    
+                    Route::get("/DrSearch/main","Dr\Search\SearchController@main")->name("DrSearch.main");
+                    Route::get("/DrSearch/mainAction","Dr\Search\SearchController@mainAction")->name("Drsearch.mainAction");
+                    Route::get("/DrSearch/sleepAction","Dr\Search\SearchController@sleepAction")->name("Drsearch.sleepAction");
+                    Route::get("/DrSearch/SearchAIAction","Dr\Search\SearchController@searchAI")->name("DrSearch.AI");
+                    
+                    
+                    
+                    Route::get('/Dr', 'Dr\Main\MainController@index')->name('mainmainDr');
+                    Route::get('/Drmain/{year?}/{month?}/{day?}/{action?}', 'Dr\Main\MainController@index')->name('Drmain');
             /*
              * Routy dla userów z rolą partner
              */
             Route::group(
                 ['middleware' => ['role:user']],
                 function () {
-
+                    
                 });
     }
     );

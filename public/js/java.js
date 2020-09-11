@@ -122,8 +122,8 @@ function switchVisibleMoodShow(bool = 0) {
     }
     
 }
-var arraySetting = ["settingAction","levelMood","changeNameAction","changeDateAction"];
-var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4"];
+var arraySetting = ["settingAction","levelMood","changeNameAction","changeDateAction","addHashDr"];
+var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5"];
 function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
     for (i=0;i < arraySetting.length;i++) {
         if (id == arraySetting[i]) {

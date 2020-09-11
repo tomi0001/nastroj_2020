@@ -117,7 +117,7 @@ class Search {
         return $hour . " Godzin";
         
     }
-    public function createQuestion(Request $request) {
+    public function createQuestion(Request $request,$id) {
         $this->question =  AppMood::query();
         $this->setDate($request);
         $this->setTime($request);
@@ -160,7 +160,7 @@ class Search {
         else {
             $this->setWhereMoods($request);
             $this->setLongMoods($request);
-            $this->setIdUsers();
+            $this->setIdUsers($id);
             $this->whereEpizodes($request);
             if ($request->get("descriptions") != null and count($request->get("descriptions")) > 0) {
                 $this->setWhatWork($request);
@@ -185,7 +185,7 @@ class Search {
     }
     
     
-    public function createQuestionForSleep(Request $request) {
+    public function createQuestionForSleep(Request $request,$id) {
         $this->question =  Sleep::query();
         $this->setDateSleep($request);
         $this->setTimeSleep($request);
@@ -205,7 +205,7 @@ class Search {
         $this->question->selectRaw("id as id");
 
         $this->setLongSleep($request);
-        $this->setIdUsersSleep();
+        $this->setIdUsersSleep($id);
         $this->whereWakeUp($request);
 
  
@@ -215,11 +215,11 @@ class Search {
     }
     
     
-    private function setIdUsers() {
-        $this->question->where("moods.id_users",Auth::User()->id);
+    private function setIdUsers($id) {
+        $this->question->where("moods.id_users",$id);
     }
-    private function setIdUsersSleep() {
-        $this->question->where("id_users",Auth::User()->id);
+    private function setIdUsersSleep($id) {
+        $this->question->where("id_users",$id);
     }
     private function setSort(Request $request) {
         switch ($request->get("sort")) {

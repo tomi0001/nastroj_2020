@@ -52,7 +52,9 @@ function addDrugs(url = null,i = null,id = null) {
         $("#hash").val(string);
         
     }
-
+function addHash(url) {
+    $("#updateHash").load(url + "?" + $("form").serialize());
+}
 function offHour() {
     //alert("dobrze");
     if($("#dayFor").is(':checked'))

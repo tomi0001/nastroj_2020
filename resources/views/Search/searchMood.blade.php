@@ -128,17 +128,17 @@
                             <br>
                             
                             @if ($list[$i]->what_work != "")
-                            <button onclick="showDescription('{{route('mood.showDescription')}}',{{$list[$i]->id}},{{$i}})" class='btn btn-primary'>Co robiłeś</button>
+                            <button onclick="showDescription('{{route('mood.showDescription')}}',{{$list[$i]->id}},{{$i}})" class='btn btn-primary btn-lg'>Co robiłeś</button>
                             @else
-                            <button class='btn btn-danger' disabled>Nic nie robiłeś</button>
+                            <button class='btn btn-danger btn-lg' disabled>Nic nie robiłeś</button>
                             @endif
                         </td>
                         <td>
                             <br>
                              @if ($list[$i]->id_actions != "")
-                            <button onclick="showAction('{{route('action.show')}}',{{$i}},{{$list[$i]->id}})" class='btn btn-primary'>pokaż akcje</button>
+                            <button onclick="showAction('{{route('action.show')}}',{{$i}},{{$list[$i]->id}})" class='btn btn-primary btn-lg'>pokaż akcje</button>
                             @else
-                            <button class='btn btn-danger' disabled>Nie było akcji</button>
+                            <button class='btn btn-danger btn-lg' disabled>Nie było akcji</button>
                             @endif
                         
                         </td>
@@ -146,7 +146,7 @@
                         <td>
                             <br>
              
-                           <a href='{{route('main')}}/{{$list[$i]->year}}/{{$list[$i]->month}}/{{$list[$i]->day}}#id_{{$list[$i]->id}}'><button class='btn btn-primary'>Idź do dnia</button></a>
+                           <a href='{{route('main')}}/{{$list[$i]->year}}/{{$list[$i]->month}}/{{$list[$i]->day}}#id_{{$list[$i]->id}}'><button class='btn btn-primary btn-lg'>Idź do dnia</button></a>
 
                         </td>
                     </tr>

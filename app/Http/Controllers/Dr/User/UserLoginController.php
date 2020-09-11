@@ -19,7 +19,7 @@ class UserLoginController extends Controller {
 
     public function loginDr(Request $request) {
         $User = array(
-            "login2" => $request->get("email"),
+            "login" => $request->get("email"),
             "password" => $request->get("password"),
             "if_true" => 1
             
@@ -38,7 +38,7 @@ class UserLoginController extends Controller {
             $bool = true;
         }
         if (Auth::attempt($User,$bool) ) {
-            return Redirect("/Main");
+            return Redirect()->route("mainmainDr");
         }
         else {
             return Redirect('/User/Login')->with('error','Nie prawidłowy login lub hasło');

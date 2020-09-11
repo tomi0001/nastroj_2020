@@ -287,7 +287,7 @@ class Mood {
         $array = $this->selectAverageMoods($listMood);
         return $array;
     }
-    public function downloadMood($year,$month,$day) {
+    public function downloadMood($year,$month,$day,$id) {
         $Moods = new AppMood;
         $this->initStartDay();
         $this->setHourMood($year,$month,$day);
@@ -308,7 +308,7 @@ class Mood {
                 ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_stimulation) as average_stimulation")
                 ->selectRaw("count(moods_actions.id_moods)  as name ")
                 ->selectRaw("moods.what_work  as what_work ")
-                ->where("moods.id_users",Auth::id())
+                ->where("moods.id_users",$id)
                 ->where("moods.date_start",">=",$this->dateStart)
                 ->where("moods.date_start","<",$this->dateEnd)
                 ->groupBy("moods.id")
@@ -358,12 +358,12 @@ class Mood {
         //}
         return $array;
     }
-    public function downloadSleep($year,$month,$day) {
+    public function downloadSleep($year,$month,$day,$id) {
         $Sleep = new Sleep;
         $this->setHourSleep($year,$month,$day);
 
         $this->listSleep = $Sleep
-                        ->where("id_users",Auth::id())
+                        ->where("id_users",$id)
                         ->where("date_start",">=",$this->dateStartHour)
                         ->where("date_start","<",$this->dateEndHour)
                         ->get();

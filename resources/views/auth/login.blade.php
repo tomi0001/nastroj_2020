@@ -45,7 +45,7 @@
         <tr>
             
             <td colspan="2">
-                <input type="submit" value="Zaloguj" class="btn btn-primary">
+                <input type="submit" value="Zaloguj" class="btn btn-primary btn-lg">
             </td>
         </tr>
         
@@ -103,7 +103,7 @@
         <tr>
             
             <td colspan="2">
-                <input type="submit" value="Zaloguj" class="btn btn-primary">
+                <input type="submit" value="Zaloguj" class="btn btn-primary btn-lg">
             </td>
         </tr>
         

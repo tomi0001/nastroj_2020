@@ -24,6 +24,75 @@ class User {
         $User->start_day = $request->get("start_day");
         $User->save();
     }
+    public function selectHash() {
+        $User = new User2;
+        $hash = $User->where("id_user",Auth::User()->id)->first();
+        return $hash;
+    }
+    public function updateHash(Request $request) {
+        $User2 = new User2;
+        $count = $User2->where("id_user",Auth::User()->id)->count();
+        if ($count == 0) {
+            $this->addHash($request);
+        }
+        else {
+            $this->updateHash2($request);
+        }
+    }
+    private function updateHash2(Request $request) {
+        $bool = 0;
+        if ($request->get("ifTrue") == "on") {
+            $bool = 1;
+        }
+        else {
+            $bool = 0;
+        }
+        if ($request->get("hash") == "") {
+            $User2 = new User2;
+            $User2->where("id_user",Auth::User()->id)->update(["login" => $request->get("login"),"if_true"=>$bool,"start_day" => Auth::User()->start_day]);
+        }
+        else {
+            $hash = Hash::make($request->get("hash"));
+            $User2 = new User2;
+            $User2->where("id_user",Auth::User()->id)->update(["login" => $request->get("login"),"if_true"=>$bool,"password" => $hash,"start_day" => Auth::User()->start_day]);
+        }
+    }
+    private function addHash(Request $request) {
+        $User2 = new User2;
+        $User2->id_user = Auth::User()->id;
+        $User2->login = $request->get("login");
+        $User2->start_day = Auth::User()->start_day;
+        $User2->email = " ";
+        $User2->type = "doctor";
+        if ($request->get("ifTrue") == "on") {
+            $User2->if_true = 1;
+        }
+        else {
+            $User2->if_true = 0;
+        }
+        $User2->password = Hash::make($request->get("hash"));
+        $User2->save();
+
+        
+    }
+    public function checkErrorHash(Request $request) {
+        if ($request->get("hash") != "" and strlen($request->get("hash")) != 10) {
+            array_push($this->errors,"Hash musi mieć 10 znaków długości");
+        }
+        if ($request->get("login") == "") {
+            array_push($this->errors,"Login nie może być pusty");
+        }
+        $User2 = new User2;
+        $count = $User2->where("login",$request->get("login"))->where("id_user","!=",Auth::User()->id)->count();
+        $count2 = $User2->where("id_user",Auth::User()->id)->count();
+        if ($count > 0) {
+            array_push($this->errors,"Już jest podany login wybierz inny");
+        }
+        if ($request->get("hash") == "" and $count2 == 0) {
+            array_push($this->errors,"Musisz uzupełnić hash");
+        }
+        
+    }
     public function selectActionPlans() {
         $Action = new Actions_plan;
         $list = $Action->selectRaw("LEFT(actions.name,15) as name")->selectRaw("actions_plans.created_at as created_at")->selectRaw("actions_plans.id as id")

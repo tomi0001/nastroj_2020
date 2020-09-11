@@ -84,7 +84,7 @@
                         <td>
                             <br>
              
-                           <a href='{{route('main')}}/{{$list[$i]->year}}/{{$list[$i]->month}}/{{$list[$i]->day}}#id_{{$list[$i]->id}}'><button class='btn btn-primary'>Idź do dnia</button></a>
+                           <a href='{{route('main')}}/{{$list[$i]->year}}/{{$list[$i]->month}}/{{$list[$i]->day}}#id_{{$list[$i]->id}}'><button class='btn btn-primary btn-lg'>Idź do dnia</button></a>
 
                         </td>
                       @if ($list[$i]["how_wake_up"] != null )
