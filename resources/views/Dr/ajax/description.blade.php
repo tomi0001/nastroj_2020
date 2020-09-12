@@ -1,1 +1,0 @@
-<div class="description center">{!!App\Http\Services\Common::charset_utf_fix($description)!!}</div>
