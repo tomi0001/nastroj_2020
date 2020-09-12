@@ -85,7 +85,7 @@ class MoodController extends Controller  {
     }
     public function AddDescription(Request $request) {
         if (Auth::User()->type == "user") {
-            $description = AppMood::showDescription($request->get("id"));
+            $description = AppMood::showDescription($request->get("id"),Auth::User()->id);
             return View("ajax.editDescription")->with("description",$description->what_work)->with("idMood",$request->get("id"));
         }
     }
