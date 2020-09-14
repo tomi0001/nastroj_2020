@@ -153,7 +153,7 @@ function searchAI(url) {
     
 var response;
 $.ajax({ type: "GET",   
-     url: url + "?" + $("form").serialize(),   
+     url: url + "?" + $("#form3").serialize(),   
      async: false,
      success : function(text)
      {
@@ -169,7 +169,7 @@ $.ajax({ type: "GET",
 function sumMood(url) {
     var response;
     $.ajax({ type: "GET",   
-         url: url + "?" + $("form").serialize(),   
+         url: url + "?" + $("#form4").serialize(),   
          async: false,
          success : function(text)
          {
