@@ -69,25 +69,29 @@ class SearchController extends Controller  {
         
             $AI->setTime($request->get("timeFrom"), $request->get("timeTo"));
             $AI->setDate($request->get("dateFrom"), $request->get("dateTo"));
-            
-            //print $AI->hourEnd;
+
             $list = $AI->selectDays($request->get("dateFrom"),
                    $request->get("dateTo"),$request->get("allDay"),$request->get("day"),Auth::User()->id,$request->get("sumDay"));
-            //print ("<pre>");
-            //print_r ($list);
-  //          print ("<pre>");
-            
-            //var_dump($list);
-            
-//print_r($list);
-            //$a = $AI->sortMood([0.1,1,0.1,1]);
-            //var_dump($a);
+
             return View("ajax.showAverage")->with("days",$AI->days)->with("list",$list)
                    ->with("day",$request->get("sumDay"))->with("harmonyMood",$AI->tableMood)->with("harmonyAnxiety",$AI->tableAnxiety)
                     ->with("harmonyNer",$AI->tableNer)->with("harmonyStimu",$AI->tableStimu)->with("hour","Godzina od " . $request->get("timeFrom") . " do "  .  $request->get("timeTo"))
                     ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
              
              
+        
+    }
+    
+    public function searchSumMood(Request $request) {
+        $Mood = new Search;
+        $sum = $Mood->sumMood($request,Auth::User()->id);
+        $sumPercent = $Mood->sumMoodPercent($request,Auth::User()->id);
+        if ($sumPercent->sum == 0) {
+            return View("ajax.error")->with("error",["Nie było żadnych nastroi"]);
+        }
+        else {
+            return View("ajax.SumMood")->with("hour",round($sum->sum,2))->with("percent",round(($sum->sum / $sumPercent->sum) * 100),2);
+        }
         
     }
     

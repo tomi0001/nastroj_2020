@@ -77,5 +77,17 @@ class SearchController extends Controller  {
              
         
     }
+    public function searchSumMood(Request $request) {
+        $Mood = new Search;
+        $sum = $Mood->sumMood($request,Auth::User()->id_user);
+        $sumPercent = $Mood->sumMoodPercent($request,Auth::User()->id_user);
+        if ($sumPercent->sum == 0) {
+            return View("ajax.error")->with("error",["Nie było żadnych nastroi"]);
+        }
+        else {
+            return View("ajax.SumMood")->with("hour",round($sum->sum,2))->with("percent",round(($sum->sum / $sumPercent->sum) * 100),2);
+        }
+        
+    }
     
 }

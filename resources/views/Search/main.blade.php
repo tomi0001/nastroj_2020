@@ -38,6 +38,7 @@
    @include ('Search.mainSearch')
    @include ('Search.SearchSleep')
    @include ('Search.averageMoods')
+   @include ('Search.howHourMood')
     
     
     

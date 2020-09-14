@@ -57,12 +57,14 @@ Route::group(
                     Route::get("/Search/mainAction","Search\SearchController@mainAction")->name("search.mainAction");
                     Route::get("/Search/sleepAction","Search\SearchController@sleepAction")->name("search.sleepAction");
                     Route::get("/Search/SearchAIAction","Search\SearchController@searchAI")->name("Search.AI");
+                    Route::get("/Search/SearchSumMood","Search\SearchController@searchSumMood")->name("Search.SumMood");
                     
                     
                     Route::get("/DrSearch/main","Dr\Search\SearchController@main")->name("DrSearch.main");
                     Route::get("/DrSearch/mainAction","Dr\Search\SearchController@mainAction")->name("Drsearch.mainAction");
                     Route::get("/DrSearch/sleepAction","Dr\Search\SearchController@sleepAction")->name("Drsearch.sleepAction");
                     Route::get("/DrSearch/SearchAIAction","Dr\Search\SearchController@searchAI")->name("DrSearch.AI");
+                    Route::get("/DrSearch/SearchSumMood","Dr\Search\SearchController@searchSumMood")->name("DrSearch.SumMood");
                     
                     
                     
@@ -87,7 +89,7 @@ Route::post('/loginSubmit', 'User\UserLoginController@store')->name('user.loginS
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 Route::get('/logout', 'Auth\LoginController@logout')->name("logout");
-
+Route::post("/login/user",'Auth\LoginController@loginDr')->name("userDr");
 
 Route::post('/loginDrSubmit', 'Dr\User\UserLoginController@loginDr')->name('userDr.loginSubmit');
 Route::get('/loginDr', 'Dr\User\UserLoginController@loginDrView')->name('userDr.login');

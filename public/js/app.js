@@ -177,7 +177,7 @@ function sumMood(url) {
          }
     });
     //$("#AI").load(url + "?" + $("form").serialize()).append();
-    $("#MoodSearch").prepend(response);
+    $("#SumMoodSearch").prepend(response);
 }
 function deleteWorld() {
     $(".t").remove();

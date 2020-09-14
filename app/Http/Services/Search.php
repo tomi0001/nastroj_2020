@@ -39,7 +39,56 @@ class Search {
             $this->i++;
         }
     }
- 
+    public function sumMoodPercent(Request $request,$id) {
+        $Mood =  AppMood::query();
+        $Mood->selectRaw("(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)) / 3600) as sum");
+        if ($request->get("dateFrom") != "") {
+            $Mood->where("date_start",">=",$request->get("dateFrom"));
+        }
+        if ($request->get("dateTo") != "") {
+            $Mood->where("date_end","<=",$request->get("dateTo"));
+        }
+        $Mood->where("id_users",$id);
+        $sum = $Mood->first();
+        return $sum;
+    }
+    public function sumMood(Request $request,$id) {
+        $Mood =  AppMood::query();
+        $Mood->selectRaw("(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)) / 3600) as sum");
+        if ($request->get("dateFrom") != "") {
+            $Mood->where("date_start",">=",$request->get("dateFrom"));
+        }
+        if ($request->get("dateTo") != "") {
+            $Mood->where("date_end","<=",$request->get("dateTo"));
+        }
+        if ($request->get("moodFrom") != "") {
+            $Mood->where("level_mood",">=",$request->get("moodFrom"));
+        }
+        if ($request->get("moodTo") != "") {
+            $Mood->where("level_mood","<=",$request->get("moodTo"));
+        }
+        if ($request->get("anxietyFrom") != "") {
+            $Mood->where("level_anxiety",">=",$request->get("anxietyFrom"));
+        }
+        if ($request->get("anxietyTo") != "") {
+            $Mood->where("level_anxiety","<=",$request->get("anxietyTo"));
+        }
+        if ($request->get("voltageFrom") != "") {
+            $Mood->where("level_nervousness",">=",$request->get("voltageFrom"));
+        }
+        if ($request->get("voltageTo") != "") {
+            $Mood->where("level_nervousness","<=",$request->get("voltageTo"));
+        }
+        if ($request->get("stimulationFrom") != "") {
+            $Mood->where("level_stimulation",">=",$request->get("stimulationFrom"));
+        }
+        if ($request->get("stimulationTo") != "") {
+            $Mood->where("level_stimulation","<=",$request->get("stimulationTo"));
+        }
+        $Mood->where("id_users",$id);
+        $sum = $Mood->first();
+        return $sum;
+    }
     public function sortSleeps($listMoods,$bool = false) :bool {
         
         $arraySecond = [];

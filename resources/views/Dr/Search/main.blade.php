@@ -38,6 +38,7 @@
    @include ('Dr.Search.mainSearch')
    @include ('Dr.Search.SearchSleep')
    @include ('Dr.Search.averageMoods')
+   @include ('Dr.Search.howHourMood')
     
     
     
