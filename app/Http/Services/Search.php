@@ -62,25 +62,25 @@ class Search {
             $Mood->where("date_end","<=",$request->get("dateTo"));
         }
         if ($request->get("moodFrom") != "") {
-            $Mood->where("level_mood",">=",$request->get("moodFrom"));
+            $Mood->where("level_mood",">=",$request->get("moodFrom") - 0.0001);
         }
         if ($request->get("moodTo") != "") {
             $Mood->where("level_mood","<=",$request->get("moodTo") + 0.0001) ;
         }
         if ($request->get("anxietyFrom") != "") {
-            $Mood->where("level_anxiety",">=",$request->get("anxietyFrom"));
+            $Mood->where("level_anxiety",">=",$request->get("anxietyFrom") - 0.0001);
         }
         if ($request->get("anxietyTo") != "") {
             $Mood->where("level_anxiety","<=",$request->get("anxietyTo") + 0.0001) ;
         }
         if ($request->get("voltageFrom") != "") {
-            $Mood->where("level_nervousness",">=",$request->get("voltageFrom"));
+            $Mood->where("level_nervousness",">=",$request->get("voltageFrom") - 0.0001);
         }
         if ($request->get("voltageTo") != "") {
             $Mood->where("level_nervousness","<=",$request->get("voltageTo") + 0.0001) ;
         }
         if ($request->get("stimulationFrom") != "") {
-            $Mood->where("level_stimulation",">=",$request->get("stimulationFrom"));
+            $Mood->where("level_stimulation",">=",$request->get("stimulationFrom") - 0.0001);
         }
         if ($request->get("stimulationTo") != "") {
             $Mood->where("level_stimulation","<=",$request->get("stimulationTo") + 0.0001) ;
@@ -529,25 +529,25 @@ class Search {
     }
     private function setWhereMoods(Request $request) {
         if ($request->get("moodFrom") != "") {
-            $this->question->where("moods.level_mood", ">=" ,  $request->get("moodFrom")  );
+            $this->question->where("moods.level_mood", ">=" ,  $request->get("moodFrom") - 0.0001 );
         }
         if ($request->get("moodTo") != "") {
             $this->question->where("moods.level_mood", "<=" ,  $request->get("moodTo") + 0.0001 );
         }
         if ($request->get("anxietyFrom") != "") {
-            $this->question->where("moods.level_anxiety", ">=" ,  $request->get("anxietyFrom")  );
+            $this->question->where("moods.level_anxiety", ">=" ,  $request->get("anxietyFrom") - 0.0001 );
         }
         if ($request->get("anxietyTo") != "") {
             $this->question->where("moods.level_anxiety", "<=" ,  $request->get("anxietyTo")  + 0.0001);
         }
         if ($request->get("voltageFrom") != "") {
-            $this->question->where("moods.level_nervousness", ">=" ,  $request->get("voltageFrom")  );
+            $this->question->where("moods.level_nervousness", ">=" ,  $request->get("voltageFrom") - 0.0001 );
         }
         if ($request->get("voltageTo") != "") {
             $this->question->where("moods.level_nervousness", "<=" ,  $request->get("voltageTo")  + 0.0001);
         }
         if ($request->get("stimulationFrom") != "") {
-            $this->question->where("moods.level_stimulation", ">=" ,  $request->get("stimulationFrom")  );
+            $this->question->where("moods.level_stimulation", ">=" ,  $request->get("stimulationFrom") - 0.0001 );
         }
         if ($request->get("stimulationTo") != "") {
             $this->question->where("moods.level_stimulation", "<=" ,  $request->get("stimulationTo")  + 0.0001);
