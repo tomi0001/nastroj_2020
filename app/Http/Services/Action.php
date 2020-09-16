@@ -131,7 +131,7 @@ class Action {
                 $date1 = date("H:i:s",strtotime($date1) - (3600 * Auth::User()->start_day));
                 $date2 = date("H:i:s",strtotime($date2) - (3600 * Auth::User()->start_day));
                 if (strtotime($date1) >= strtotime($date2)) {
-                    array_push($this->errors,"Czas zakończenia jest mniejszy bądź równy czasu zaczęcia");
+                    //array_push($this->errors,"Czas zakończenia jest mniejszy bądź równy czasu zaczęcia");
                 }
                 else {
                     if ((strtotime($date2) - strtotime($date1)) < ($request->get("long") * 60)) {

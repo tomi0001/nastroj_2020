@@ -218,6 +218,12 @@ function loadActionDateChange(url) {
     else {
         $("#if_all_day").prop('checked',false);
     }
+    if (tags.date_start2 == 1) {
+       $("#disabled").prop("disabled", true);
+    }
+    else {
+        $("#disabled").prop("disabled", false);
+    }
     makeSelect(tags);
     
 })

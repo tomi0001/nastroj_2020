@@ -32,6 +32,7 @@ class Actions_plan extends Model
                 ->selectRaw("left(SUBSTRING_INDEX(actions_plans.date_end,' ',-1),5) as time_end")
                 ->selectRaw("DATEDIFF(actions_plans.date_end,actions_plans.date_start) as datediff")
                 ->selectRaw("actions_plans.long as longer")
+                ->selectRaw("actions_plans.date_start as start")
                 ->selectRaw("actions_plans.if_all_day as if_all_day")
                 ->selectRaw("actions_plans.id as id")
                 ->selectRaw("actions_plans.id_actions as id_actions")

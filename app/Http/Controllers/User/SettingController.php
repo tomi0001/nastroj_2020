@@ -84,11 +84,7 @@ class SettingController  extends Controller  {
             $actionArray2 = ActionApp::selectActionName();
             $array = [];
             $longer  =[];
-            //array_push($array,$actionArray);
-            //array_push($array,$actionArray);
-            //array_push($array,$actionArray);
-
-            //, json_decode(count($actionArray2))
+            $start = [];
             $array = array_merge(json_decode($actionArray,true),json_decode($actionArray2,true));
             $array2 = array_merge($array,array("count" => count($actionArray2)));
             if ($actionArray->longer == "") {
@@ -104,10 +100,16 @@ class SettingController  extends Controller  {
             else {
                 $longer["longer"] = round($actionArray->longer / $actionArray->datediff);
             }
+            if (strtoTime($actionArray->start) < strtoTime(date("Y-m-d H:i:s"))) {
+                $start["date_start2"] = 1;
+            }
+            else {
+                $start["date_start2"] = 0;
+            }
             $array3 = array_merge($array2,$longer);
-            print json_encode($array3, true);
+            $array4 = array_merge($array3,$start);
+            print json_encode($array4, true);
         }
-        //print json_encode($actionArray);
     }
     public function SettingaChangeActionName2(Request $request) {
         if ($request->get("actionName") == "") {

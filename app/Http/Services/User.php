@@ -95,8 +95,8 @@ class User {
     }
     public function selectActionPlans() {
         $Action = new Actions_plan;
-        $list = $Action->selectRaw("LEFT(actions.name,15) as name")->selectRaw("actions_plans.created_at as created_at")->selectRaw("actions_plans.id as id")
-                ->join("actions","actions.id","actions_plans.id_actions")->where("actions_plans.date_start",">",date("Y-m-d H:i:s"))->where("actions.id_users",Auth::User()->id)->orderBy("actions_plans.created_at","DESC")->get();
+        $list = $Action->selectRaw("LEFT(actions.name,15) as name")->selectRaw("actions_plans.created_at as created_at")->selectRaw("actions_plans.id as id")->selectRaw("actions_plans.date_start as date_start")
+                ->join("actions","actions.id","actions_plans.id_actions")->where("actions.id_users",Auth::User()->id)->orderBy("actions_plans.created_at","DESC")->get();
         return $list;
     }
     public function changeNameAction(Request $request) {
