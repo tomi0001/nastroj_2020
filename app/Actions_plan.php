@@ -21,9 +21,13 @@ class Actions_plan extends Model
     public static function checkTimeExist2($dateStart,$dateEnd,$idActions) {
         return Actions_plan::where("date_start","<=",$dateEnd)->where("date_end",">=",$dateStart)->where("id_users",Auth::User()->id)->where("id_actions",$idActions)->first();
     }
-    public static function checkTimeExist3($dateStart,$dateEnd,$idActions) {
+    public static function checkTimeExist3($dateStart,$dateEnd,$idActions,$hour,$timeFrom,$timeTo) {
+    
+
+            //$this->question->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) <= '$hourTo'");
+            //$this->question->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '$hourFrom'");   
         return Actions_plan::where("date_start","<=",$dateEnd)->where("date_end",">=",$dateStart)->where("id_actions",$idActions)
-                ->where("id_users",Auth::User()->id)->whereRaw("Time(date_start) <= Time('$dateEnd')")->whereRaw("Time(date_end) >= Time('$dateStart')")->first();
+                ->where("id_users",Auth::User()->id)->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) <= '$timeTo'")->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '$timeFrom'")->first();
     }
     public static function selectAction($id) {
         return Actions_plan::selectRaw("actions.name as name")->selectRaw("SUBSTRING_INDEX(actions_plans.date_start,' ',1) as date_start")

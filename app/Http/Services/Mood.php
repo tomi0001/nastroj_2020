@@ -183,6 +183,20 @@ class Mood {
         $Sleep->id_users = Auth::User()->id;
         $Sleep->save();
     }
+    private function sumHour($hour,$start) {
+        $sumHour = $hour[0] - $start;
+        if ($sumHour < 0) {
+            $sumHour = 24 + $sumHour;
+        }
+        if (strlen($sumHour) == 1) {
+            $sumHour = "0" .$sumHour;
+        }
+        if (strlen($hour[1]) == 1) {
+            $hour[1] = "0" . $hour[1];
+        }
+        
+        return $sumHour . ":" .  $hour[1] . ":00";
+    }
     private function calculatePerentingMoods(int $idAction,int $idMood) {
         $diff =  AppMood::differenceDate($idMood);
         
@@ -191,12 +205,18 @@ class Mood {
         //print "<pre>";
         //print_r($result2);
         //print "</pre>";
-        
+
         if (($result2) === null) {
             return null;
         }
         if ($result2->if_all_day != 0) {
-            $result2 = Actions_plan::checkTimeExist3($diff->date_start,$diff->date_end,$idAction);
+            $timeFrom2 = explode(" ",$diff->date_start);
+            $timeTo2 = explode(" ",$diff->date_end);
+            $timeFrom = explode(":",$timeFrom2[1]);
+            $timeTo = explode(":",$timeTo2[1]);
+            $hourFrom = $this->sumHour($timeFrom,Auth::User()->start_day);
+            $hourTo = $this->sumHour($timeTo,Auth::User()->start_day);
+            $result2 = Actions_plan::checkTimeExist3($diff->date_start,$diff->date_end,$idAction,Auth::User()->start_day,$hourFrom,$hourTo);
         }
         //print ("<pre>");
         //print_r ($result2);
