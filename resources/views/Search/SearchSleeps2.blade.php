@@ -5,7 +5,7 @@
 <br>
 <div class="searchaction">
     <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-dark titleThead">
         <tr>
             <th class="center" width="250px">
                 Data zaczęcia

@@ -21,27 +21,27 @@
 
 <table class="table" style="width: 95%; margin-left: auto;margin-right: auto;">
     <thead class="titleThead">
-        <td width="10%" class="center">
+        <th width="10%" class="center">
             Start
-        </td>
-        <td width="10%" class="center">
+        </th>
+        <th width="10%" class="center">
             Koniec
-        </td>
-        <td width="10%" class="center">
+        </th>
+        <th width="10%" class="center">
             Nastrój
-        </td>
-        <td width="10%" class="center">
+        </th>
+        <th width="10%" class="center">
             Lęk
-        </td>
-        <td width="10%" class="center">
+        </th>
+        <th width="10%" class="center">
            napięcie/rozdrażnienie
-        </td>
-        <td width="10%" class="center">
+        </th>
+        <th width="10%" class="center">
             Pobudzenie
-        </td>
-        <td width="15%" class="center">
+        </th>
+        <th width="15%" class="center">
             Epizdy Pychotyczne /<br> Ilośc wybudzeń
-        </td>
+        </th>
     </thead>
     @foreach ($listMood as $list)
         <tr class="idMood{{$i-1}}" id="id_{{$list["id"]}}">
