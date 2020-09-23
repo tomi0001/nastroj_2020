@@ -338,11 +338,11 @@ class Search {
                     
                     
                 }
-                else if ($request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] == "") {
+                else if ($request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] == "" and isset($request->get("actionsNumberTo")[$i]) and isset($request->get("actionsNumberFrom")[$i])  ) {
                     $percent = $request->get("actionsNumberFrom")[$i] * 10;
                     $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing >= '$percent')");
                 }
-                else if ($request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] != "") {
+                else if ($request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] != "" and isset($request->get("actionsNumberTo")[$i]) and isset($request->get("actionsNumberFrom")[$i]) ) {
                     $percent = $request->get("actionsNumberTo")[$i] * 10;
 
                     $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing <= '$percent')");
