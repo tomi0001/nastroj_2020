@@ -330,9 +330,13 @@ class Search {
     private function setWhatAction(Request $request) {
         $this->question->where(function ($query) use ($request) {
         for ($i=0;$i < count($request->get("actions") );$i++) {
-                if (isset($request->get("actions")[$i]) and $request->get("actions")[$i] != null and $request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] == "") {
-
-                    $query->orwhereRaw("actions.name like '%" . $request->get("actions")[$i]  . "%'");
+                if (isset($request->get("actions")[$i]) and $request->get("actions")[$i] != null and $request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] != "") {
+                    $percent = $request->get("actionsNumberFrom")[$i] * 10;
+                    $percent2 = $request->get("actionsNumberTo")[$i] * 10;
+                    $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%'  and moods_actions.percent_executing >= '$percent'  and moods_actions.percent_executing <= '$percent2')");
+                    
+                    
+                    
                 }
                 else if ($request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] == "") {
                     $percent = $request->get("actionsNumberFrom")[$i] * 10;
@@ -344,9 +348,7 @@ class Search {
                     $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing <= '$percent')");
                 }
                 else  {
-                    $percent = $request->get("actionsNumberFrom")[$i] * 10;
-                    $percent2 = $request->get("actionsNumberTo")[$i] * 10;
-                    $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%'  and moods_actions.percent_executing >= '$percent'  and moods_actions.percent_executing <= '$percent2')");
+                    $query->orwhereRaw("actions.name like '%" . $request->get("actions")[$i]  . "%'");
                 }
 
             }});
