@@ -196,8 +196,8 @@
                 ->appends(['longMoodToHour'=>Request::get("longMoodToHour")])
                 ->appends(['longMoodToMinutes'=>Request::get("longMoodToMinutes")])
                 ->appends(["actions" => Request::get("actions")])
-                ->appends(["actionsNumberFrom" => Request::get("actionsNumberFrom")]
-                ->appends(["actionsNumberTo" => Request::get("actionsNumberTo")]
+                ->appends(["actionsNumberFrom" => Request::get("actionsNumberFrom")])
+                ->appends(["actionsNumberTo" => Request::get("actionsNumberTo")])
                 ->appends(["descriptions" => Request::get("descriptions")])
                 ->appends(['epizodesFrom'=>Request::get("epizodesFrom")])
                 ->appends(['epizodesTo'=>Request::get("epizodesTo")])
