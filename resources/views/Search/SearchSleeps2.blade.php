@@ -139,6 +139,7 @@
                 ->appends(['longMoodFromMinutes'=>Request::get("longMoodFromMinutes")])
                 ->appends(['longMoodToHour'=>Request::get("longMoodToHour")])
                 ->appends(['longMoodToMinutes'=>Request::get("longMoodToMinutes")])
+                ->appends(['wakeUpFrom'=>Request::get("wakeUpFrom")])
                 ->appends(['wakeUpTo'=>Request::get("wakeUpTo")])
                 ->links();
                 @endphp
