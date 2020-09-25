@@ -11,9 +11,11 @@
         <script src="{{ asset('./js/app.js')}}"></script>
 
         <link href="{{ asset('./css/app.css') }}" rel="stylesheet"> 
+        <script data-ad-client="ca-pub-9009102811248163" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     </head>
     <body>
-<script data-ad-client="ca-pub-9009102811248163" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+
 
         <div id='body_register'>
             
