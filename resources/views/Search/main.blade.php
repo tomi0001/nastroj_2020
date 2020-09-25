@@ -4,7 +4,7 @@
 @section ('title') 
  Wyszukaj
 @endsection
-
+<script data-ad-client="ca-pub-9009102811248163" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <div class='setting'>
    
         <table class="table login">

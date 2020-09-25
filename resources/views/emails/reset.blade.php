@@ -1,0 +1,1 @@
+Kliknij w poniższy link w celu resetowania hasła 

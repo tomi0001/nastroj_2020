@@ -66,7 +66,7 @@ Route::group(
                     Route::get("/DrSearch/SearchAIAction","Dr\Search\SearchController@searchAI")->name("DrSearch.AI");
                     Route::get("/DrSearch/SearchSumMood","Dr\Search\SearchController@searchSumMood")->name("DrSearch.SumMood");
                     
-                    
+                    //Route::get("/sada",'Main\MainController@ss')->name("DrSearch.SumMoodss");
                     
                     Route::get('/Dr', 'Dr\Main\MainController@index')->name('mainmainDr');
                     Route::get('/Drmain/{year?}/{month?}/{day?}/{action?}', 'Dr\Main\MainController@index')->name('Drmain');
