@@ -46,6 +46,10 @@ class Actions_plan extends Model
     public static function checkNameIfExist($idActionPlan,$idAction) {
         return Actions_plan::where("id_actions",$idAction)->where("id",$idActionPlan)->first();
     }
-  
+    public static function setAllDay($id) {
+        return Actions_plan::select("if_all_day")
+                ->selectRaw("DATEDIFF(actions_plans.date_end,actions_plans.date_start)    as datediff")
+                ->where("id_actions",$id)->first();
+    }
 }
 

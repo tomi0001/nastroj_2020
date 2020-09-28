@@ -32,6 +32,7 @@ class Action {
                 ->selectRaw("actions.name as name")
                 ->selectRaw("moods_actions.percent_executing as percent_executing")
                 ->selectRaw("actions.level_pleasure as level_pleasure")
+                ->selectRaw("actions.id as id")
                 ->where("moods_actions.id_moods",$request->get("id"))
                 ->where("actions.id_users",$id)
                 ->get();
@@ -124,6 +125,9 @@ class Action {
             if ($bool == 4 and strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00") >= strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00")) {
                 
                array_push($this->errors,"Godzina zaczęcia jest wieksza bądź równa godzinie skończenia");
+            }
+            if (((strtotime($request->get("dateEnd")) - strtotime($request->get("dateStart"))) / 84600) <= 1  and $request->get("allDay") == "on") {
+                array_push($this->errors,"Nie możesz zaznaczyć opcji dla wielu dni w takim krótkim przedziale czasowym");
             }
             //if ($request->get("allDay") == "on") {
                 $date1 = "1970-01-01 " . $request->get("timeStart");
