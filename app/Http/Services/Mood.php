@@ -183,7 +183,7 @@ class Mood {
         $Sleep->id_users = Auth::User()->id;
         $Sleep->save();
     }
-    private function sumHour($hour,$start) {
+    private function sumHour($hour,$start,$bool = false) {
         $sumHour = $hour[0] - $start;
         if ($sumHour < 0) {
             $sumHour = 24 + $sumHour;
@@ -194,14 +194,24 @@ class Mood {
         if (strlen($hour[1]) == 1) {
             $hour[1] = "0" . $hour[1];
         }
-        
+        if ($bool == true) {
+            return $sumHour . ":" .  $hour[1] - 1 . ":59";
+        }
         return $sumHour . ":" .  $hour[1] . ":00";
     }
     private function calculatePerentingMoods(int $idAction,int $idMood) {
         $diff =  AppMood::differenceDate($idMood);
+        $timeFrom2 = explode(" ",$diff->date_start);
+        $timeTo2 = explode(" ",$diff->date_end);
+        
+            $timeFrom = explode(":",$timeFrom2[1]);
+            $timeTo = explode(":",$timeTo2[1]);
+            $hourFrom = $this->sumHour($timeFrom,Auth::User()->start_day);
+            $hourTo = $this->sumHour($timeTo,Auth::User()->start_day);
+        
         
         //return $diff->diff;
-        $result2 = Actions_plan::checkTimeExist2($diff->date_start,$diff->date_end,$idAction);
+        $result2 = Actions_plan::checkTimeExist2($diff->date_start,$diff->date_end,$idAction,Auth::User()->start_day,$hourFrom,$hourTo);
         //print "<pre>";
         //print_r($result2);
         //print "</pre>";
@@ -210,12 +220,7 @@ class Mood {
             return null;
         }
         if ($result2->if_all_day != 0) {
-            $timeFrom2 = explode(" ",$diff->date_start);
-            $timeTo2 = explode(" ",$diff->date_end);
-            $timeFrom = explode(":",$timeFrom2[1]);
-            $timeTo = explode(":",$timeTo2[1]);
-            $hourFrom = $this->sumHour($timeFrom,Auth::User()->start_day);
-            $hourTo = $this->sumHour($timeTo,Auth::User()->start_day);
+           
             $result2 = Actions_plan::checkTimeExist3($diff->date_start,$diff->date_end,$idAction,Auth::User()->start_day,$hourFrom,$hourTo);
         }
         //print ("<pre>");
@@ -241,13 +246,14 @@ class Mood {
             $date2 = "1970-01-01 " . $difff2[1];
             //różnica w akcjach
             $division4 = (strtotime($date2) - strtotime($date1)) + $second;
+            print $division4;
             //akcje
             $division2 = (strtotime($result2->date_end) - strtotime($result2->date_start));
             //nastroje
             $division3 = (strtotime($diff->date_end) - strtotime($diff->date_start));
             
             $day = round($division2) / 86400;
-            $division5 = ($division4 * $day) - $division2 ;
+            $division5 = ($division4 * $day) - $division2;
             
             $percent = ((($division5 )) /60 );
             //$hour = Auth::User()->start_day * 3600;

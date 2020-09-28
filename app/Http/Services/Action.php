@@ -148,13 +148,13 @@ class Action {
             else if ((strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00") - strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00")) <  ($request->get("long") * 60)) {
                 array_push($this->errors,"Ilośc minut w długośc trwania akcji jest większa od przedziału datowego");
             }
-            
+            */
             /*
             if (!empty(Actions_plan::checkTimeExist($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00"))) {
                 array_push($this->errors,"Godziny Akcji  nachodza na inne akcje");
             }
-             * 
              */
+             
         }
         else {
             if ($bool == 4 and strtotime($request->get("dateStart") . " " . "00:00:00") >= strtotime($request->get("dateEnd") . " " .  "00:00:00")) {        
@@ -164,7 +164,7 @@ class Action {
                 array_push($this->errors,"Ilośc s minut w długośc trwania akcji jest większa od przedziału datowego");
             }
             if ($request->get("allDay") == "on") {
-                array_push($this->errors,"Musiz uzupełnić czas wzięcia");
+                //array_push($this->errors,"Musiz uzupełnić czas wzięcia");
             }
         }
         //else {
@@ -277,7 +277,12 @@ class Action {
                 }
                 else if ($request->get("timeStart") == "") {
                     $Actions_plan->date_start = $request->get("dateStart")  .  " ". Auth::User()->start_day . ":00:00";
-                    $Actions_plan->date_end = $request->get("dateEnd") . " ".  Auth::User()->start_day . ":00:00";
+                    if (Auth::User()->start_day == 0) {
+                        $Actions_plan->date_end = $request->get("dateEnd") . " ".  "23:59:00";
+                    }
+                    else {
+                        $Actions_plan->date_end = $request->get("dateEnd") . " ".  ((int) (Auth::User()->start_day) - 1) . ":59:00";
+                    }
                 }
                 if ($request->get("allDay") == "on") {
 

@@ -18,8 +18,9 @@ class Actions_plan extends Model
     public static function checkTimeExistAction($dateStart,$dateEnd,$id) {
         return Actions_plan::where("date_start","<=",$dateEnd)->where("date_end",">=",$dateStart)->where("id_users",Auth::User()->id)->where("id_actions",$id)->first();
     }
-    public static function checkTimeExist2($dateStart,$dateEnd,$idActions) {
-        return Actions_plan::where("date_start","<=",$dateEnd)->where("date_end",">=",$dateStart)->where("id_users",Auth::User()->id)->where("id_actions",$idActions)->first();
+    public static function checkTimeExist2($dateStart,$dateEnd,$idActions,$hour,$timeFrom,$timeTo) {
+        return Actions_plan::where("date_start","<=",$dateEnd)->where("date_end",">=",$dateStart)->where("id_users",Auth::User()->id)->where("id_actions",$idActions)
+                ->whereRaw("(time(date_add(date_start,INTERVAL - $hour hour))) <= '$timeTo'")->whereRaw("(time(date_add(date_end,INTERVAL - $hour hour))) >= '$timeFrom'")->first();
     }
     public static function checkTimeExist3($dateStart,$dateEnd,$idActions,$hour,$timeFrom,$timeTo) {
     
