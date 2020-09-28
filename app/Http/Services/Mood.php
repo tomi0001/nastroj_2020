@@ -194,9 +194,6 @@ class Mood {
         if (strlen($hour[1]) == 1) {
             $hour[1] = "0" . $hour[1];
         }
-        if ($bool == true) {
-            return $sumHour . ":" .  $hour[1] - 1 . ":59";
-        }
         return $sumHour . ":" .  $hour[1] . ":00";
     }
     private function calculatePerentingMoods(int $idAction,int $idMood) {
