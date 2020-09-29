@@ -335,11 +335,11 @@ class Search {
                     $percent2 = $request->get("actionsNumberTo")[$i] * 100;
                     $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%'  and moods_actions.percent_executing >= '$percent'  and moods_actions.percent_executing <= '$percent2')");
                 }
-                else if (  isset($request->get("actionsNumberTo")[$i]) and isset($request->get("actionsNumberFrom")[$i])  and  $request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] == ""  ) {
+                else if (  isset($request->get("actionsNumberTo")[$i])   and  $request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] == ""  ) {
                     $percent = $request->get("actionsNumberFrom")[$i] * 100;
                     $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing >= '$percent')");
                 }
-                else if (  isset($request->get("actionsNumberTo")[$i]) and isset($request->get("actionsNumberFrom")[$i])  and $request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] != "" ) {
+                else if (  isset($request->get("actionsNumberTo")[$i])  and $request->get("actionsNumberFrom")[$i] == "" and $request->get("actionsNumberTo")[$i] != "" ) {
                     $percent = $request->get("actionsNumberTo")[$i] * 100;
 
                     $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing <= '$percent')");
