@@ -333,6 +333,7 @@ class Search {
                 if (isset($request->get("actions")[$i]) and $request->get("actions")[$i] != null and isset($request->get("actionsNumberFrom")[$i]) and $request->get("actionsNumberFrom")[$i] != "" and   isset($request->get("actionsNumberTo")[$i]) and $request->get("actionsNumberTo")[$i] != "") {
                     $percent = $request->get("actionsNumberFrom")[$i] * 100;
                     $percent2 = $request->get("actionsNumberTo")[$i] * 100;
+                    
                     $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%'  and moods_actions.percent_executing >= '$percent'  and moods_actions.percent_executing <= '$percent2')");
                 }
                 else if (  isset($request->get("actionsNumberTo")[$i])   and  $request->get("actionsNumberFrom")[$i] != "" and $request->get("actionsNumberTo")[$i] == ""  ) {

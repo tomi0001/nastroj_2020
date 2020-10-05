@@ -7,13 +7,18 @@
                 Wybierz akcje
             </td>
             <td colspan="3">
-                <select name="actionNameDate" class="form-control" onchange="loadActionDateChange('{{ route("user.changeActionDateName")}}')">
+                <select name="actionNameDate" class="form-control" onchange="loadActionDateChange('{{ route("user.changeActionDateName")}}','{{ route("user.deleteActionPlans")}}')">
                     <option value='' selected></option>
                     @foreach ($actionDate as $list)
                         <option value="{{$list->id}}" >{{$list->name}} -  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$list->created_at}}</option>
-                        
+                        @php
+                            $tmp = $list->id;
+                        @endphp
                     @endforeach
                 </select>
+                
+                    <a id='link'><input type="button" id="disabled2"  value="Usuń akcję" class="btn btn-danger"></a>
+                
                
             </td>
         <tr>
@@ -84,7 +89,7 @@
             <td colspan='4' class='center'>
               
                     <input type="button" id="disabled" onclick="changeNameDateAction('{{ route('user.changeActionDateName2')}}')" value='Zmień datę' class='btn btn-primary'>
-              
+                    
                 
                 
             </td>

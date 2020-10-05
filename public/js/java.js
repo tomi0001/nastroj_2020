@@ -192,7 +192,7 @@ function loadActionChange(url) {
     $("#changeNameActionForm").load(url + "?" + $("form").serialize());
 }
 
-function loadActionDateChange(url) {
+function loadActionDateChange(url,url2) {
     $.ajax({
     url : url,
         method : "get",
@@ -220,12 +220,18 @@ function loadActionDateChange(url) {
     }
     if (tags.date_start2 == 1) {
        $("#disabled").prop("disabled", true);
+       $("#disabled2").prop("disabled", true);
     }
     else {
         $("#disabled").prop("disabled", false);
+        $("#disabled2").prop("disabled", false);
     }
-    makeSelect(tags);
     
+
+    
+    makeSelect(tags);
+        var href=url2 + "?id=" +tags.id;
+$("#link").attr("href",href);
 })
 .fail(function() {
     $("#form3").html( "<div class='ajaxError'>Wystąpił błąd</div>" );

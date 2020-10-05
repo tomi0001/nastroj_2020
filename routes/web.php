@@ -43,7 +43,9 @@ Route::group(
                     Route::get('/User/SettingaChangeActionDateName', 'User\SettingController@SettingaChangeActionDateName')->name('user.changeActionDateName');
                     Route::get('/User/SettingaChangeActionDateName2', 'User\SettingController@SettingaChangeActionDateName2')->name('user.changeActionDateName2');
                     Route::get('/User/SettingupdateHash', 'User\SettingController@SettingupdateHash')->name('setting.updateHash');
-
+                    Route::get('/User/deleteActionPlans', 'User\SettingController@SettingdeleteActionPlans')->name('user.deleteActionPlans');
+                    
+                    
                     Route::get("/Mood/SleepDelete",'Mood\MoodController@SleepDelete')->name("sleep.delete");
                     Route::get("/Mood/SleepAdd",'Mood\MoodController@Sleepadd')->name("Sleep.Add");
                     Route::get("/Mood/SleepEdit",'Mood\MoodController@SleepEdit')->name("sleep.edit");
