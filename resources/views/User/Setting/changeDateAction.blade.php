@@ -11,13 +11,11 @@
                     <option value='' selected></option>
                     @foreach ($actionDate as $list)
                         <option value="{{$list->id}}" >{{$list->name}} -  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$list->created_at}}</option>
-                        @php
-                            $tmp = $list->id;
-                        @endphp
+                   
                     @endforeach
                 </select>
                 
-                    <a id='link'><input type="button" id="disabled2"  value="Usuń akcję" class="btn btn-danger"></a>
+                    <a id='link' onclick="return confirm('Czy na pewno usunąć?'); return false;"><input type="button" id="disabled2"  value="Usuń akcję" class="btn btn-danger"></a>
                 
                
             </td>
