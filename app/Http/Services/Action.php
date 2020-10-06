@@ -308,13 +308,17 @@ class Action {
              if ($request->get("allDay") == "on") {
 
                     if ($request->get("long") != "") {
-                        $Actions_plan->long = $request->get("long") * ($day + 1);
+                        $Actions_plan->long = $request->get("long");
+                    }
+                    else {
+                        $Actions_plan->long = 1440;
                     }
                     $Actions_plan->if_all_day  = 1;
                 }
                 else if ($request->get("long") != "" ) {
-                    $Actions_plan->long = $request->get("long") * ($day  +1);
+                    $Actions_plan->long = $request->get("long");
                 }
+               
                 $Actions_plan->save();
             }
         }

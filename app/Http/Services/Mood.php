@@ -229,6 +229,7 @@ class Mood {
         if (!empty($result2->long) ) {
             $percent = $result2->long;
         }
+        /*
         else if (!empty($result2->if_all_day) and $result2->if_all_day == 1) { 
             $second = 0;
             $difff  = explode(" ",$result2->date_start);
@@ -243,20 +244,22 @@ class Mood {
             $date2 = "1970-01-01 " . $difff2[1];
             //różnica w akcjach
             $division4 = (strtotime($date2) - strtotime($date1)) + $second;
-            print $division4;
+            //print $division4;
             //akcje
             $division2 = (strtotime($result2->date_end) - strtotime($result2->date_start));
             //nastroje
             $division3 = (strtotime($diff->date_end) - strtotime($diff->date_start));
             
             $day = round($division2) / 86400;
-            $division5 = ($division4 * $day) - $division2;
+            $division5 = ($division4) - $division2;
             
             $percent = ((($division5 )) /60 );
             //$hour = Auth::User()->start_day * 3600;
             
             
         }
+         * 
+         */
         else {
             if (isset($result2->date_end) and isset($result2->date_start)) {
                 $percent = (strtotime($result2->date_end) - strtotime($result2->date_start)) / 60;
@@ -266,7 +269,7 @@ class Mood {
             }
         }
        
-        $percent2 = ($diff->diff / $percent) * 10000;
+        $percent2 = ($diff->diff / $percent) * 100;
         //print $percent2;
         return $percent2;
         
