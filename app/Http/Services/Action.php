@@ -270,7 +270,7 @@ class Action {
        }
        $diff = common::diffDate($request->get("dateStart") , $request->get("dateEnd") );
        $Action->where("id",$request->get("actionNameDate"))->update(["id_actions" => $request->get("idAction")
-               ,"long" => $request->get("long") * $diff,"if_all_day" => $allDay,
+               ,"long" => $request->get("long"),"if_all_day" => $allDay,
            "date_start" => $request->get("dateStart") . " " . $request->get("timeStart") . ":00",
            "date_end" => $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00"]);
    }
