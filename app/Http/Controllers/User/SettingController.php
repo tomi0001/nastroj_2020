@@ -111,7 +111,7 @@ class SettingController  extends Controller  {
                     $longer["longer"] = $actionArray->longer;
                 }
                 else {
-                    $longer["longer"] = round($actionArray->longer / $actionArray->datediff);
+                    $longer["longer"] = round($actionArray->longer);
                 }
                 if (strtoTime($actionArray->start) < strtoTime(date("Y-m-d H:i:s"))) {
                     $start["date_start2"] = 1;
