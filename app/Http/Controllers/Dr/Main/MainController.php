@@ -21,7 +21,7 @@ use Auth;
 class MainController extends Controller  {
     
     public function index($year = "",$month  ="",$day = "",$action = "") {   
-       if (Auth::User()->type == "doctor") {
+       if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
         $Action = Action::selectAction(Auth::User()->id_user);
         $Mood = new Mood;
         $Calendar = new Calendar($year, $month, $day, $action);
@@ -76,6 +76,10 @@ class MainController extends Controller  {
                                 ->with("colorForDay",$Mood->colorDay)
                                 ->with("dayList",$Mood->DayList);
                                 //->with("listActionMood",$Action2->listActionMood);
+     }
+     else {
+         Auth::logout();
+         return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
      }
 
     }

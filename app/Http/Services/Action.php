@@ -305,7 +305,7 @@ class Action {
             $date_end = $request->get("dateEnd") . " " . ((int) (Auth::User()->start_day) - 1) . ":59:00";
             $day = round((strtotime($date_end) - strtotime($date_start))/(60*60*24));
             }
-             if ($request->get("allDay") == "on") {
+                if ($request->get("allDay") == "on") {
 
                     if ($request->get("long") != "") {
                         $Actions_plan->long = $request->get("long");

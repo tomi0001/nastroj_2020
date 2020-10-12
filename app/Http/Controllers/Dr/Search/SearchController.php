@@ -24,26 +24,38 @@ use Auth;
 class SearchController extends Controller  {
 
     public function main() {
-        return View("Dr.Search.main");
+        if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
+            return View("Dr.Search.main");
+        }
+        else {
+         Auth::logout();
+         return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
+     }
     }
     
     public function sleepAction(Request $request) {
-        $Search  = new Search;
-        $Search->checkErrorSleep($request);
-        if (count($Search->errors) > 0) {
-            return Redirect::back()->with("errors",$Search->errors)->withInput();
-        }
-        else {
-                 $list = $Search->createQuestionForSleep($request,Auth::User()->id_user);
-                 $lista = $Search->sortSleeps($list);
+        if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
+            $Search  = new Search;
+            $Search->checkErrorSleep($request);
+            if (count($Search->errors) > 0) {
+                return Redirect::back()->with("errors",$Search->errors)->withInput();
+            }
+            else {
+                     $list = $Search->createQuestionForSleep($request,Auth::User()->id_user);
+                     $lista = $Search->sortSleeps($list);
 
 
-                 return View("Dr.Search.SearchSleeps2")->with("list",$list)->with("lista",$Search->arrayList)->with("percent",$Search->listPercent);
+                     return View("Dr.Search.SearchSleeps2")->with("list",$list)->with("lista",$Search->arrayList)->with("percent",$Search->listPercent);
+            }
         }
-                
+       else {
+         Auth::logout();
+         return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
+     }
     }
     
     public function mainAction(Request $request) {
+      if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
         $Search  = new Search;
         $Search->checkErrorMood($request);
         if (count($Search->errors) > 0) {
@@ -55,11 +67,16 @@ class SearchController extends Controller  {
 
                  return View("Dr.Search.searchMood")->with("list",$list)->with("lista",$Search->arrayList)->with("percent",$Search->listPercent);
         }
-
+      }
+      else {
+         Auth::logout();
+         return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
+     }
    
     }
     
     public function searchAI(Request $request) {
+      if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
         $AI = new AI;
 
         
@@ -74,10 +91,15 @@ class SearchController extends Controller  {
                     ->with("harmonyNer",$AI->tableNer)->with("harmonyStimu",$AI->tableStimu)->with("hour","Godzina od " . $request->get("timeFrom") . " do "  .  $request->get("timeTo"))
             ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
              
-             
+      }
+      else {
+         Auth::logout();
+         return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
+     }
         
     }
     public function searchSumMood(Request $request) {
+      if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
         $Mood = new Search;
         $sum = $Mood->sumMood($request,Auth::User()->id_user);
         $sumPercent = $Mood->sumMoodPercent($request,Auth::User()->id_user);
@@ -87,7 +109,11 @@ class SearchController extends Controller  {
         else {
             return View("ajax.SumMood")->with("hour",round($sum->sum,2))->with("percent",round(($sum->sum / $sumPercent->sum) * 100),2);
         }
-        
+      }  
+     else {
+         Auth::logout();
+         return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
+     }
     }
-    
+   
 }

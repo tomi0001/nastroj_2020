@@ -27,25 +27,40 @@ class MoodController extends Controller  {
 
 
     public function ShowDescription(Request $request) {
-        $description = (AppMood::showDescription(($request->get("id")),Auth::User()->id_user));
-        return View("ajax.description")->with("description",$description->what_work);
+        if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
+            $description = (AppMood::showDescription(($request->get("id")),Auth::User()->id_user));
+            return View("ajax.description")->with("description",$description->what_work);
+        }
+       else {
+         Auth::logout();
+         return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
+     }
     }
 
     
     public function ActionShow(Request $request) {
-        
+      if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {  
         $Action = new Action;
         $list = $Action->showListActionMood($request,Auth::User()->id_user);
         return View("ajax.ActionShow")->with("list",$list);
-        
+      }
          
-        
+     else {
+         Auth::logout();
+         return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
+     }   
     }
     
     public function changeMinutes($minutes) {
-        $User = new ServiceUser;
-        $User->setMinutes($minutes);
-        return Redirect::back()->with("setAction",true);
+        if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
+            $User = new ServiceUser;
+            $User->setMinutes($minutes);
+            return Redirect::back()->with("setAction",true);
+        }
+       else {
+         Auth::logout();
+         return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
+     }
     }
     
     

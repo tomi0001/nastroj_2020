@@ -25,7 +25,7 @@ class UserLoginController extends Controller {
             
         );
         if ( $request->get('password') == "" ) {
-            return Redirect()->route("userDr")->with('errors2','Uzupełnij pole login i hasło');
+            return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
         }
         /*
         else if (Auth::User()->if_true != 0) {
@@ -41,8 +41,8 @@ class UserLoginController extends Controller {
             return Redirect()->route("mainmainDr");
         }
         else {
-            return Redirect()->route("userDr")->with('errors2','Nie prawidłowy login lub hasło');
+            return View("auth.login")->with('errors2',['Nie prawidłowy login lub hasło']);
         }
     }
-     
+  
 }

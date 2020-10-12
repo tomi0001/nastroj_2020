@@ -110,11 +110,15 @@
     </table>
     </form>
     <div id="error">
-        @if (!empty(session('errors2')))
-        @foreach ($errors2->all() as $error)
-        {{$error}}<br>
+        
+        @if (!empty($errors2))
+        
+        @foreach ($errors2 as $error2)
+        
+        {{$error2}}<br>
        @endforeach
        @endif
+       
     </div>
 </div>
 @endsection
