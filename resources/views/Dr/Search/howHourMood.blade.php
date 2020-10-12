@@ -1,5 +1,5 @@
 <div id='howHourMood' style='display: none;'>
-    <form method="get">
+    <form method="get" id="form4">
         <table class="table" style="width: 70%; margin-left: auto;margin-right: auto;">
             <tr>
                 <td>

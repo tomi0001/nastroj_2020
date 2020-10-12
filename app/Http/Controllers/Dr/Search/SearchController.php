@@ -79,7 +79,7 @@ class SearchController extends Controller  {
       if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
         $AI = new AI;
 
-        
+        print "jakiś";
         
             $AI->setTime($request->get("timeFrom"), $request->get("timeTo"));
             $AI->setDate($request->get("dateFrom"), $request->get("dateTo"));

@@ -6,7 +6,7 @@
 
 
 <div id='averageMoods' style='display: none;'>
-    <form method="get">
+    <form method="get" id="form3">
         <table class="table">
             <tr>
                 <td class="center">
