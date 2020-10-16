@@ -352,6 +352,20 @@ class Action {
                                               )
                                         ->get();
     }
+    
+    private function sumHour($hour,$start,$bool = false) {
+        $sumHour = $hour[0] - $start;
+        if ($sumHour < 0) {
+            $sumHour = 24 + $sumHour;
+        }
+        if (strlen($sumHour) == 1) {
+            $sumHour = "0" .$sumHour;
+        }
+        if (strlen($hour[1]) == 1) {
+            $hour[1] = "0" . $hour[1];
+        }
+        return $sumHour . ":" .  $hour[1] . ":00";
+    }
     public function separateShare($year,$month,$day) {
         $this->initStartDay();
         $this->setHourMood($year,$month,$day);
@@ -397,12 +411,23 @@ class Action {
                         else {
                             $array[$z]["date_end"] = date("H:i",($i + $second));
                         }
- 
+                                $timeFrom2 = explode(" ",$list->date_start);
+                    $timeTo2 = explode(" ",$list->date_end);
+
+                        $timeFrom = explode(":",$timeFrom2[1]);
+                        $timeTo = explode(":",$timeTo2[1]);
+                        $hourFrom = $this->sumHour($timeFrom,Auth::User()->start_day);
+                        $hourTo = $this->sumHour($timeTo,Auth::User()->start_day);
+                        
+
+            
                         $arrayAction = ActionApp::selectActions($list->id_actions);
+                        $percentAction = Moods_action::selectPercent($list->id_actions,date("Y-m-d H:i:s",($i)),date("Y-m-d H:i:s",(($i + $second))),Auth::User()->start_day,$hourFrom,$hourTo);
                         $array[$z]["start"] = $list->date_start;
                         $array[$z]["end"] = $list->date_end;
                         $array[$z]["id"] = $list->id;
                         $array[$z]["name"] = $arrayAction->name;
+                        $array[$z]["percent"] = $percentAction->percent;
                         $array[$z]["level_pleasure"] = $this->setColorPleasure($arrayAction->level_pleasure);
                         
                         

@@ -29,8 +29,10 @@
        
          <div class='namePleasure level_pleasure_{{$listActionMood[$i]['level_pleasure']}}'>
              
-            <span class=" level_pleasure" > {{$listActionMood[$i]["name"]}}</span>
-             
+             <span class=" level_pleasure" > {{$listActionMood[$i]["name"]}}</span> <br>
+             @if ($listActionMood[$i]["percent"] != "")
+             <span class=" level_pleasure bold" >Procent wykonania  {{$listActionMood[$i]["percent"]}} % </span>
+             @endif
         </div>
         <div class='blank'>
             &nbsp;
