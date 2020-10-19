@@ -68,7 +68,7 @@ Route::group(
                     Route::get("/DrSearch/SearchAIAction","Dr\Search\SearchController@searchAI")->name("DrSearch.AI");
                     Route::get("/DrSearch/SearchSumMood","Dr\Search\SearchController@searchSumMood")->name("DrSearch.SumMood");
                     
-                    //Route::get("/sada",'Main\MainController@ss')->name("DrSearch.SumMoodss");
+                    Route::get("/sada",'Main\MainController@ss')->name("DrSearch.SumMoodss");
                     
                     Route::get('/Dr', 'Dr\Main\MainController@index')->name('mainmainDr');
                     Route::get('/Drmain/{year?}/{month?}/{day?}/{action?}', 'Dr\Main\MainController@index')->name('Drmain');
@@ -82,8 +82,10 @@ Route::group(
                 });
     }
     );
-
-
+Route::post("passwordResetConfirm2","User\SettingController@passwordConfirm2")->name("User.resetPasswordConfirm2");    
+Route::get("passwordResetConfirm/{hash}","User\SettingController@passwordConfirm")->name("user.passwordConfirm");
+Route::get("passwordReset","User\SettingController@passwordReset")->name("user.passwordReset");
+Route::post("passwordResetSubmit","User\SettingController@passwordResetSubmit")->name("user.passwordResetSubmit");
 Route::get('/register', 'User\UserRegisterController@index')->name('user.index');
 Route::post('/registerSubmit', 'User\UserRegisterController@store')->name('user.registerSubmit');
 //Route::get('/login', 'User\UserLoginController@index')->name('user.login');

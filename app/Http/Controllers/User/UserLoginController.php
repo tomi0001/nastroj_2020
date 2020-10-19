@@ -22,5 +22,5 @@ class UserLoginController extends Controller {
         $this->middleware('auth');
 
     }
-     
+
 }

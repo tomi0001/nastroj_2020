@@ -19,7 +19,8 @@ use App\Http\Services\Common;
 use App\Action;
 use Auth;
 use App\Mail\OrderShipped;
-use Illuminate\Support\Facades\Mail;
+
+
 class MainController extends Controller  {
     
     public function index($year = "",$month  ="",$day = "",$action = "") {   
@@ -84,15 +85,20 @@ class MainController extends Controller  {
      }
     }
     public function ss() {
-        $data = array(
-      'email' => "tomi@www.d",
-      'subject' => 'Newsletter z Nook17.pl - Blog Webdeveloper',
-      'code' => 12,
-      );    
-        Mail::send('emails.reset', $data, function($message) use($data) {
-      $message->to('admin@nook17.pl');
-      $message->from('admin@nook17.pl');
-      $message->subject($data['subject']);
-    });
+        $uuid1 = Uuid::uuid4(); 
+        echo $uuid1 . "<br>" . strlen($uuid1);
+        /*
+      $data = array(
+        'email' => "tomi@www.d",
+        'subject' => 'Newsletter z Nook17.pl - Blog Webdeveloper',
+        'code' => 12,
+      );
+      Mail::send('emails.reset', $data, function($message) use($data) {
+            $message->to('admin@nook17.pl');
+            $message->from('admin@nook17.pl');
+            $message->subject($data['subject']);
+      });
+         * 
+         */
     }
 }

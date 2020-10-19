@@ -39,7 +39,7 @@
                 <input type="submit" value="Zaloguj" class="btn btn-primary">
             </td>
         </tr>
-        
+
     </table>
     </form>
     <div id="error">

@@ -13,7 +13,10 @@ use Auth;
 use App\User as User2;
 use App\Action;
 use App\Actions_plan;
+
 use App\Http\Services\Mood;
+use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Mail;
 class User {
     public $errors = [];
     public function saveUser(Request $request) {
@@ -226,5 +229,65 @@ class User {
         ]);
  
         
+    }
+    public function checkEmail(Request $request) {
+        $User = new User2;
+        $bool = $User->where("email",$request->get("email"))->first();
+        if (empty($bool)) {
+            array_push($this->errors,"Nie ma takiego adresu email");
+        }
+    }
+    public function sendMail(Request $request) {
+        $uuid1 = Uuid::uuid4(); 
+        $User = new User2;
+        $User->where("email",$request->get("email"))->update(["hash"=> $uuid1]);
+      $data = array(
+        'email' => "tomi@www.d",
+        'subject' => 'resetowanie hasła',
+        'link' => route("user.passwordConfirm",$uuid1),
+      );
+      Mail::send('emails.reset', $data, function($message) use($data,$request) {
+            $message->to($request->get("email"));
+            $message->from("tomi@www.d");
+            $message->subject($data['subject']);
+      });
+                
+       return true;
+    }
+    public function selectHashes($hash) {
+        $User = new User2;
+        $select = $User->where("hash",$hash)->first();
+        if (empty($select)) {
+            array_push($this->errors,"Nie można nadać nowego hasła");
+        }
+        else {
+            return $select;
+        }
+        
+    }
+    public function checkErrors(Request $request) {
+        $this->errors = Validator::make(
+            $request->all(),
+            ['password' => 'required',
+             'password' => 'min:6',
+             'password2' => 'required_with:password|same:password|min:6'
+        ]
+    
+        );
+                
+        if ($this->errors->fails()) {
+            
+            return false;
+        }
+        else {
+            $this->updatePassword($request);
+            return true;
+            
+            
+        }
+    }
+    private function updatePassword(Request $request) {
+        $User = new User2;
+        $User->where("hash",$request->get("hash"))->update(["password" => Hash::make($request->get("password")),"hash" => ""]);
     }
 }

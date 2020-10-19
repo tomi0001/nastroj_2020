@@ -1,1 +1,1 @@
-Kliknij w poniższy link w celu resetowania hasła 
+Kliknij w poniższy <a href="{{$link}}">link</a>  w celu resetowania hasła 

@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->tinyInteger('start_day')->default(0)->nullable();
             $table->smallInteger("minutes")->default(60)->nullable();
+            $table->char("hash",36)->nullable();
             $table->float('level_mood_10',6,2)->nullable();
             $table->float('level_mood_9',6,2)->nullable();
             $table->float('level_mood_8',6,2)->nullable();

@@ -158,4 +158,39 @@ class SettingController  extends Controller  {
             }
         }
     }
+    public function passwordReset()  {
+        return View("User.Login.resetPassword");
+        
+    }
+    public function passwordResetSubmit(Request $request) {
+        $User = new ServiceUser;
+        $User->checkEmail($request);
+        if (count($User->errors) != 0) {
+            return Redirect()->back()->with("errors",$User->errors);
+        }
+        else {
+            $User->sendMail($request);
+            return Redirect()->back()->with("succes","Link aktywacyjny został wysłany na adres email");
+        }
+    }
+    public function passwordConfirm($hash) {
+        $User = new ServiceUser;
+        $select = $User->selectHashes($hash);
+        if (count($User->errors) != 0) {
+            return View("emails.reset2")->with("errors",$User->errors);
+        }
+        else {
+            return View("emails.reset3")->with("hash",$hash);
+        }
+    }
+    public function passwordConfirm2(Request $request) {
+        $User = new ServiceUser;
+        $select = $User->checkErrors($request);
+        if ($select == false) {
+            return redirect()->back()->withInput()->withErrors($User->errors);
+        }
+        else {
+            return redirect()->route('login')->withSuccess("Rejestracja zakończona możesz się zalogować");
+        }
+    }
 }

@@ -48,7 +48,12 @@
                 <input type="submit" value="Zaloguj" class="btn btn-primary btn-lg">
             </td>
         </tr>
-        
+        <tr>
+            <td colspan="2">
+                <a href="{{ route("user.passwordReset")}}">Zapomniałem hasła</a>
+                
+            </td>
+        </tr>
     </table>
     </form>
     <div id="error">
