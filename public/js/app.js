@@ -139,6 +139,7 @@ function hideDiv(count) {
         $("#showFieldText"+i).hide();
         $("#showActions"+i).hide();
         $("#viewEditMood"+i).hide();
+        $("#showDrugs"+i).hide();
     }
 }
 function editDescription(url,id) {
@@ -228,6 +229,23 @@ function showDescription(url,id,i) {
         $("#showDescription"+i).load(url + "?id=" + id);
     
 }
+
+
+    function showDescriptionDrugs(i,url,id) {
+        //$("#show_description"+i)
+        //if (!$("#show_description"+i)) {
+        //alert("d");
+            $("#show_descriptionDrugs"+i).toggle();
+            $("#show_descriptionDrugs"+i).load(url + "?id=" + id);
+        //}
+        //else {
+          //  $("#show_description"+i).hide();
+        //}
+        
+        
+    }
+
+
 function deleteMood(url,id,i) {
     var con = confirm("Czy na pewno usunąć");
     

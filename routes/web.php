@@ -34,6 +34,20 @@ Route::group(
                     Route::get('/DrMood/ActionShow', 'Dr\Mood\MoodController@ActionShow')->name('Draction.show');
                     
                     
+                    Route::get("/Drugs/Add",'Drugs\DrugsController@add')->name("Drugs.Add");
+                    Route::get("/Drugs/loadPortion",'Drugs\DrugsController@loadPortion')->name("Drugs.loadTypePortion");
+                    Route::get("/Drugs/show",'Drugs\DrugsController@show')->name("Drugs.show");
+                    Route::get("/Drugs/sumAverage","Drugs\DrugsController@sumAverage")->name("Drugs.sumAverage");
+                    Route::get("/Drugs/sumAverage2","Drugs\DrugsController@sumAverage2")->name("Drugs.sumAverage2");
+                    Route::get("/Drugs/showDescription","Drugs\DrugsController@showDescriptionsAction")->name("Drugs.showDescription");
+                    Route::get("/Drugs/addDescription","Drugs\DrugsController@addDescriptionsAction")->name("Drugs.addDescriptions");
+                    Route::get("/Drugs/deleteDrugs","Drugs\DrugsController@deleteDrugs")->name("Drugs.deleteDrugs");
+                    Route::get("/Drugs/editDrugs","Drugs\DrugsController@EditDrugs")->name("Drugs.editDrugs");
+                    Route::get("/Drugs/updateDrugs","Drugs\DrugsController@updateRegistration")->name("Drugs.updateDrugs");
+                    Route::get("/Drugs/showUpdateDrugs","Drugs\DrugsController@updateShowRegistration")->name("Drugs.updateShowDrugs");
+                    Route::get("/Drugs/closeForm","Drugs\DrugsController@closeForm")->name("Drugs.closeForm");
+                    
+                    
                     
                     Route::get('/User/Setting', 'User\SettingController@Setting')->name('user.setting');
                     Route::get('/User/Settingas', 'User\SettingController@SettingActionAdd')->name('Setting.ActionAdd');
@@ -44,6 +58,9 @@ Route::group(
                     Route::get('/User/SettingaChangeActionDateName2', 'User\SettingController@SettingaChangeActionDateName2')->name('user.changeActionDateName2');
                     Route::get('/User/SettingupdateHash', 'User\SettingController@SettingupdateHash')->name('setting.updateHash');
                     Route::get('/User/deleteActionPlans', 'User\SettingController@SettingdeleteActionPlans')->name('user.deleteActionPlans');
+                    Route::get('/User/addGroup', 'User\SettingController@addGroupAction')->name('setting.addGroup');
+                    Route::get('/User/addSubstances', 'User\SettingController@addSubstancesAction')->name('setting.addSubstances');
+                    Route::get('/User/addProduct', 'User\SettingController@addProductAction')->name('setting.addProduct');
                     
                     
                     Route::get("/Mood/SleepDelete",'Mood\MoodController@SleepDelete')->name("sleep.delete");
@@ -53,6 +70,8 @@ Route::group(
                     
                     Route::get("/Mood/changeMinutes/{minutes}",'Mood\MoodController@changeMinutes')->name("change.minutes");
                     
+                    
+                    
 
                     
                     Route::get("/Search/main","Search\SearchController@main")->name("Search.main");
@@ -60,6 +79,8 @@ Route::group(
                     Route::get("/Search/sleepAction","Search\SearchController@sleepAction")->name("search.sleepAction");
                     Route::get("/Search/SearchAIAction","Search\SearchController@searchAI")->name("Search.AI");
                     Route::get("/Search/SearchSumMood","Search\SearchController@searchSumMood")->name("Search.SumMood");
+                    Route::get("/Search/searchDrugs","Search\SearchController@searchDrugs")->name("search.searchDrugs");
+                    Route::get("/Search/selectDrugs","Search\SearchController@selectDrugs")->name("search.selectDrugs");
                     
                     
                     Route::get("/DrSearch/main","Dr\Search\SearchController@main")->name("DrSearch.main");

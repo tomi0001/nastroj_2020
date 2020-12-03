@@ -241,7 +241,7 @@
                 
                 <TR> 
                     <td colspan='5' class='center'>
-                        <input type='submit'  class='btn btn-primary' value='Wyszukaj'>
+                        <input type='submit'  class='btn btn-primary btn-lg' value='Wyszukaj'>
                     </td>
                     
                 </TR>

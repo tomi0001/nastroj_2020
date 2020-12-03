@@ -29,7 +29,7 @@
         <tr>
             <td colspan='2' class='center'>
                 
-                <input type="button" onclick="changeNameAction('{{ route('user.changeActionName2')}}')" value='Zmień nazwę' class='btn btn-primary'>
+                <input type="button" onclick="changeNameAction('{{ route('user.changeActionName2')}}')" value='Zmień nazwę' class='btn btn-primary btn-lg'>
                 
             </td>
         </tr>

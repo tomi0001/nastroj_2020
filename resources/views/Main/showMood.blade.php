@@ -147,6 +147,11 @@
             <div id='sleepEdit{{$i-1}}' style='display: none;'></div>
             @else
                 <div class="buttonMood">
+                    @if (\App\Usee::IfDrugs($list["date_start"],$list["date_end"],$idUser) == 0 )
+                        <button class="btn btn-danger btn-lg" disabled>Nie było leków</button>
+                    @else
+                        <button onclick="showDrugs('{{route('Drugs.show')}}',{{$i-1}},'{{$list["date_start"]}}','{{$list["date_end"]}}')" class="btn btn-primary btn-lg">Pokaż leki</button>
+                    @endif
                     @if ($listPercent[$i-1]["name"] != 0)
                         <button onclick="showAction('{{route('action.show')}}',{{$i-1}},{{$listPercent[$i-1]["id"]}})" class="btn btn-primary btn-lg">Pokaż akcje</button>
                     @else
@@ -172,6 +177,7 @@
                 <div id="showDescription{{$i-1}}" style='display: none;'></div>
                 <div id="showFieldText{{$i-1}}" class='center' style='width: 50%; display: none;'></div>
                 <div id="viewEditMood{{$i-1}}" style='display: none;'></div>
+                <div id="showDrugs{{$i-1}}" style='display: none;'></div>
 
                
 

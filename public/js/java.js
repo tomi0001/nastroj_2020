@@ -83,16 +83,25 @@ function switchVisibleMood() {
         $("#moodAction").css("display","none");
         $("#moodAdd").css("display","inline");
         $("#SleepAdd").css("display","none");
+        $("#drugsAdd").css("display","none");
     }
     else if ($("[name='type']").val() == "action"){  
         $("#moodAdd").css("display","none");
         $("#moodAction").css("display","inline");
         $("#SleepAdd").css("display","none");
+        $("#drugsAdd").css("display","none");
+    }
+    else if($("[name='type']").val() == "drugs") {
+        $("#moodAdd").css("display","none");
+        $("#moodAction").css("display","none");
+        $("#SleepAdd").css("display","none");
+        $("#drugsAdd").css("display","inline");
     }
     else {
         $("#moodAdd").css("display","none");
         $("#moodAction").css("display","none");
         $("#SleepAdd").css("display","inline");
+        $("#drugsAdd").css("display","none");
     }
 }
 var ifMood = "mood";
@@ -108,22 +117,53 @@ function switchVisibleMoodShow(bool = 0) {
     if (bool == 1) {
         $("#actionShow").css("display","inline");
         $("#moodShow").css("display","none"); 
+        $("#drugsShow").css("display","none"); 
         ifMood = "action";
     }
     else if ($("[name='typeMood']").val() == "mood") {
         $("#actionShow").css("display","none");
-        $("#moodShow").css("display","inline");        
+        $("#moodShow").css("display","inline");     
+        $("#drugsShow").css("display","none"); 
         ifMood = "mood";
     }
     else if ($("[name='typeMood']").val() == "action"){  
         $("#actionShow").css("display","inline");
-        $("#moodShow").css("display","none");   
+        $("#moodShow").css("display","none");  
+        $("#drugsShow").css("display","none"); 
         ifMood = "action";
+    }
+    else {
+        $("#actionShow").css("display","none");
+        $("#moodShow").css("display","none");  
+        $("#drugsShow").css("display","inline"); 
+        ifMood = "drugs";
     }
     
 }
-var arraySetting = ["settingAction","levelMood","changeNameAction","changeDateAction","addHashDr"];
-var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5"];
+
+
+    function addGroup(url) {
+        //var name = $("#name").val();
+        //var name2 = name.replace(/ /g,"?");
+        //var color = $("#color").val();
+        var form = $("form#addGroupAction").serialize();
+        $("#ajax_add_group").load(url + "?" + form);
+        
+    }
+    function addSubstances(url) {
+        //var name = $("#name").val();
+        //var group = $("#group").val();
+        var form = $("form#addSubstancesAction").serialize();
+        //alert('sadsd');
+        $("#ajax_add_substances").load(url + "?" + form);
+    }
+    function addProduct(url) {
+        
+        var form = $("form#addProductAction").serialize();
+        $("#ajax_add_product").load(url + "?" + form);
+    }
+var arraySetting = ["settingAction","levelMood","changeNameAction","changeDateAction","addHashDr","addGroup","addSubstances","addProduct"];
+var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6","settingPosition_7","settingPosition_8"];
 function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
     for (i=0;i < arraySetting.length;i++) {
         if (id == arraySetting[i]) {
@@ -143,8 +183,8 @@ function addActionSearch() {
 }
 
 
-var arraySettingSearch = ["mainSearch","SearchSleep","averageMoods","howHourMood","PDF"];
-var arraySettingSearch2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5"];
+var arraySettingSearch = ["mainSearch","SearchSleep","averageMoods","howHourMood","PDF","SearchDrugs"];
+var arraySettingSearch2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6"];
 function switchSettingSearch(id = "mainSearch",id2 = "settingPosition_1") {
     
     for (i=0;i < arraySettingSearch.length;i++) {
@@ -157,6 +197,14 @@ function switchSettingSearch(id = "mainSearch",id2 = "settingPosition_1") {
     }
     setNone2(id);
 }
+
+
+function sum_average2(url,idDrugs,i,date1,date2) {
+        $("#sum_average"+i).toggle();
+         //alert("d");
+         $("#sum_average"+i).load(url + "?id=" + idDrugs + "&date1=" + date1 + "&date2=" + date2 );
+}
+
 function editSleep(url,i,id) {
     $("#sleepEdit"+i).load(url + "?id=" + id + "&i=" + i).toggle();
 }
@@ -589,4 +637,142 @@ function deleteArray2() {
 function showAction(url,i,id) {
     $("#showActions"+i).load(url + "?id=" + id).toggle();
     //$("#showActions"+i).text("sss");
+}
+
+
+
+function showDrugs(url,i,date_start,date_end) {
+    date1 = date_start.replaceAll(' ', '/'); 
+    date2 = date_end.replaceAll(' ', '/'); 
+    $("#showDrugs"+i).load(url + "?dateStart=" + date1 + "&dateEnd=" + date2).toggle();
+}
+
+
+
+function sum_average(url,idDrugs,i) {
+         $("#sum_average"+i).toggle();
+         //alert("d");
+         $("#sum_average"+i).load(url + "?id=" + idDrugs);
+        
+}
+function sum_average2(url,idDrugs,i,date1,date2) {
+        $("#sum_average"+i).toggle();
+         //alert("d");
+         $("#sum_average"+i).load(url + "?id=" + idDrugs + "&date1=" + date1 + "&date2=" + date2 );
+}
+
+
+
+    function add_description(i) {
+        $("#description"+i).toggle();
+    }
+
+    function delete_drugs(url,idDrugs,i) {
+        var con = confirm("Czy napewno usunąć");
+        if (con == true) {
+            $("#titleDrugs"+i).load(url + "?id=" + idDrugs);
+            $("#titleDrugs"+i).remove();
+        }
+        
+    }
+     function add_description_submit(i,url,id_use) {
+         var description = escape($("textarea[name=descriptions" + i +  "]").val());
+         
+         $("#ajax_description_submit"+i).load(url + "?id_use=" + id_use +  "&description=" + description);
+         
+         
+
+        
+    }   
+    
+
+
+
+   function edit_drugs(url,idDrugs,i,url2,url3,bool = false) {
+        $("#EditDrugs"+i).load(url + "?idDrugs=" + idDrugs + "&i=" + i);
+        //if (bool != true) {
+            $("#updateDrugs"+i).html("<input type='button' class='btn btn-success' onclick=update_drugs('"+ url +  "'," + idDrugs + "," +  i + ",'" + url2 + "','" + url3 + "') value='Uaktualnij wpis'>");
+        //}
+        //else if (bool == 2) {
+//            $("#updateDrugs"+i).html("<input type='button' class='btn btn-success' onclick=update_drugs('"+ url3 +  "'," + idDrugs + "," +  i + ",'" + url + "','" + url3 + "') value='Uaktualnij wpis'>");
+        //}
+        //else {
+  //          $("#updateDrugs"+i).html("<input type='button' class='btn btn-success' onclick=update_drugs('"+ url2 +  "'," + idDrugs + "," +  i + ",'" + url + "','" + url2 + "') value='Uaktualnij wpis'>");
+        //}
+        $("#viewDrugs"+i).html("");
+    }
+
+    function closeForm(url,i,id,url2,url3,url4) {
+        //alert(id);
+        $("#EditDrugs"+i).load(url4 + "?id=" + id + "&i=" + i);
+        $("#updateDrugs"+i).html("<input type='button' class='btn btn-success' onclick=edit_drugs('" + url + "'," + id +  "," + i  + ",'" + url2 + "','" + url3 + ",2') value='Edytuj wpis'>");
+    }
+    function update_drugs(url,id,i,url2,url3) {
+        
+        var name = $("#nameProduct").val();
+        var portion = $("#portion").val();
+        var date = $("#date").val();
+        var time = $("#time").val();
+        var result = $("#viewDrugs"+i).load(url2 + "?id=" + id + "&nameProduct=" + name + "&portion=" + portion + "&date=" + date + "&time=" + time,function() {
+          if (result.text() == "Pomyslnie dodano")  {
+              $("#EditDrugs"+i).load(url3 + "?id=" + id + "&i=" + i);
+              //$("#EditDrugs"+i).text("ss");
+              
+              //alert(url2);
+              $("#updateDrugs"+i).html("<input type='button' class='btn btn-success' onclick=edit_drugs('" + url + "'," + id +  "," + i  + ",'" + url2 + "','" + url3 + "',true) value='Edytuj wpis'>");
+          }
+        });
+        //if (result == "Pomyslnie dodano") {
+          //  alert(result);
+        //}
+        //$("#EditDrugs"+i).load(url2 + "?id=" + id);
+    }
+
+function addDrugs(url) {
+    
+//$("#form8").find(":hidden").filter("[name!='idAction']").remove();
+
+
+    //changeArrayAtHidden(2);
+    //alert($("form").serialize());
+    
+    //$('form')[0].reset();
+    //$('#form2')[0].reset();
+//    document.getElementById("form2").reset();
+/*
+    $("#form").load(url + "?" + $("#form2").serialize());
+    if ($("#form").text() == "") {
+        setInterval("reload();",4000);
+    }
+    alert($("#form").val());
+    
+    //alert("dd");
+    
+
+*/
+
+$.ajax({
+    url : url,
+        method : "get",
+        data : 
+          $("#form8").serialize()
+        ,
+        dataType : "html",
+})
+.done(function(response) {
+    $("#form7").html(response);
+    if (response == "") {
+        setInterval("reload();",4000);
+        $("#form7").html("<div class='ajaxSucces'>Pomyślnie dodano</div>");
+    }
+    
+})
+.fail(function() {
+    $("#form7").html( "<div class='ajaxError'>Wystąpił błąd</div>" );
+})
+}
+
+
+function loadPortion(url) {
+    $("#typePortion").load(url + "?" + $("#form8").serialize());
 }

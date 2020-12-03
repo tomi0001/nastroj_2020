@@ -33,6 +33,16 @@
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_5'  onclick="switchSetting('addHashDr','settingPosition_5')">NADAJ HASH LEKARZOWI</a>
         </div>
+        <div class='settingPosition' >
+            <a class='settingPosition' id='settingPosition_6'  onclick="switchSetting('addGroup','settingPosition_6')">DODAJ NOWĄ GRUPĘ</a>
+        </div>
+        <div class='settingPosition' >
+            <a class='settingPosition' id='settingPosition_7'  onclick="switchSetting('addSubstances','settingPosition_7')">DODAJ NOWĄ SUBSTANCJE</a>
+        </div>
+        <div class='settingPosition' >
+            <a class='settingPosition' id='settingPosition_8'  onclick="switchSetting('addProduct','settingPosition_8')">DODAJ NOWY PRODUKT</a>
+        </div>
+
         <hr class='hrMenu'>
     </div>
     @include ('User.Setting.addActionSetting')
@@ -40,6 +50,9 @@
     @include ('User.Setting.changeNameAction')
     @include ('User.Setting.changeDateAction')
     @include ('User.Setting.addHashDr')
+    @include ('User.Setting.addGroup')
+    @include ('User.Setting.addSubstances')
+    @include ('User.Setting.addProduct')
     
     
     

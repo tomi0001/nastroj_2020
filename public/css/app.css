@@ -802,6 +802,10 @@ td.center {
     color: #AFA485;
   
 }
+td.centerDrugs {
+    text-align: center;
+    color: #1E806F;
+}
 th.center {
     
     text-align: center;
@@ -831,6 +835,15 @@ div.titleMoodForDay {
     background-color: #3A8088;
     border-radius: 25px;
     height: 25px;
+    
+}
+
+div.sumAverage {
+    width:400px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    
     
 }
 div.title {

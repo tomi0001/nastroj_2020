@@ -86,7 +86,7 @@
         <tr>
             <td colspan='4' class='center'>
               
-                    <input type="button" id="disabled" onclick="changeNameDateAction('{{ route('user.changeActionDateName2')}}')" value='Zmień datę' class='btn btn-primary'>
+                    <input type="button" id="disabled" onclick="changeNameDateAction('{{ route('user.changeActionDateName2')}}')" value='Zmień datę' class='btn btn-primary btn-lg'>
                     
                 
                 

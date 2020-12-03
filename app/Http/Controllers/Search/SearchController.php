@@ -19,6 +19,8 @@ use App\Http\Services\Search;
 use App\Mood as AppMood;
 use App\Http\Services\AIMood as AI;
 use App\Http\Services\Action;
+use App\Http\Services\SearchDrugs;
+use App\Http\Services\DrugsUses as drugs;
 use App\Action_plan;
 use Auth;
 class SearchController extends Controller  {
@@ -42,7 +44,40 @@ class SearchController extends Controller  {
         }
                 
     }
-    
+    public function searchDrugs(Request $request) {
+            $search = new SearchDrugs;
+            $drugs = new drugs;
+            $bool = $search->find($request,Auth::User()->id);
+            //$search->findNot();
+            $error = "";
+            if ($search->bool == false) {
+                $list = $search->createQuestions($request,$search->bool,Auth::User()->id);
+                if (count($list) == 0) {
+                    $error = "Nic nie wyszukano";
+                }
+                $day = $search->changeArray($list);
+                //$drugs->selectColor($list);
+                return View("Search.SearchDrugsAction")->with("listSearch",$list)->with("i",0)
+                        ->with("day",$day)->with("inDay",$request->get("day"))
+                        ->with("error",$error);
+            }
+            else if ($search->bool == true and $search->checkArrayFindPro(count($search->stringPro)) == false and
+                    $search->checkArrayFindSub(count($search->stringSub)) == false and $search->checkArrayFindGro(count($search->stringGro)) == false) {
+                return back()->with("error","Nic nie wyszukano")->withinput();
+            }
+            else if ( $search->bool == true ) {
+                $list = $search->createQuestions($request,$search->bool,Auth::User()->id);
+                if (count($list) == 0) {
+                    $error = "Nic nie wyszukano";
+                }
+                $day = $search->changeArray($list);
+                //$drugs->selectColor($list);
+                //var_dump($search->id_product);
+                return View("Search.SearchDrugsAction")->with("listSearch",$list)->with("i",0)
+                        ->with("day",$day)->with("inDay",$request->get("day"))
+                        ->with("error",$error);
+            }
+    }
     public function mainAction(Request $request) {
         $Search  = new Search;
         $Search->checkErrorMood($request);
@@ -93,6 +128,25 @@ class SearchController extends Controller  {
             return View("ajax.SumMood")->with("hour",round($sum->sum,2))->with("percent",round(($sum->sum / $sumPercent->sum) * 100),2);
         }
         
+    }
+    
+    
+    
+    public function selectDrugs(Request $request) {
+        //if ( (Auth::check()) ) {
+            $search = new SearchDrugs;
+            
+            if ($request->get("dateStart") == "" or $request->get("dateEnd") == "") {
+                return Redirect::back()->with("errorSelect","Musisz uzupełnić daty");
+            }
+            
+            $list = $search->selectDrugs($request->get("dateStart"),$request->get("dateEnd"),Auth::User()->id);
+
+            //$daySum = $this->sumAverage();
+            return View("Search.selectDrugs")->with("listSearch",$list)
+                    ->with("i",0);
+            //$Drugs->returnIdProduct()
+        //}
     }
     
 }

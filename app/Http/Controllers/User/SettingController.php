@@ -14,18 +14,27 @@ use Illuminate\Http\Request;
 use App\Http\Services\Action;
 use App\Action as ActionApp;
 use App\Actions_plan;
+use App\Http\Services\Product;
 use Auth;
 use App\Http\Services\User as ServiceUser;
 
 class SettingController  extends Controller  {
+    public $error = [];
     public function Setting() {
         if (Auth::User()->type == "user") {
             $Users = new ServiceUser;
+            $Product  = new Product;
             $array = $Users->CheckIfLevelMood();
             $actionName = $Users->selectAction();
             $actionDate = $Users->selectActionPlans();
             $Hash = $Users->selectHash();
-            return View("User.Setting.index")->with("levelMood",$array)->with("actionName",$actionName)->with("actionDate",$actionDate)->with("hash",$Hash);
+            $listSubstance = $Product->showSubstances(Auth::User()->id);
+            $listGroup = $Product->showGroup(Auth::User()->id);
+            return View("User.Setting.index")
+                    ->with("levelMood",$array)->with("actionName",$actionName)
+                    ->with("actionDate",$actionDate)->with("hash",$Hash)
+                    ->with("listGroup",$listGroup)
+                    ->with("listSubstance",$listSubstance);
         }
     }
     public function SettingupdateHash(Request $request) {
@@ -192,5 +201,99 @@ class SettingController  extends Controller  {
         else {
             return redirect()->route('login')->withSuccess("Rejestracja zakończona możesz się zalogować");
         }
+    }
+    public function addGroupAction(Request $request) {
+        if (Auth::User()->type == "user") {
+            $Drugs = new Product;
+            if ($request->get("name") == "") {
+                return View("ajax.error")->with("error",["Wpisz nazwę"]);
+            }
+            $bool = $Drugs->addGroup($request);
+            if ($bool == true) {
+                return View("ajax.succes")->with("succes","Grupa dodana pomyslnie");
+            }
+            else {
+                return View("ajax.error")->with("error",["Już jest Grupa o takiej nazwie wybierz inną"]);
+                
+            }
+            
+        }
+        
+    }
+    public function addSubstancesAction(Request $request) {
+        if (Auth::User()->type == "user") {
+            $Drugs = new Product;
+            if (empty($request->get("group")) ) {
+                 return View("ajax.error")->with("error",["Uzupełnij grupę"]);
+            }
+            $check = $Drugs->checkSubstances($request->get("name"),Auth::User()->id);
+            $bool = $Drugs->checkGroupArray($request->get("group"),Auth::User()->id);
+            if ($request->get("name") == "") {
+                 return View("ajax.error")->with("error",["Wpisz nazwę"]);
+            }
+
+            if ($bool == false){
+                return View("ajax.error")->with("error",["Coś poszło nie tak"]);
+            }
+            else if($check == false) {
+                return View("ajax.error")->with("error",["Już jest substancja o takiej nazwie"]);
+            }
+            else {
+                $Drugs->addSubstances($request->get("group"),$request->get("equivalent"),$request->get("name"),Auth::User()->id);
+                return View("ajax.succes")->with("succes","Pomyslnie dodano substancje");
+            }
+            
+            
+        }
+        
+    }
+ 
+    public function addProductAction(Request $request) {
+        if (Auth::User()->type == "user") {
+            
+            
+            $Drugs = new Product;
+            //$Product = new ;
+            if (empty($request->get("substance")) ) {
+                 return View("ajax.error")->with("error",["Uzupełnij substancję"]);
+            }
+            $bool  = $Drugs->checkIfHow($request->get("price"),$request->get("how"));
+            $bool2 = $Drugs->checkProduct($request->get("name"),Auth::User()->id);
+            $bool3 = $Drugs->checkSubstanceArray( $request->get("substance"),Auth::User()->id);
+            if ($request->get("name") == "") {
+                array_push($this->error, "Wpisz nazwę");
+            }
+            if ($request->get("percent") !=  "" and !is_numeric($request->get("percent"))) {
+                array_push($this->error, "Pole procent musi być numeryczne");
+            }
+            
+            if ($bool2 == false) {
+                array_push($this->error, "Juz jest substancja o takiej nazwie");
+            }
+            if ($bool3 == false) {
+                array_push($this->error, "Coś poszło nie tak");
+            }
+            if ($bool == -2) {
+                array_push($this->error, "Musisz wpisać dwa pola czyli cena i za ile");
+            }
+            else if ($bool == -1) {
+                array_push($this->error, "Pole cena musi być numeryczna, a pole za ile całkowita");
+            }
+            if (count($this->error) != 0) {
+                return View("ajax.error")->with("error",$this->error);
+                
+            }
+             
+             
+            else {
+                $id = $Drugs->saveProduct($request->get("name"),Auth::User()->id,$request->get("percent"),$request->get("portion"),$request->get("price"),$request->get("how"));
+                $Drugs->addForwadindSubstance($id,$request->get("substance"));
+                return View("ajax.succes")->with("succes","Dodano pomyslnie produkt");
+            }
+                
+             
+        }
+        
+        
     }
 }

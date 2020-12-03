@@ -22,7 +22,7 @@
                 <TR>
                  
                     <td colspan='2' class='center'>
-                        <input type='button' onclick="addActionSetting('{{ route('Setting.ActionAdd')}}')" class='btn btn-primary' value='Dodaj Akcje'>
+                        <input type='button' onclick="addActionSetting('{{ route('Setting.ActionAdd')}}')" class='btn btn-primary btn-lg' value='Dodaj Akcje'>
                     </td>
                     
                 </TR>

@@ -39,6 +39,8 @@ class Search {
             $this->i++;
         }
     }
+    
+
     public function sumMoodPercent(Request $request,$id) {
         $Mood =  AppMood::query();
         $Mood->selectRaw("(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)) / 3600) as sum");
