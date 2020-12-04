@@ -28,7 +28,21 @@
                                     </select>
                                 </td>
                             </tr>
-                           
+                            <tr>
+                                <td  style='padding-top: 15px; ' class='value'>
+                                    Nazwa zaplanowanej dawki
+                                </td>
+                                <td class='borderless'>
+                                    <select name="namePlaned" class="form-control" >
+                                        <option value=""></option>
+                                        @foreach ($listPlaned as $list)
+                                        <option value="{{$list->id}}">{{$list->name}}</option>
+                                            
+                                            
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>                           
                             <tr>
                                 <td rowspan='2' style='padding-top: 35px; ' class='value'>
                                     Godzina wzięcia

@@ -17,6 +17,7 @@ use App\Substance as Substances;
 use App\Forwarding_description;
 use App\Forwarding_substance;
 use App\Forwarding_group;
+use App\Planned_drug;
 use App\Http\Services\Common as common;
 use Auth;
 use App\Product as appProduct;
@@ -36,6 +37,35 @@ class Product {
         $this->addForwadingGroup($last_id->id,$arrayGroup);
         
     }
+    public function addPlanedDose(Request $request,$date) {
+       
+        $list = $this->selectPlaned(Planned_drug::showName($request->get("namePlaned"))->name);
+        foreach ($list as $list2) {
+            $price = $this->sumPrice($list2->portion,$list2->id_products);
+            $this->addDrugs2($list2->id_products,$list2->portion,$date,$price);
+        }
+    }
+    private function addDrugs2($name,$dose,$date,$price) {
+        $use = new Usee;
+        $use->id_users = Auth::User()->id;
+        $use->id_products = $name;
+        $use->date = $date;
+        $use->price = $price;
+        $use->portion = $dose;
+        $use->save();
+        //$id = $use->orderBy("id","DESC")->first();
+   
+        
+    }
+    public function addPlaned(Request $request,int $idUsers,string $name) {
+        $Planed = new Planned_drug;
+        $Planed->name = $name;
+        $Planed->id_users = $idUsers;
+        $Planed->id_products = $request->get("productsName");
+        $Planed->portion = $request->get("dose");
+        $Planed->save();
+
+    }
     private function addForwadingGroup(int $idSubstances, $arrayGroup) {
         
         for ($i  =0;$i < count($arrayGroup);$i++) {
@@ -47,7 +77,12 @@ class Product {
         
     }
 
-
+    private function selectPlaned(string $namePlaned) {
+         $Planned_drug = new Planned_drug;
+         $list = $Planned_drug->where("id_users",Auth::User()->id)
+                    ->where("name",$namePlaned)->get();
+         return $list;
+    }
 
     public function checkSubstances( $name,int $id_users) :bool {
          $Substance = new Substances;
@@ -204,7 +239,20 @@ class Product {
         $list = $Group->where("id_users",$id_users)->get();
         return $list;
         
-    }    
+    }   
+    public function showProduct(int $id_users)  {
+        $Product = new appProduct;
+        $list = $Product->where("id_users",$id_users)->get();
+        return $list;
+        
+    }   
+    public function showPlaned(int $id_users)  {
+        $Planed = new Planned_drug;
+        $list = $Planed->where("id_users",$id_users)->groupBy("name")->get();
+        return $list;
+        
+    }  
+    
     public function showSubstances(int $id_users)  {
         $Substance = new Substances;
         $list = $Substance->where("id_users",$id_users)->get();

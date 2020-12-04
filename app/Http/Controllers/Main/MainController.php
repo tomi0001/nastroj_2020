@@ -61,6 +61,7 @@ class MainController extends Controller  {
         $allEquivalent = $Drugs->sumAllEquivalent($equivalent);
         $benzo = $Drugs->selectBenzo(Auth::User()->id);
         $sumAlkohol = $Drugs->sumPercentAlkohol();
+        $listPlaned = $Product->showPlaned(Auth::User()->id);
         //dd($Mood->colorDay);
         //}
         /*
@@ -102,7 +103,8 @@ class MainController extends Controller  {
                                 ->with("sumAlkohol",$sumAlkohol)
                                 ->with("equivalent",$equivalent)
                                 ->with("allEquivalent",$allEquivalent)
-                                ->with("benzo",$benzo);
+                                ->with("benzo",$benzo)
+                                ->with("listPlaned",$listPlaned);
                                 //->with("listActionMood",$Action2->listActionMood);
      }
      else {

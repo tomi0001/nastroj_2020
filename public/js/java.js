@@ -162,8 +162,12 @@ function switchVisibleMoodShow(bool = 0) {
         var form = $("form#addProductAction").serialize();
         $("#ajax_add_product").load(url + "?" + form);
     }
-var arraySetting = ["settingAction","levelMood","changeNameAction","changeDateAction","addHashDr","addGroup","addSubstances","addProduct"];
-var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6","settingPosition_7","settingPosition_8"];
+    function addPlaned(url) {
+        var form = $("form#addPlanedAction").serialize();
+        $("#ajax_add_planed").load(url + "?" + form);
+    }
+var arraySetting = ["settingAction","levelMood","changeNameAction","changeDateAction","addHashDr","addGroup","addSubstances","addProduct","addPlaned"];
+var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6","settingPosition_7","settingPosition_8","settingPosition_9"];
 function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
     for (i=0;i < arraySetting.length;i++) {
         if (id == arraySetting[i]) {

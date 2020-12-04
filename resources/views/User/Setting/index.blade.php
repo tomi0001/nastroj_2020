@@ -42,7 +42,9 @@
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_8'  onclick="switchSetting('addProduct','settingPosition_8')">DODAJ NOWY PRODUKT</a>
         </div>
-
+        <div class='settingPosition' >
+            <a class='settingPosition' id='settingPosition_9'  onclick="switchSetting('addPlaned','settingPosition_9')">ZAPLANUJ DAWKĘ</a>
+        </div>
         <hr class='hrMenu'>
     </div>
     @include ('User.Setting.addActionSetting')
@@ -53,6 +55,7 @@
     @include ('User.Setting.addGroup')
     @include ('User.Setting.addSubstances')
     @include ('User.Setting.addProduct')
+    @include ('User.Setting.addPlaned')
     
     
     

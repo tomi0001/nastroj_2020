@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Services\Action;
 use App\Action as ActionApp;
 use App\Actions_plan;
+use App\Planned_drug;
 use App\Http\Services\Product;
 use Auth;
 use App\Http\Services\User as ServiceUser;
@@ -30,11 +31,15 @@ class SettingController  extends Controller  {
             $Hash = $Users->selectHash();
             $listSubstance = $Product->showSubstances(Auth::User()->id);
             $listGroup = $Product->showGroup(Auth::User()->id);
+            $listProduct = $Product->showProduct(Auth::User()->id);
+            $listPlaned = $Product->showPlaned(Auth::User()->id);
             return View("User.Setting.index")
                     ->with("levelMood",$array)->with("actionName",$actionName)
                     ->with("actionDate",$actionDate)->with("hash",$Hash)
                     ->with("listGroup",$listGroup)
-                    ->with("listSubstance",$listSubstance);
+                    ->with("listSubstance",$listSubstance)
+                    ->with("listProduct",$listProduct)
+                    ->with("listPlaned",$listPlaned);
         }
     }
     public function SettingupdateHash(Request $request) {
@@ -219,6 +224,40 @@ class SettingController  extends Controller  {
             
         }
         
+    }
+    public function addPlanedAction(Request $request) {
+        if (Auth::User()->type == "user") {
+            $Drugs = new Product;
+            print $request->get("planedName");
+            if ($request->get("name") == "" and $request->get("planedName") == "") {
+                array_push($this->error, "Wpisz nazwę");
+            }
+            else if ($request->get("name") == "") {
+                $tmp = Planned_drug::showName($request->get("planedName"));
+                $name = $tmp->name;
+            }
+            else {
+                $name = $request->get("name");
+            }
+            if ($request->get("dose") == "") {
+                array_push($this->error, "Uzupełnij pole dawka");
+            }
+            else if (!is_numeric($request->get("dose"))) {
+                array_push($this->error, "Pole dawka musi być numeryczne");
+            }
+            else {
+                $bool = $Drugs->addPlaned($request,Auth::User()->id,$name);
+            }
+            //print $name;
+            if (count($this->error) == 0) {
+                return View("ajax.succes")->with("succes","Grupa dodana pomyslnie");
+            }
+            else {
+                return View("ajax.error")->with("error",$this->error);
+            }
+
+            
+        }
     }
     public function addSubstancesAction(Request $request) {
         if (Auth::User()->type == "user") {

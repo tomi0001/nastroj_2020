@@ -31,27 +31,32 @@ class DrugsController extends Controller  {
     
     public function add(Request $request) {
         if (Auth::User()->type == "user") {
-            
             $Drugs = new Product;
             $date = $Drugs->checkDate($request->get("date"),$request->get("time"));
-            if ($request->get("name") == "") {
+            if ($request->get("name") == "" and $request->get("namePlaned") == "") {
                 array_push($this->error, "Wpisz nazwę");
             }
             if ($date == -1 or $date == -2) {
                 array_push($this->error, "Błędna data");
             }
-            if ($request->get("dose") == "") {
+            if ($request->get("dose") == "" and $request->get("namePlaned") == "") {
                 array_push($this->error, "Uzupełnij pole dawka");
             }
-            else if (!is_numeric($request->get("dose"))) {
+            else if (!is_numeric($request->get("dose")) and $request->get("namePlaned") == "") {
                 array_push($this->error, "Pole dawka musi być numeryczne");
             }
             if (count($this->error) != 0) {
                 return View("ajax.error")->with("error",$this->error);
             }
             else {
-                $price = $Drugs->sumPrice($request->get("dose"),$request->get("name"));
-                $Drugs->addDrugs($request,$Drugs->date,$price);
+                if ($request->get("name") != "") {
+                    $price = $Drugs->sumPrice($request->get("dose"),$request->get("name"));
+                    $Drugs->addDrugs($request,$Drugs->date,$price);
+                }
+                else  {
+                    $Drugs->addPlanedDose($request,$Drugs->date);
+                }
+      
                 
             }
             
