@@ -145,7 +145,7 @@ function hideDiv(count) {
 function editDescription(url,id) {
     
 
-        $("#editDescription"+id).load(url + "?" + $("form").serialize() + "&id=" + id);
+        $("#editDescription"+id).load(url + "?" + $("#form9").serialize() + "&id=" + id);
     
     
 }
