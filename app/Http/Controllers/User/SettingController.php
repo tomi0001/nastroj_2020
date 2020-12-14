@@ -335,4 +335,13 @@ class SettingController  extends Controller  {
         
         
     }
+    
+    public function loadPlanedAction(Request $request) {
+        if (Auth::User()->type == "user") {
+            
+            $planed = Planned_drug::showPlaned($request->get("planedName"));
+            return View("ajax.showPlaned")->with("planed",$planed);
+        }
+        
+    }
 }

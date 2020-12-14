@@ -67,4 +67,31 @@
                 
                 
       </form>
+    <form method="get" id='loadPlanedAction'>
+        <table class="table center">
+
+                        <tr>
+                            <td>
+                                Wybierz Zaplanową dawkę
+                            </td>                    
+                            <td>
+                                 <select name="planedName" class="form-control" onchange="loadPlaned('{{ route('setting.loadPlaned')}}')">
+                                    <option value='' selected></option>
+                                    @foreach ($listPlaned as $list)
+                                    <option value="{{$list->name}}" >{{$list->name}}</option>
+
+                                    @endforeach
+                                </select>
+
+                            </td>
+
+                        </tr>
+
+
+
+
+
+        </table>
+        <div id='Planed'></div>
+    </form> 
 </div>

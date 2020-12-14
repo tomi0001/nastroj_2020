@@ -780,3 +780,9 @@ $.ajax({
 function loadPortion(url) {
     $("#typePortion").load(url + "?" + $("#form8").serialize());
 }
+
+
+
+function loadPlaned(url) {
+    $("#Planed").load(url + "?" + $("#loadPlanedAction").serialize());
+}
