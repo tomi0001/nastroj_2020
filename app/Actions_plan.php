@@ -52,5 +52,6 @@ class Actions_plan extends Model
                 ->selectRaw("DATEDIFF(actions_plans.date_end,actions_plans.date_start)    as datediff")
                 ->where("id_actions",$id)->first();
     }
+
 }
 

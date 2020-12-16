@@ -393,7 +393,7 @@ class SearchDrugs {
                 }
         
     }
-    
+ 
     public function selectDrugs($dateStart,$dateEnd,$id) {
         //$drugs = new drugs;
         //$drugs
@@ -431,7 +431,7 @@ class SearchDrugs {
          */
     }
     
-    
+
     
 
     public function createQuestions(Request $request,$bool,$id) {

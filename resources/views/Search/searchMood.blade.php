@@ -38,13 +38,24 @@
         @for ($i=0;$i < count($list);$i++)
             
         @if ($i == 0 or ($list[$i]->dat != $list[$i-1]->dat ))
+        @if (\App\Moods_action::ifExistActionForDay($list[$i]->dat) == true)
+            
+        @endif
+        
         <tr>
             <td colspan="6">
                 <br>
                 <div class="title center">{{$list[$i]->dat}}</div>
                 <br>
            
-        
+                <table class="table">
+                @foreach (\App\Moods_action::ifExistActionForDay($list[$i]->dat) as $action)
+                <tr>
+                    <td>{{\App\Action::selectNameAction($action->action)->name}} </td><td> {{$action->minute}} minut wykonania </td>
+                </tr>
+                
+                @endforeach
+                </table>
 
             </td>
         </tr>
