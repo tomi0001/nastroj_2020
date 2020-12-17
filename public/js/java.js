@@ -536,7 +536,7 @@ function addActionSetting(url) {
     url : url,
         method : "get",
         data : 
-          $("form").serialize()
+          $("form#FormActionadd").serialize()
         ,
         dataType : "html",
 })

@@ -1,5 +1,5 @@
 <div id='settingAction' style='display: inline;'>
-        <form method='get'>
+        <form method='get' id="FormActionadd">
             <table class='table'>
                 <TR>
                     <td width='35%'>
