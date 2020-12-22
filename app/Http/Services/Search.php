@@ -205,10 +205,11 @@ class Search {
             $this->question->leftjoin("moods_actions","moods_actions.id_moods","moods.id")->leftjoin("actions","actions.id","moods_actions.id_actions");
             $this->question->selectRaw("moods_actions.id_actions as id_actions");
         //}
-        $this->setGroupId();
+        
         if ($request->get("valueAllDay") == "on") {
             $this->setGroup($request);
         }
+  
         else {
             $this->setWhereMoods($request);
             $this->setLongMoods($request);
@@ -226,6 +227,7 @@ class Search {
             if ($request->get("ifactions") == "on") {
                 $this->question->where("moods_actions.id", "!=" ,  ""  );
             }
+            $this->setGroupId();
         }
         if ($request->get("valueAllDay") == "on") {
             $this->setSortAllDay($request);
@@ -562,6 +564,7 @@ class Search {
         
     }
     private function setGroup(Request $request) {
+        
         $hour = Auth::User()->start_day;
         $this->question->groupBy(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) "));
         
