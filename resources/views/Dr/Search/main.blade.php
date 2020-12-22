@@ -33,12 +33,16 @@
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_5'  onclick="switchSettingSearch('PDF','settingPosition_5')">WYGENERUJ PDF DLA NASTROJI</a>
         </div>
+        <div class='settingPosition' >
+            <a class='settingPosition' id='settingPosition_6'  onclick="switchSettingSearch('SearchDrugs','settingPosition_6')">WYSZUKAJ LEK</a>
+        </div>
         <hr class='hrMenu'>
     </div>
    @include ('Dr.Search.mainSearch')
    @include ('Dr.Search.SearchSleep')
    @include ('Dr.Search.averageMoods')
    @include ('Dr.Search.howHourMood')
+   @include ('Dr.Search.SearchDrugs')
     
     
     

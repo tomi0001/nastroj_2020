@@ -21,9 +21,11 @@
                     @if (Session("setAction") == true or $boolMood == true)
                         <option value='action' selected>Wyswielt akcje</option>
                         <option value='mood'>Wyswietl nastroje</option>
+                        <option value='drugs'>Wyswietl leki</option>
                     @else
                         <option value='mood' seelected>Wyswietl nastroje</option>
                         <option value='action'>Wyswielt akcje</option>
+                        <option value='drugs'>Wyswietl leki</option>
                     @endif
                     
                 </select>
@@ -52,7 +54,16 @@
         @endif
     </div>
     
-
+    <div id='drugsShow' style='display: none;'>
+        @if (count($listDrugs) == 0)
+            <div class="titleError">
+                    Nie ma żadnych leków dla tego dnia
+            </div>
+        @else
+            @include ('Dr.Main.showDrugs')
+        
+        @endif
+    </div>  
     
     
 

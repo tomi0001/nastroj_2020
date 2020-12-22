@@ -16,6 +16,8 @@ use App\Http\Services\Calendar;
 use App\Http\Services\Mood;
 use App\Http\Services\Action as Action2;
 use App\Http\Services\Common;
+use App\Http\Services\Product;
+use App\Http\Services\DrugsUses as Drugs;
 use App\Action;
 use Auth;
 class MainController extends Controller  {
@@ -24,6 +26,8 @@ class MainController extends Controller  {
        if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
         $Action = Action::selectAction(Auth::User()->id_user);
         $Mood = new Mood;
+        $Product = new Product;
+        $Drugs = new Drugs;
         $Calendar = new Calendar($year, $month, $day, $action);
         $Mood->downloadMood($Calendar->year,$Calendar->month,$Calendar->day,Auth::User()->id_user);
         $Mood->downloadSleep($Calendar->year,$Calendar->month,$Calendar->day,Auth::User()->id_user);
@@ -43,6 +47,21 @@ class MainController extends Controller  {
         //if (count($Mood->arrayList) != 0) {
         $Mood->sumColorForMood(Auth::User()->id_user,$Calendar->year,$Calendar->month);
         $Mood->sumColorForMoodDay(Auth::User()->id_user,$Calendar->year,$Calendar->month,$Calendar->day);
+        
+        $listProduct = $Product->selectListProduct(Auth::id());
+        $Drugs->selectDrugs(Auth::User()->id_user,$Calendar->year . "-" . $Calendar->month . "-" . $Calendar->day);
+        $Drugs->processPrice($Drugs->list);
+        //if (count($Mood->arrayList) != 0) {
+        //xdebug_start_trace('/var/www/html/a ');
+
+        $equivalent = $Drugs->sumEquivalent($Drugs->list);
+        $ifDescription = $Drugs->checkIfDescription($Drugs->list);
+        $separate = $Drugs->separateDrugs();
+        $equivalent = $Drugs->sumEquivalent($Drugs->list);
+        $allEquivalent = $Drugs->sumAllEquivalent($equivalent);
+        $benzo = $Drugs->selectBenzo(Auth::User()->id_user);
+        $sumAlkohol = $Drugs->sumPercentAlkohol();
+        $listPlaned = $Product->showPlaned(Auth::User()->id_user);
         //dd($Mood->colorDay);
         //}
         /*
@@ -74,7 +93,17 @@ class MainController extends Controller  {
                                 ->with("color",$Mood->color)
                                 ->with("boolMood",$boolMood)
                                 ->with("colorForDay",$Mood->colorDay)
-                                ->with("dayList",$Mood->DayList);
+                                ->with("dayList",$Mood->DayList)
+                                ->with("listProduct",$listProduct)
+                                ->with("listDrugs",$Drugs->list)
+                                ->with("equivalent",$equivalent)
+                                ->with("ifDescription",$ifDescription)
+                                ->with("separate",$separate)
+                                ->with("idUser",Auth::id())
+                                ->with("sumAlkohol",$sumAlkohol)
+                                ->with("equivalent",$equivalent)
+                                ->with("allEquivalent",$allEquivalent)
+                                ->with("benzo",$benzo);
                                 //->with("listActionMood",$Action2->listActionMood);
      }
      else {
