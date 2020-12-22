@@ -205,7 +205,7 @@ class Search {
             $this->question->leftjoin("moods_actions","moods_actions.id_moods","moods.id")->leftjoin("actions","actions.id","moods_actions.id_actions");
             $this->question->selectRaw("moods_actions.id_actions as id_actions");
         //}
-        
+        $this->setIdUsers($id);
         if ($request->get("valueAllDay") == "on") {
             $this->setGroup($request);
         }
@@ -213,7 +213,7 @@ class Search {
         else {
             $this->setWhereMoods($request);
             $this->setLongMoods($request);
-            $this->setIdUsers($id);
+            
             $this->whereEpizodes($request);
             if ($request->get("descriptions") != null and count($request->get("descriptions")) > 0) {
                 $this->setWhatWork($request);
