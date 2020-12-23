@@ -92,8 +92,8 @@ Route::group(
                     Route::get("/DrSearch/SearchSumMood","Dr\Search\SearchController@searchSumMood")->name("DrSearch.SumMood");
                     Route::get("/DrSearch/searchDrugs","Dr\Search\SearchController@searchDrugs")->name("Drsearch.searchDrugs");
                     Route::get("/DrSearch/selectDrugs","Dr\Search\SearchController@selectDrugs")->name("Drsearch.selectDrugs");
-                    
-                    
+                   
+                    Route::get("/DrDrugs/show",'Dr\Drugs\DrugsController@show')->name("DrDrugs.show"); 
                     Route::get("/DrDrugs/sumAverage","Dr\Drugs\DrugsController@sumAverage")->name("DrDrugs.sumAverage");
                     Route::get("/DrDrugs/sumAverage2","Dr\Drugs\DrugsController@sumAverage2")->name("DrDrugs.sumAverage2");
                     Route::get("/DrDrugs/showDescription","Dr\Drugs\DrugsController@showDescriptionsAction")->name("DrDrugs.showDescription");

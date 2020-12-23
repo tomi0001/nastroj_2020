@@ -99,7 +99,7 @@ class MainController extends Controller  {
                                 ->with("equivalent",$equivalent)
                                 ->with("ifDescription",$ifDescription)
                                 ->with("separate",$separate)
-                                ->with("idUser",Auth::id())
+                                ->with("idUser",Auth::User()->id_user)
                                 ->with("sumAlkohol",$sumAlkohol)
                                 ->with("equivalent",$equivalent)
                                 ->with("allEquivalent",$allEquivalent)

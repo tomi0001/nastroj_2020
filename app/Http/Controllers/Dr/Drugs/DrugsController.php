@@ -107,7 +107,7 @@ class DrugsController extends Controller  {
     public function show(Request $request) {
         if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
             $DrugsUses = new DrugsUses;
-            $list = $DrugsUses->selectDrugsAjax(Auth::id(),$request->get("dateStart"),$request->get("dateEnd"));
+            $list = $DrugsUses->selectDrugsAjax(Auth::User()->id_user,$request->get("dateStart"),$request->get("dateEnd"));
             return View("ajax.showDrugs")->with("list",$list);
         }
     }
