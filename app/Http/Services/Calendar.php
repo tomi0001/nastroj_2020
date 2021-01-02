@@ -85,7 +85,6 @@ class calendar
         }
     
         public function set_date($month,$action,$day,$year) {
-            
             if (empty($year)) {
                 
                 $this->year = date("Y");
@@ -120,7 +119,6 @@ class calendar
         return date("w",strtotime($data));
       }
         public static function check_month($month,$year) {
-
             if ($month == 12) {
             return 31;
             }

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Services\Action;
 use App\Action as ActionApp;
 use App\Actions_plan;
+use App\Product as ProductApp;
 use App\Planned_drug;
 use App\Http\Services\Product;
 use Auth;
@@ -338,9 +339,9 @@ class SettingController  extends Controller  {
     
     public function loadPlanedAction(Request $request) {
         if (Auth::User()->type == "user") {
-            
+            $listProduct = ProductApp::loadAllProducts();
             $planed = Planned_drug::showPlaned($request->get("planedName"));
-            return View("ajax.showPlaned")->with("planed",$planed);
+            return View("ajax.showPlaned")->with("planed",$planed)->with("listProduct",$listProduct);
         }
         
     }

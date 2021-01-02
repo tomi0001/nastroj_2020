@@ -311,3 +311,13 @@ div.titleDrugs {
     font-size: 19px;
     border-radius: 20px 20px 0px 0px;
 }
+
+div.searchCount {
+    text-align: center;
+    font-size: 25px;
+}
+div.searchError {
+    text-align: center;
+    font-size: 25px;
+    color: red;
+}

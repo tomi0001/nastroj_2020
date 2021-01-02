@@ -88,7 +88,8 @@ class SearchController extends Controller  {
                  $list = $Search->createQuestion($request,Auth::User()->id);
                  $lista = $Search->sortMoods($list);
 
-                 return View("Search.searchMood")->with("list",$list)->with("lista",$Search->arrayList)->with("percent",$Search->listPercent);
+                 return View("Search.searchMood")->with("list",$list)->with("lista",$Search->arrayList)
+                         ->with("percent",$Search->listPercent)->with("count",$Search->count);
         }
         
        

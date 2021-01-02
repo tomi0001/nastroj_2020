@@ -28,6 +28,7 @@ class Search {
     public $arraySecond = [];
     public $listPercent = [];
     private $i = 0;
+    public $count = 0;
     private function sortMoods2($listMoods) {
         $Mood = new Mood;
         foreach ($listMoods as $Moodss) {
@@ -235,6 +236,7 @@ class Search {
         else {
             $this->setSort($request);
         }
+        $this->count = $this->question->get()->count();
         return $this->question->paginate(15);
     }
     

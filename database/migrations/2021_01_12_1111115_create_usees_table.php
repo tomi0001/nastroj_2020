@@ -27,6 +27,7 @@ class CreateUseesTable extends Migration {
             $table->datetime("date");
             $table->integer("type_of_portion")->unsigned();
             $table->float("price");
+            $table->float("dd");
             $table->timestamps();
         });
     }
