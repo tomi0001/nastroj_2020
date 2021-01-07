@@ -13,7 +13,7 @@ use Auth;
 use App\User as User2;
 use App\Action;
 use App\Actions_plan;
-
+use App\Product;
 use App\Http\Services\Mood;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Mail;
@@ -290,4 +290,7 @@ class User {
         $User = new User2;
         $User->where("hash",$request->get("hash"))->update(["password" => Hash::make($request->get("password")),"hash" => ""]);
     }
+    
+
+
 }

@@ -67,7 +67,7 @@
                 
                 
       </form>
-    <form method="get" id='loadPlanedAction'>
+    <form method="get" id='loadPlanedAction' action="{{ route('setting.updatePlaned') }}" >
         <table class="table center">
 
                         <tr>

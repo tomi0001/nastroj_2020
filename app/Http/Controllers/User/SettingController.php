@@ -345,4 +345,18 @@ class SettingController  extends Controller  {
         }
         
     }
+    public function loadPosition(Request $request) {
+        if (Auth::User()->type == "user") {
+            $Users = new Product;
+            $text = $Users->loadDrugsPlaned($request);
+            print $text;
+        }
+    }
+    public function updatePlaned(Request $request) {
+        if (Auth::User()->type == "user") {
+            $Users = new Product;
+            $Users->updatePlaned($request);
+            return  $this->Setting();
+        }
+    }
 }

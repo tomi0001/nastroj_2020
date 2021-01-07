@@ -179,6 +179,7 @@ function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
     }
     setNone(id);
 }
+
 function addActionSearch() {
     //alert("ss");
     $("#actionSearch").append("<div style='float: left; width: 40%;'><input type='text' name='actions[]' class='form-control' placeholder='nazwa'></div><div style='float: left; width: 29%; padding-left: 20px;' ><input type='text' name='actionsNumberFrom[]' class='form-control' placeholder='wartość od'>                           </div><div style='float: right; width: 25%;' ><input type='text' name='actionsNumberTo[]' class='form-control' placeholder='wartość do'></div>");
@@ -785,4 +786,33 @@ function loadPortion(url) {
 
 function loadPlaned(url) {
     $("#Planed").load(url + "?" + $("#loadPlanedAction").serialize());
+}
+
+
+var countLicz = false;
+var j;
+function addDrugsPlaned(url,i) {
+    if (countLicz == false) {
+        countLicz = true;
+        j=i;
+    }
+    else {
+        
+        j++;
+    }
+        var response;
+    $.ajax({ type: "GET",   
+         url: url + "?tmp=" + j,   
+         async: false,
+         success : function(text)
+         {
+             response= text;
+         }
+    });
+    $('#planedDrugs').append(response);
+    
+}
+
+function updatePlaned(url) {
+    //$("#PlanedResult").load(url + "?" + $("form#formPlanedResult").serializeArray());
 }

@@ -369,7 +369,38 @@ class Product {
         }
     }
     
+    public function loadDrugsPlaned(Request $request) {
+        $Product = new appProduct;
+        $text = "<tr> <td> Pozycja " . $request->get("tmp") . "</td><td> <select name=position[] class=form-control><option value= ></option>";
+        
+        $list = $Product->where("id_users",Auth::User()->id)->orderBy("name")->get();
+        foreach ($list as $list2) {
+            $text .= "<option value=" . $list2->id  ." >" . $list2->name . "</option>";
+        }
+        $text .= "</select></td>        <td>
+            <input type='text' name='pisitionName[]' class='form-control' value=''>
+        </td></tr>";
+        return $text;
+        
+    }
     
-    
+    public function updatePlaned(Request $request) {
+        $this->deletePlaned($request->get("namePlaned"));
+        $this->createPlaned($request);
+    }
+    private function deletePlaned($name) {
+        $Planed = new Planned_drug;
+        $Planed->where("id_users",Auth::User()->id)->where("name",$name)->delete();
+    }
+    private function createPlaned(Request $request) {
+        for($i = 0;$i < count($request->get("position"));$i++) {
+            $Planned_drug = new Planned_drug;
+            $Planned_drug->name = $request->get("namePlaned");
+            $Planned_drug->id_users = Auth::User()->id;
+            $Planned_drug->id_products = $request->get("position")[$i];
+            $Planned_drug->portion = $request->get("pisitionName")[$i];
+            $Planned_drug->save();
+        }
+    }
     
 }

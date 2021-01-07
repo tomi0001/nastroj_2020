@@ -63,7 +63,8 @@ Route::group(
                     Route::get('/User/addProduct', 'User\SettingController@addProductAction')->name('setting.addProduct');
                     Route::get('/User/addPlaned', 'User\SettingController@addPlanedAction')->name('setting.addPlaned');
                     Route::get('/User/loadPlaned', 'User\SettingController@loadPlanedAction')->name('setting.loadPlaned');
-                    
+                    Route::get('/User/loadPosition', 'User\SettingController@loadPosition')->name('setting.loadPosition');
+                    Route::get('/User/updatePlaned', 'User\SettingController@updatePlaned')->name('setting.updatePlaned');
                     
                     Route::get("/Mood/SleepDelete",'Mood\MoodController@SleepDelete')->name("sleep.delete");
                     Route::get("/Mood/SleepAdd",'Mood\MoodController@Sleepadd')->name("Sleep.Add");
