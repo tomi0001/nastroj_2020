@@ -55,6 +55,7 @@
        @endif
     </div>
 </div>
+
     <script>
     window.onload=switchSettingSearch();
 

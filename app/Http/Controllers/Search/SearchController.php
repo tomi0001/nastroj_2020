@@ -30,6 +30,7 @@ class SearchController extends Controller  {
     }
     
     public function sleepAction(Request $request) {
+        //session(['searchType' => 'SearchSleep']);
         $Search  = new Search;
         $Search->checkErrorSleep($request);
         if (count($Search->errors) > 0) {
@@ -45,6 +46,7 @@ class SearchController extends Controller  {
                 
     }
     public function searchDrugs(Request $request) {
+            //session(['searchType' => 'SearchDrugs']);
             $search = new SearchDrugs;
             $drugs = new drugs;
             $bool = $search->find($request,Auth::User()->id);
@@ -79,6 +81,7 @@ class SearchController extends Controller  {
             }
     }
     public function mainAction(Request $request) {
+        //session(['searchType' => 'mainSearch']);
         $Search  = new Search;
         $Search->checkErrorMood($request);
         if (count($Search->errors) > 0) {
@@ -126,7 +129,9 @@ class SearchController extends Controller  {
             return View("ajax.error")->with("error",["Nie było żadnych nastroi"]);
         }
         else {
-            return View("ajax.SumMood")->with("hour",round($sum->sum,2))->with("percent",round(($sum->sum / $sumPercent->sum) * 100),2);
+            return View("ajax.SumMood")->with("hour",round($sum->sum,2))
+                    ->with("percent",round(($sum->sum / $sumPercent->sum) * 100),2)
+                    ->with("request",$request);
         }
         
     }
