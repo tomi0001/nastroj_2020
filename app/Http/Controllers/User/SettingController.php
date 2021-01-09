@@ -359,4 +359,14 @@ class SettingController  extends Controller  {
             return  $this->Setting();
         }
     }
+    public function deletePlaned($name) {
+        if (Auth::User()->type == "user") {
+            $Users = new Product;
+            $if = $Users->selectPlaned($name);
+            if (count($if) != 0) {
+                $Users->deletePlaned($name);
+            }
+            return  $this->Setting();
+        }
+    }
 }

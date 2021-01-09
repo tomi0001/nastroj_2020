@@ -1,4 +1,4 @@
-<table class='table' style='width: 80%; margin-left: auto;margin-right: auto;'>
+<table class='table table-condensed' style='width: 80%; margin-left: auto;margin-right: auto;'>
    
     @foreach ($planed as $list)
     <tr>
@@ -26,7 +26,7 @@
     @endforeach
     <tr>
         <td colspan="3">
-            <table class='table' id="planedDrugs">
+            <table class='table table-condensed background' id="planedDrugs" style="background-color: rgba(0,0,0,0);">
                 
             </table>
         </td>
@@ -41,9 +41,14 @@
     </tr>
     <input type="hidden" name="namePlaned" value="{{Request::get('planedName')}}"
     <tr>
-        <td colspan="3">
+        <td colspan="2">
             <div class='center'>
                 <input type='submit' class='btn btn-default btn-lg'  value='Uaktualnij'>
+            </div>
+        </td>
+        <td colspan="1">
+            <div class='center'>
+                <a href="{{ route('setting.deletePlaned',Request::get('planedName'))}}"><input type="button"  class='btn btn-danger btn-lg' value='Usuń'></a>
             </div>
         </td>
     </tr>

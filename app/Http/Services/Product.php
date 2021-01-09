@@ -25,7 +25,7 @@ use App\Product as appProduct;
 class Product {
     
     
-    
+ 
     public function addSubstances( $arrayGroup, $equivalent, $name,int $id_users) {
         $Substances = new Substances;
         $Substances->name = $name;
@@ -77,13 +77,13 @@ class Product {
         
     }
 
-    private function selectPlaned(string $namePlaned) {
+    public function selectPlaned(string $namePlaned) {
          $Planned_drug = new Planned_drug;
          $list = $Planned_drug->where("id_users",Auth::User()->id)
                     ->where("name",$namePlaned)->get();
          return $list;
     }
-
+    
     public function checkSubstances( $name,int $id_users) :bool {
          $Substance = new Substances;
          $check = $Substance->where("id_users",$id_users)
@@ -388,7 +388,7 @@ class Product {
         $this->deletePlaned($request->get("namePlaned"));
         $this->createPlaned($request);
     }
-    private function deletePlaned($name) {
+    public function deletePlaned($name) {
         $Planed = new Planned_drug;
         $Planed->where("id_users",Auth::User()->id)->where("name",$name)->delete();
     }

@@ -42,6 +42,7 @@ class User {
             $this->updateHash2($request);
         }
     }
+    
     private function updateHash2(Request $request) {
         $bool = 0;
         if ($request->get("ifTrue") == "on") {
