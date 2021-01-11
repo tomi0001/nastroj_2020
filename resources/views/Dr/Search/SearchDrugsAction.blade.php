@@ -11,10 +11,10 @@
     @foreach ($listSearch as  $list)
         
             @if ($i == 0)
-            <div class="title_search_drugs">{{$day[$i][0]}}</div>
+            <div class="title_search_drugs">{{$day[$i][0]}} {{\App\Http\Services\Common::returnDayWeek($day[$i][0])}}</div>
             
             @elseif ($day[$i-1][0] != $day[$i][0])
-            <div class="title_search_drugs">{{$day[$i][0]}}</div>
+            <div class="title_search_drugs">{{$day[$i][0]}} {{\App\Http\Services\Common::returnDayWeek($day[$i][0])}}</div>
             @else
             <div class="empty"></div>
             @endif

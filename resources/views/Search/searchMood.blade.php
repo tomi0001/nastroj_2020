@@ -50,7 +50,7 @@
         <tr>
             <td colspan="6">
                 <br>
-                <div class="title center">{{$list[$i]->dat}}</div>
+                <div class="title center">{{$list[$i]->dat}} {{\App\Http\Services\Common::returnDayWeek($list[$i]->dat)}}</div>
                 <br>
            
                 <table class="table">

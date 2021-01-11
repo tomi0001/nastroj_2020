@@ -84,8 +84,11 @@
       <thead>
       
       <tr>
-            <th style="width: 18%;">
-                Data <br>{{$hour}}
+            <th style="width:17%; text-align: center;">
+                <br><span style="font-size: 13px;font-weight: bold;">{{$hour}}</span>
+            </th>
+            <th>
+                Dzień tygodnia
             </th>
             <th>
                 Poziom nastroju
@@ -126,7 +129,10 @@
         @for ($i=0;$i < count($days);$i++)
         <tr>
             <td>
-                {{$days[$i]}}
+                {{$days[$i]}} 
+            </td>
+            <td>
+                {{\App\Http\Services\Common::returnDayWeek($days[$i])}}
             </td>
             <td>
                 {{$list[0][$i]}}

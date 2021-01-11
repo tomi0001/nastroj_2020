@@ -111,10 +111,11 @@ class SearchController extends Controller  {
 
             $list = $AI->selectDays($request->get("dateFrom"),
                    $request->get("dateTo"),$request->get("allDay"),$request->get("day"),Auth::User()->id,$request->get("sumDay"));
-
+            $timeFrom = $AI->returnTime($request->get("timeFrom"),0);
+            $timeTo = $AI->returnTime($request->get("timeTo"),1);
             return View("ajax.showAverage")->with("days",$AI->days)->with("list",$list)
                    ->with("day",$request->get("sumDay"))->with("harmonyMood",$AI->tableMood)->with("harmonyAnxiety",$AI->tableAnxiety)
-                    ->with("harmonyNer",$AI->tableNer)->with("harmonyStimu",$AI->tableStimu)->with("hour","Godzina od " . $request->get("timeFrom") . " do "  .  $request->get("timeTo"))
+                    ->with("harmonyNer",$AI->tableNer)->with("harmonyStimu",$AI->tableStimu)->with("hour","Godzina od " . $timeFrom . " do "  .  $timeTo)
                     ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
              
              

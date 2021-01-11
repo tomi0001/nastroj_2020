@@ -34,10 +34,10 @@ class AIMood {
     public $tableAnxiety = [];
     public $tableStimu = [];
     public $tableNer = [];
-    private $hourStart = "";
-    private $hourEnd = "";
-    private $dateStart = "";
-    private $dateEnd = "";
+    public $hourStart = "";
+    public $hourEnd = "";
+    public $dateStart = "";
+    public $dateEnd = "";
     public function setDate($dateStart,$dateEnd) {
         $Mood = new Moods;
         if ($dateStart == "") {
@@ -178,7 +178,17 @@ class AIMood {
         }
     }
     
-    
+    public function returnTime($time , $bool) {
+        if ($time == "" and $bool == 0) {
+            return "początek";
+        }
+        else if ($time == "" and $bool == 1) {
+            return "koniec";
+        }
+        else {
+            return $time;
+        }
+    }
     private function sumHour($hour) {
         $sumHour = $hour[0] - Auth::User()->start_day;
         if ($sumHour < 0) {

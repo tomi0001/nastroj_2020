@@ -134,5 +134,25 @@ class common {
         }
         return $hour2 . ":" . $time2;
     }
-
+    public static function returnDayWeek($data) {
+        $week = date('N', strtotime($data));
+        switch ($week) {
+            case 1: return "Poniedziałek";
+                break;
+            case 2: return "Wtorek";
+                break;
+            case 3: return "Środa";
+                break;
+            case 4: return "Czwartek";
+                break;
+            case 5: return "Piątek";
+                break;
+            case 6: return "Sobota";
+                break;
+            default: return "Niedziela";
+                break;
+            
+            
+        }
+    }
 }
