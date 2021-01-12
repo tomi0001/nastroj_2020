@@ -138,25 +138,35 @@ class SearchDrugs {
         if ($request->get("product") != "") {
             $this->divSearchString($request->get("product"),"products");
             for ($i=0;$i < count($this->stringPro);$i++) {
+                
                 $this->arrayFindPro[$i] = $this->findString($this->stringPro[$i],"products",$id);
-                //print "dd";
+
             }
             $this->type = "products";
             //print ("<pre>");
             //print_r($this->arrayFindPro);
             //print ("</pre>");
             //print $this->arrayFindPro[1][0][1];
-            $z = 0;
-            for ($j=0;$j < count($this->stringPro);$j++) {
-                if (count($this->arrayFindPro[$j]) ) {
-                    for ($i=0;$i < count($this->stringPro);$i++) {
-                        if (isset($this->arrayFindPro[$i][0][1]) ) {
-                            $this->string2[$z] = $this->arrayFindPro[$i][0][1];
+            
+            //$z = 0;
+            //for ($j=0;$j < count($this->stringPro);$j++) {
+                //if (count($this->arrayFindPro[$j]) ) {
+                //var_dump($this->arrayFindPro);
+            /*
+                    for ($i=0;$i < count($this->arrayFindPro);$i++) {
+                        
+                        if (isset($this->arrayFindPro[$i]) ) {
+                            //print $this->arrayFindPro[$i]->name;
+                            $this->string2[$z] = $this->arrayFindPro[$i]->name;
                         }
                         $z++;
                     }
-                }
-            }
+                //}
+            //}
+             
+             * 
+             */
+            //var_dump($this->arrayFindPro);
             $this->selectIdProduct();
             $this->bool = true;
         }
@@ -168,18 +178,7 @@ class SearchDrugs {
                                 $this->arrayFindSub[$i] = $this->findString($this->stringSub[$i],"substances",$id);
                         }
             $this->type = "substances";
-            $z = 0;
-            for ($j=0;$j < count($this->stringSub);$j++) {
-                if (count($this->arrayFindSub[$j]) != 0) {
-                    for ($i=0;$i < count($this->stringSub);$i++) {
-                        if (isset($this->arrayFindSub[$i][0][1]) ) {
-                            $this->string2[$z] = $this->arrayFindSub[$i][0][1];
-                        }
-                        
-                        $z++;
-                    }
-                }
-            }
+            var_dump($this->arrayFindSub);
             $this->selectIdSubstances();
             $this->bool = true;
         }
@@ -189,17 +188,7 @@ class SearchDrugs {
                 $this->arrayFindGro[$i] = $this->findString($this->stringGro[$i],"groups",$id);
             }
             $this->type = "groups";
-            $z = 0;
-            for ($j=0;$j < count($this->stringGro);$j++) {
-                if (count($this->arrayFindGro[$j]) != 0) {
-                    for ($i=0;$i < count($this->stringGro);$i++) {
-                         if (isset($this->arrayFindGro[$i][0][1]) ) {
-                            $this->string2[$z] = $this->arrayFindGro[$i][0][1];
-                         }
-                         $z++;
-                    }
-                }
-            }
+
             $this->selectIdGroups();
             $this->bool = true;
         }
@@ -265,7 +254,7 @@ class SearchDrugs {
      
     public function selectIdProduct() {
         $product = new product;
-        $id = $product->whereIn("name",$this->string2)->get();
+        $id = $product->whereIn("id",$this->arrayFindPro)->get();
         if (isset($id) ) {
             foreach ($id as $id2) {
                 array_push($this->id_product, $id2->id);
@@ -279,16 +268,20 @@ class SearchDrugs {
                 ->join("forwarding_substances","forwarding_substances.id_substances","substances.id")
                 ->join("products","products.id","forwarding_substances.id_products");
                 if ($not == false) {
-                    $substance->whereIn("substances.name",$this->string2);
+                    $substance->whereIn("substances.id",$this->arrayFindSub);
                 }
+                /*
                 else {
-                    $substance->whereNotIn("substances.name",$this->string3);
+                    $substance->whereNotIn("substances.id",$this->string3);
                 }
+                 * 
+                 */
                 //->whereIn("substances.name",$this->string2)->get();
        
         $id = $substance->get();
         $i = 0;
         foreach ($id as $id_product) {
+            print "ss";
             array_push($this->id_product,$id_product->id);
             $i++;
         }
@@ -304,7 +297,7 @@ class SearchDrugs {
                 ->join("forwarding_substances","substances.id","forwarding_substances.id_substances")
                 ->join("products","products.id","forwarding_substances.id_products");
                 if ($not == false) {
-                    $group->whereIn("groups.name",$this->string2);
+                    $group->whereIn("groups.id",$this->arrayFindGro);
                 }
                 else {
                     $group->whereNotIn("groups.name",$this->string3);
@@ -467,7 +460,6 @@ class SearchDrugs {
              $this->setSort($request);
    
             $this->question->orderBy($this->sort,"DESC");
-             
             $list = $this->question->paginate(10);
             
         return $list;
@@ -520,8 +512,11 @@ class SearchDrugs {
     }
     
     private function findString($search,$table,$id) {
+        
         $array = array();
-        $find = DB::table($table)->where("id_users",$id)->get();
+        $find = DB::table($table)->where("name","like","%$search%")->where("id_users",$id)->first();
+        //var_dump($find);
+        /*
         $i = 0;
         foreach ($find as $find2) {
              $find3 = DB::table($table)->get();
@@ -535,9 +530,14 @@ class SearchDrugs {
                 }
 
         }
+         * 
+         */
 
-        rsort($array);
-        return $array;
+        //rsort($array);
+        if (empty($find)) {
+            return 0;
+        }
+        return $find->id;
         
     }
     private function findSuchString($text1,$text2) {

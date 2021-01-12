@@ -63,10 +63,12 @@ class SearchController extends Controller  {
                         ->with("day",$day)->with("inDay",$request->get("day"))
                         ->with("error",$error);
             }
-            else if ($search->bool == true and $search->checkArrayFindPro(count($search->stringPro)) == false and
-                    $search->checkArrayFindSub(count($search->stringSub)) == false and $search->checkArrayFindGro(count($search->stringGro)) == false) {
+            /*
+            else if ($search->bool == true ) {
                 return back()->with("error","Nic nie wyszukano")->withinput();
             }
+             * 
+             */
             else if ( $search->bool == true ) {
                 $list = $search->createQuestions($request,$search->bool,Auth::User()->id);
                 if (count($list) == 0) {
