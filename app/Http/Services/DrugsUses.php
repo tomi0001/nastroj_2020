@@ -568,7 +568,7 @@ class DrugsUses {
     }
 
     public function selectSubstance(int $id_users) {
-        $substance = new Substances;
+        $substance = new Substance;
         $list = $substance->where("id_users",$id_users)
                 ->orderBy("name")->get();
         return $list;
@@ -576,9 +576,15 @@ class DrugsUses {
 
 
     public function selectBenzoName($id) {
-        $substances = new Substances;
+        $substances = new Substance;
         $list = $substances->find($id);
         return $list;
+        
+    }
+    public function selectEquivalent($id) {
+        $substances = new Substance;
+        $equivalent = $substances->find($id);
+        return $equivalent->equivalent;
         
     }
     private function sumAlkohol($portion,$percent) {

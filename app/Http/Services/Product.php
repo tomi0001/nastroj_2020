@@ -154,7 +154,7 @@ class Product {
     
     public function selectListProduct(int $idUsers) {
         $product = new appProduct;
-        return $product->where("id_users",$idUsers)->get();
+        return $product->where("id_users",$idUsers)->orderBy("name")->get();
     }
     
     public function checkDate($date,$time) {
@@ -242,7 +242,7 @@ class Product {
     }   
     public function showProduct(int $id_users)  {
         $Product = new appProduct;
-        $list = $Product->where("id_users",$id_users)->get();
+        $list = $Product->where("id_users",$id_users)->orderBy("name")->get();
         return $list;
         
     }   

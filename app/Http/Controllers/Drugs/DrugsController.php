@@ -250,5 +250,18 @@ class DrugsController extends Controller  {
             
         }
     }
-    
+    public function calculateBenzo(Request $request) {
+         $Drugs = new DrugsUses;
+         $equivalent = $Drugs->selectEquivalent($request->get("id"));
+         $name = $Drugs->selectBenzoName($request->get("id"));
+         //$substances->find($id);
+         $result = $Drugs->calculateEquivalent($request->get("equivalent"),10,$equivalent);
+         //print ("<body onload=\"alert('Przykładowy tekst');\">");
+         if ($request->get("i") == "all") {
+             return View("ajax.equivalentBenzo2")->with("result",$result)->with("i",$request->get("i"))->with("name",$name);
+         }
+         else {
+             return View("ajax.equivalentBenzo")->with("result",$result)->with("i",$request->get("i"))->with("name",$name);
+         }
+     }
 }

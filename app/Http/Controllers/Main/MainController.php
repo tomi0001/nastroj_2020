@@ -19,6 +19,7 @@ use App\Http\Services\Common;
 use App\Http\Services\Product;
 use App\Http\Services\DrugsUses as Drugs;
 use App\Usee as Usee;
+use App\Product as appProduct;;
 use App\Action;
 use Auth;
 use App\Mail\OrderShipped;
@@ -47,7 +48,8 @@ class MainController extends Controller  {
         $Action2 = new Action2;
         $Action2->downloadAction(Auth::id(),$Calendar->year, $Calendar->month,$Calendar->day);
         $Action2->separateShare($Calendar->year, $Calendar->month,$Calendar->day);
-        $listProduct = $Product->selectListProduct(Auth::id());
+        //$listProduct = $Product->selectListProduct(Auth::id());
+        $listProduct = appProduct::loadAllProducts();
         $Drugs->selectDrugs(Auth::User()->id,$Calendar->year . "-" . $Calendar->month . "-" . $Calendar->day);
         $Drugs->processPrice($Drugs->list);
         //if (count($Mood->arrayList) != 0) {

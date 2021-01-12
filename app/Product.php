@@ -13,6 +13,9 @@ class Product extends Model
         return self::selectRaw("name as name")->selectRaw("id as id")->where("id_users",Auth::User()->id)->where("id",$id)->first();
     }
     public static function loadAllProducts() {
-        return self::selectRaw("name as name")->selectRaw("id as id")->where("id_users",Auth::User()->id)->get();
+        return self::selectRaw("name as name")->selectRaw("id as id")->where("id_users",Auth::User()->id)->orderBy("name")->get();
+    }
+    public static function loadAllProductsIdUsers($id) {
+        return self::selectRaw("name as name")->selectRaw("id as id")->where("id_users",$id)->orderBy("name")->get();
     }
 }

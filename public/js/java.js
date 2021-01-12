@@ -816,3 +816,17 @@ function addDrugsPlaned(url,i) {
 function updatePlaned(url) {
     //$("#PlanedResult").load(url + "?" + $("form#formPlanedResult").serializeArray());
 }
+
+function calculateBenzo(url,i,equivalent) {
+     //var data = $('form#changebenzo'+i).serialize();
+     var name = $("select[name=benzo" + i +  "]").val();
+     //alert(name);
+     $("#sumbenzo"+i).load(url + "?id=" + name  + "&equivalent=" + equivalent + "&i=" + i);
+        
+}
+
+    function equivalent_benzo(value,i,name) {
+        //alert('ss');
+        $("#equivalent_tr_" + i).text("Równoażnik " + name);
+        $("#equivalent_" + i).text(value + " mg");
+    }

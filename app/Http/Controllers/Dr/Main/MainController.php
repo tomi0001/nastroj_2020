@@ -19,6 +19,7 @@ use App\Http\Services\Common;
 use App\Http\Services\Product;
 use App\Http\Services\DrugsUses as Drugs;
 use App\Action;
+use App\Product as appProduct;
 use Auth;
 class MainController extends Controller  {
     
@@ -48,7 +49,8 @@ class MainController extends Controller  {
         $Mood->sumColorForMood(Auth::User()->id_user,$Calendar->year,$Calendar->month);
         $Mood->sumColorForMoodDay(Auth::User()->id_user,$Calendar->year,$Calendar->month,$Calendar->day);
         
-        $listProduct = $Product->selectListProduct(Auth::id());
+        //$listProduct = $Product->selectListProduct(Auth::id());
+        //$listProduct = appProduct::loadAllProductsIdUsers(Auth::id());
         $Drugs->selectDrugs(Auth::User()->id_user,$Calendar->year . "-" . $Calendar->month . "-" . $Calendar->day);
         $Drugs->processPrice($Drugs->list);
         //if (count($Mood->arrayList) != 0) {
@@ -94,7 +96,7 @@ class MainController extends Controller  {
                                 ->with("boolMood",$boolMood)
                                 ->with("colorForDay",$Mood->colorDay)
                                 ->with("dayList",$Mood->DayList)
-                                ->with("listProduct",$listProduct)
+                               // ->with("listProduct",$listProduct)
                                 ->with("listDrugs",$Drugs->list)
                                 ->with("equivalent",$equivalent)
                                 ->with("ifDescription",$ifDescription)

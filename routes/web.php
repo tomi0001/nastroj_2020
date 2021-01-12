@@ -46,6 +46,7 @@ Route::group(
                     Route::get("/Drugs/updateDrugs","Drugs\DrugsController@updateRegistration")->name("Drugs.updateDrugs");
                     Route::get("/Drugs/showUpdateDrugs","Drugs\DrugsController@updateShowRegistration")->name("Drugs.updateShowDrugs");
                     Route::get("/Drugs/closeForm","Drugs\DrugsController@closeForm")->name("Drugs.closeForm");
+                    Route::get("/Drugs/calculateBenzo","Drugs\DrugsController@calculateBenzo")->name("Drugs.calculateBenzo");
                     
                     
                     
@@ -99,6 +100,7 @@ Route::group(
                     Route::get("/DrDrugs/sumAverage","Dr\Drugs\DrugsController@sumAverage")->name("DrDrugs.sumAverage");
                     Route::get("/DrDrugs/sumAverage2","Dr\Drugs\DrugsController@sumAverage2")->name("DrDrugs.sumAverage2");
                     Route::get("/DrDrugs/showDescription","Dr\Drugs\DrugsController@showDescriptionsAction")->name("DrDrugs.showDescription");
+                    Route::get("/DrDrugs/calculateBenzo","Dr\Drugs\DrugsController@calculateBenzo")->name("DrDrugs.calculateBenzo");
                     
                     
                     Route::get("/sada",'Main\MainController@ss')->name("DrSearch.SumMoodss");

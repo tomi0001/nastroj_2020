@@ -113,7 +113,7 @@
             </tr>
             <tr>
                 <td colspan='2'>
-                    <div class='center'> <input type='button' class='btn btn-success' onclick="calculateBenzo('{{ url('/ajax/sum_benzo')}}',{{$z}} ,{{$equivalent[$z]}})" value='Oblicz równoważnik'></div>
+                    <div class='center'> <input type='button' class='btn btn-success' onclick="calculateBenzo('{{ route('Drugs.calculateBenzo')}}',{{$z}} ,{{$equivalent[$z]}})" value='Oblicz równoważnik'></div>
                 </td>
                 
             </tr>
