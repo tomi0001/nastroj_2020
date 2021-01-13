@@ -6,7 +6,7 @@
             pozycja {{$loop->index+1}}
         </td>
         <td>
-            <select name="position[]" class="form-control">
+            <select name="position[]" class="form-control" id="position_{{$loop->index+1}}">
             @foreach ($listProduct as $list2)
                 @if ($list->id_products == $list2->id)
                     <option value="{{$list2->id}}" selected>{{$list2->name}}</option>
@@ -17,7 +17,13 @@
             </select>
         </td>
         <td>
-            <input type="text" name="pisitionName[]" class="form-control" value="{{$list->portion}}">
+            <input type="text" name="pisitionName[]" id="positionName_{{$loop->index+1}}" class="form-control" value="{{$list->portion}}">
+        </td>
+        
+        <td>
+             <a class="btn btn-danger btn-lg" onclick="removeDrugsPlaned('{{ route('setting.loadPosition')}}',{{$loop->index+1}})" id="a_{{$loop->index+1}}">
+                            <span class="glyphicon glyphicon-minus" id="span_{{$loop->index+1}}"></span>
+            </a>
         </td>
         @php
             $tmp = $loop->index+1;

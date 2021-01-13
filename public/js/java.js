@@ -830,3 +830,19 @@ function calculateBenzo(url,i,equivalent) {
         $("#equivalent_tr_" + i).text("Równoażnik " + name);
         $("#equivalent_" + i).text(value + " mg");
     }
+    
+function removeDrugsPlaned(url,i) {
+    if ($( "#span_" + i).hasClass( "glyphicon-minus" ) == true) {
+        $("#position_" + i).prop( "disabled",true );
+        $("#positionName_" + i).prop( "disabled",true );
+        $("#span_" + i).removeClass('glyphicon-minus').addClass('glyphicon-plus');
+        $("#a_" + i).removeClass('btn-danger').addClass('btn-info');
+    }
+    else {
+        $("#position_" + i).prop( "disabled",false );
+        $("#positionName_" + i).prop( "disabled",false );
+        $("#span_" + i).removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        $("#a_" + i).removeClass('btn-info').addClass('btn-danger');        
+    }
+    
+}
