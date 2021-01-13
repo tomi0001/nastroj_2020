@@ -386,7 +386,9 @@ class Product {
     
     public function updatePlaned(Request $request) {
         $this->deletePlaned($request->get("namePlaned"));
-        $this->createPlaned($request);
+        if (!empty($request->get("position"))) {
+            $this->createPlaned($request);
+        }
     }
     public function deletePlaned($name) {
         $Planed = new Planned_drug;
