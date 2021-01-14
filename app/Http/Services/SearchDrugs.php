@@ -138,8 +138,10 @@ class SearchDrugs {
         if ($request->get("product") != "") {
             $this->divSearchString($request->get("product"),"products");
             for ($i=0;$i < count($this->stringPro);$i++) {
-                
-                $this->arrayFindPro[$i] = $this->findString($this->stringPro[$i],"products",$id);
+                $tmp = $this->findString($this->stringPro[$i],"products",$id);
+                for ($j=0;$j < count($tmp);$j++) {
+                    $this->arrayFindPro[$j+$i] = $tmp[$j];
+                }
 
             }
             $this->type = "products";
@@ -514,7 +516,7 @@ class SearchDrugs {
     private function findString($search,$table,$id) {
         
         $array = array();
-        $find = DB::table($table)->where("name","like","%$search%")->where("id_users",$id)->first();
+        $find = DB::table($table)->where("name","like","%$search%")->where("id_users",$id)->get();
         //var_dump($find);
         /*
         $i = 0;
@@ -537,7 +539,11 @@ class SearchDrugs {
         if (empty($find)) {
             return 0;
         }
-        return $find->id;
+        $array = [];
+        foreach ($find as $find2) {
+            $array[] = $find2->id;
+        }
+        return $array;
         
     }
     private function findSuchString($text1,$text2) {
