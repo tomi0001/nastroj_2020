@@ -15,4 +15,7 @@ class Mood extends Model
     public static function showDescription($id,$idUser) {
         return Mood::select("what_work")->where("id",$id)->where("id_users",$idUser)->first();
     }
+    public static function checkMoodsIdUsers($idUsers,$idMoods) {
+        return self::where("id",$idMoods)->where("id_users",$idUsers)->first();
+    }
 }

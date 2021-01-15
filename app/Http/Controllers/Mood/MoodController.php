@@ -19,6 +19,8 @@ use App\Mood as AppMood;
 use App\Sleep;
 use App\Http\Services\Action;
 use App\Action_plan;
+use App\Moods_action;
+use App\Action as ActionApp;
 use App\Http\Services\Common;
 use Auth;
 class MoodController extends Controller  {
@@ -170,6 +172,21 @@ class MoodController extends Controller  {
         if (Auth::User()->type == "user") {
             $Mood = new Mood;
             $Mood->deleteSleep($request);
+        }
+    }
+    public function ddDeleteAction(Request $request) {
+        if (Auth::User()->type == "user") {
+            
+            $list = ActionApp::selectAction(Auth::id());
+            return View("ajax.ActionAddShow")->with("Action",$list)->with("i",$request->get("i"))->with("id",$request->get("id"));
+        }
+    }
+    public function updateActionMoods(Request $request) {
+        if (Auth::User()->type == "user") {
+            $Action = new Action;
+            $Action->updateAddDeleteAction(json_decode($request->get("array")),$request->get("idMood"));
+            
+            
         }
     }
 }

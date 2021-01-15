@@ -165,7 +165,8 @@
                         
                         <button onclick="editMood('{{route('mood.edit')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">Edytuj nastrój</button>
                         <button onclick="deleteMood('{{route('mood.delete')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-danger btn-lg">Usuń nastrój</button>
-                        <button onclick="addDescription('{{route('mood.addDescription')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">Edytuj dodaj opis</button>
+                        <button onclick="addDescription('{{route('mood.addDescription')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">Edytuj dodaj opis</button><br><br>
+                        <button onclick="addAction('{{route('mood.addDeleteAction')}}',{{$listMood[$i-1]["id"]}},{{$i-1}})" class="btn btn-primary btn-lg">dodaj usuń akcje</button>
                 </div>
             @endif
 
@@ -178,6 +179,7 @@
                 <div id="showFieldText{{$i-1}}" class='center' style='width: 50%; display: none;'></div>
                 <div id="viewEditMood{{$i-1}}" style='display: none;'></div>
                 <div id="showDrugs{{$i-1}}" style='display: none;'></div>
+                <div id="showAddAction{{$i-1}}" style='display: none;'></div>
 
                
 
@@ -191,6 +193,7 @@
             </table>
         </td>
     </tr>
+
 
 
 

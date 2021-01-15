@@ -79,7 +79,7 @@
                                     <input type='number' name='epizodesPsychotic' class='form-control' value='0' min='0' onkeypress="return runScript(event,'{{ route('Mood.Add')}}')">
                                 </td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td class='value'  style='padding-top: 30%; ' rowspan="2">
                                     Co robiłem
                                 </td>

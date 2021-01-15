@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Action as ActionApp;
 use App\Actions_plan;
 use App\Moods_action;
+use App\Mood;
 use App\Http\Services\Common as common;
 use Auth;
 
@@ -458,7 +459,27 @@ class Action {
             return [date("Y-m-d H:i:s",$second),date("Y-m-d H:i:s",$second2)];
         }
     }
-    
-    
+    private function deleteAction(int $idMood) {
+        $Action = new Moods_action;
+        $Action->where("id_moods",$idMood)->delete();
+    }
+ 
+    public function updateAddDeleteAction(array $action,int $idMood) {
+        //var_dump($action);
+        $check = Mood::checkMoodsIdUsers(Auth::User()->id,$idMood);
+        if (!empty($check)) {
+            $this->deleteAction($idMood);
+            $this->createAction($action);
+        }
+    }
+    private function createAction(array $action) {
+        for ($i=0;$i < count($action);$i++) {
+                    $tmp = explode("_",$action[$i]);
+                    $Action = new Moods_action;
+                    $Action->id_moods = $tmp[1];
+                    $Action->id_actions = $tmp[0];
+                    $Action->save();
+        }
+    }
 
 }

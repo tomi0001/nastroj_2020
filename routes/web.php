@@ -30,6 +30,9 @@ Route::group(
                     Route::get('/Mood/ActionShow', 'Mood\MoodController@ActionShow')->name('action.show');
                     Route::get('/Mood/EditDescription', 'Mood\MoodController@EditDescription')->name('Mood.editDescription');
                     Route::get('/Mood/EditAction', 'Mood\MoodController@EditAction')->name('Mood.editAction');
+                    Route::get('/Mood/addDeleteAction', 'Mood\MoodController@ddDeleteAction')->name('mood.addDeleteAction');
+                    Route::get('/Mood/updateActionMoods', 'Mood\MoodController@updateActionMoods')->name('ajax.updateActionMoods');
+                    
                     Route::get('/DrMood/ShowDescription', 'Dr\Mood\MoodController@ShowDescription')->name('Drmood.showDescription');
                     Route::get('/DrMood/ActionShow', 'Dr\Mood\MoodController@ActionShow')->name('Draction.show');
                     

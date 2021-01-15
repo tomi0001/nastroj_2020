@@ -24,4 +24,8 @@ class Moods_action extends Model
                 ->groupBy("moods_actions.id_actions")
                     ->get();
     }
+    public static function compareIdActionMood($idAction,$idMood) {
+        return self::where("id_actions",$idAction)->where("id_moods",$idMood)->first();
+    }
+
 }

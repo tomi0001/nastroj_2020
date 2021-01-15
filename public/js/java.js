@@ -2,6 +2,7 @@ var actionList = [];
 var actionList2 = [];
 
 
+
 $(document).ready(function(){
     $(".Action___").click(function(){
      if (getNumber($(this).attr("id"),actionList)) {
@@ -9,8 +10,10 @@ $(document).ready(function(){
         $(this).css("background-color","transparent");
         $(this).css("border-radius",'0px');
         $(this).css("color","#4288BA");
+        
     }
     else {
+        
         actionList.push($(this).attr("id"));
         $(this).css("background-color","#95721F");
         $(this).css("border-radius",'30px');
@@ -58,7 +61,12 @@ Array.prototype.remove2=function(s){
                 }
                 
 
-
+function selectAction(id) {
+    actionList.push($("#" + id).attr("id"));
+        $("#" + id).css("background-color","#95721F");
+        $("#" + id).css("border-radius",'30px');
+        $("#" + id).css("color","white");
+}
 
 function switchVisibleMoodDobule(array,bool = 0) {
     switchVisibleMood();
@@ -564,12 +572,14 @@ function reload() {
     deleteArray();
 }
 function changeArrayAtHidden(z) {
+
     for (i=0;i < actionList.length;i++) {
         if (isIst(actionList[i])) {
             $("#form" + z).append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
         }
     }
 }
+
 /*
 function changeArrayAtHiddenAction() {
     for (i=0;i < actionList.length;i++) {
@@ -580,6 +590,10 @@ function changeArrayAtHiddenAction() {
 }
  * 
  */
+
+
+
+
 function isIst(id) {
     if (actionList.length == 0) {
         return false;
@@ -842,7 +856,12 @@ function removeDrugsPlaned(url,i) {
         $("#position_" + i).prop( "disabled",false );
         $("#positionName_" + i).prop( "disabled",false );
         $("#span_" + i).removeClass('glyphicon-plus').addClass('glyphicon-minus');
-        $("#a_" + i).removeClass('btn-info').addClass('btn-danger');        
+        $("#a_" + i).removeClass('btn-info').addClass('btn-danger');
     }
     
 }
+
+function addAction(url,id,i) {
+    $("#showAddAction"+i).load(url + "?i=" + i  + "&id=" + id).toggle();;
+}
+
