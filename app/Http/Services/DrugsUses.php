@@ -12,10 +12,12 @@ use App\Actions_plan;
 use App\Moods_action;
 use App\Usee;
 use App\User;
+use App\Group;
 use App\Description;
 use App\Forwarding_description;
 use App\Forwarding_substance;
 use App\Substance;
+use DB;
 use App\Http\Services\Common as common;
 use Auth;
 use App\Product as appProduct;
@@ -140,7 +142,10 @@ class DrugsUses {
         $this->updateName2($id,"products");
     }  
    
-   
+    public function updateGroups(Request $request, int $id) {
+        $group = new Group;
+        $group->where("id",$id)->update(["name" => $request->get("name")]);
+    }
     
     public function selectDrugs(int $id_users,$date) {
         $Drugs  = new Usee;

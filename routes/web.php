@@ -70,6 +70,11 @@ Route::group(
                     Route::get('/User/loadPosition', 'User\SettingController@loadPosition')->name('setting.loadPosition');
                     Route::get('/User/updatePlaned', 'User\SettingController@updatePlaned')->name('setting.updatePlaned');
                     Route::get('/User/deletePlaned/{name}', 'User\SettingController@deletePlaned')->name('setting.deletePlaned');
+                    Route::get('/User/editGroup', 'User\SettingController@editGroup')->name('setting.editGroup');
+                    Route::get('/User/changeGroup', 'User\SettingController@changeGroup')->name('setting.changeGroup');
+                    
+                    
+                    
                     
                     Route::get("/Mood/SleepDelete",'Mood\MoodController@SleepDelete')->name("sleep.delete");
                     Route::get("/Mood/SleepAdd",'Mood\MoodController@Sleepadd')->name("Sleep.Add");

@@ -186,6 +186,8 @@ class Search {
                    . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas3");
             $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  * level_stimulation) / "
                    . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas4");
+            
+            
         }
         //$hour = Auth::User()->start_day;
         $this->question->selectRaw(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as dat"));
@@ -205,10 +207,13 @@ class Search {
         //if ($request->get("actions") != null and $this->emptyArray($request->get("actions")) or $request->get("ifactions") == "on") {
             $this->question->leftjoin("moods_actions","moods_actions.id_moods","moods.id")->leftjoin("actions","actions.id","moods_actions.id_actions");
             $this->question->selectRaw("moods_actions.id_actions as id_actions");
+            $this->question->selectRaw("actions.name as actionDay ");
         //}
         $this->setIdUsers($id);
         if ($request->get("valueAllDay") == "on") {
+            
             $this->setGroup($request);
+            $this->setHavingAction($request);
         }
   
         else {
@@ -333,14 +338,45 @@ class Search {
         }}});
                 
      }
-     
+    private function setHavingAction(Request $request) {
+        
+        $this->question->where(function ($query) use ($request) {
+        for ($i=0;$i < count($request->get("actions") );$i++) {
+            //print $request->get("actions")[$i];
+            //if ($request->get("actions")[$i] != "") {
+                $query->orwhereRaw("actions.name like '%" . $request->get("actions")[$i]  . "%'");
+                if (isset($request->get("actions")[$i]) and $request->get("actions")[$i] != null and isset($request->get("actionsNumberFrom")[$i]) and $request->get("actionsNumberFrom")[$i] != "" and   isset($request->get("actionsNumberTo")[$i]) and $request->get("actionsNumberTo")[$i] != "") {
+                    $percent = $request->get("actionsNumberFrom")[$i];
+                    $percent2 = $request->get("actionsNumberTo")[$i];
+                    
+                    $this->question->orhavingRaw("(  (sum(TIMESTAMPDIFF(minute,moods.date_start,moods.date_end)) >= '$percent') and (sum(TIMESTAMPDIFF(minute,moods.date_start,moods.date_end)) <= '$percent2'))");
+                    //$query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%'  and moods_actions.percent_executing >= '$percent'  and moods_actions.percent_executing <= '$percent2')");
+                }
+                else if (  isset($request->get("actionsNumberFrom")[$i])   and  $request->get("actionsNumberFrom")[$i] != ""  ) {
+                    $percent = $request->get("actionsNumberFrom")[$i] ;
+                    
+                    $this->question->orhavingRaw("(  sum(TIMESTAMPDIFF(minute,moods.date_start,moods.date_end)) >= '$percent')");
+                    //$query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing >= '$percent')");
+                }
+                else if (  isset($request->get("actionsNumberTo")[$i])   and $request->get("actionsNumberTo")[$i] != "" ) {
+                    $percent = $request->get("actionsNumberTo")[$i];
+                    $this->question->orhavingRaw("(  sum(TIMESTAMPDIFF(minute,moods.date_start,moods.date_end)) <= '$percent')");
+                    //$query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing <= '$percent')");
+                }
+
+            //}
+            }}); 
+        
+    }
     private function setWhatAction(Request $request) {
+
+         
         $this->question->where(function ($query) use ($request) {
         for ($i=0;$i < count($request->get("actions") );$i++) {
                 if (isset($request->get("actions")[$i]) and $request->get("actions")[$i] != null and isset($request->get("actionsNumberFrom")[$i]) and $request->get("actionsNumberFrom")[$i] != "" and   isset($request->get("actionsNumberTo")[$i]) and $request->get("actionsNumberTo")[$i] != "") {
                     $percent = $request->get("actionsNumberFrom")[$i];
                     $percent2 = $request->get("actionsNumberTo")[$i];
-                    $query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and  (TIMESTAMPDIFF(minute,moods.date_start,moods.date_end)) >= '$percent') and (TIMESTAMPDIFF(minute,moods.date_start,moods.date_end) <= '$percent2')");
+                    $query->orwhereRaw(" (actions.name like '%" . $request->get("actions")[$i]  . "%' and  (TIMESTAMPDIFF(minute,moods.date_start,moods.date_end) >= '$percent') and (TIMESTAMPDIFF(minute,moods.date_start,moods.date_end) <= '$percent2'))");
                     //$query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%'  and moods_actions.percent_executing >= '$percent'  and moods_actions.percent_executing <= '$percent2')");
                 }
                 else if (  isset($request->get("actionsNumberFrom")[$i])   and  $request->get("actionsNumberFrom")[$i] != ""  ) {
@@ -355,11 +391,12 @@ class Search {
                     //$query->orwhereRaw("(actions.name like '%" . $request->get("actions")[$i]  . "%' and moods_actions.percent_executing <= '$percent')");
                 }
                 else  {
-                    $query->orwhereRaw("actions.name like '%" . $request->get("actions")[$i]  . "%'");
+                    $query->orwhereRaw(" actions.name like '%" . $request->get("actions")[$i]  . "%'");
                 }
 
             }});
     }
+            
     private function emptyArray($array) {
         $bool = false;
         for ($i = 0;$i < count($array);$i++) {

@@ -18,6 +18,9 @@
         </table>
     
     <div class='menuSetting'>
+        <div class='titleSettingPosition'>
+        USTAWIENIA NASTROJU
+        </div>
         <div class='settingPosition'>
             <a class='settingPosition' id='settingPosition_1' onclick="switchSetting('settingAction','settingPosition_1')">DODAJ NOWĄ AKCJE</a>
         </div>
@@ -30,8 +33,11 @@
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_4'  onclick="switchSetting('changeDateAction','settingPosition_4')">ZMIEŃ DATY AKCJI</a>
         </div>
-        <div class='settingPosition' >
+        <div class='settingPosition2' >
             <a class='settingPosition' id='settingPosition_5'  onclick="switchSetting('addHashDr','settingPosition_5')">NADAJ HASH LEKARZOWI</a>
+        </div>
+        <div class='titleSettingPosition'>
+        USTAWIENIA SUBSTANCJI
         </div>
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_6'  onclick="switchSetting('addGroup','settingPosition_6')">DODAJ NOWĄ GRUPĘ</a>
@@ -41,6 +47,15 @@
         </div>
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_8'  onclick="switchSetting('addProduct','settingPosition_8')">DODAJ NOWY PRODUKT</a>
+        </div>
+        <div class='settingPosition' >
+            <a class='settingPosition' id='settingPosition_10'  onclick="switchSetting('editGroup','settingPosition_10')">EDYTUJ GRUPĘ</a>
+        </div>
+        <div class='settingPosition' >
+            <a class='settingPosition' id='settingPosition_11'  onclick="switchSetting('editSubstances','settingPosition_11')">EDYTUJ SUBSTANCJE</a>
+        </div>
+        <div class='settingPosition' >
+            <a class='settingPosition' id='settingPosition_12'  onclick="switchSetting('editProduct','settingPosition_12')">EDYTUJ PRODUKT</a>
         </div>
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_9'  onclick="switchSetting('addPlaned','settingPosition_9')">ZAPLANUJ DAWKĘ</a>
@@ -56,6 +71,9 @@
     @include ('User.Setting.addSubstances')
     @include ('User.Setting.addProduct')
     @include ('User.Setting.addPlaned')
+    @include ('User.Setting.editGroup')
+    @include ('User.Setting.editSubstances')
+    @include ('User.Setting.editProduct')
     
     
     

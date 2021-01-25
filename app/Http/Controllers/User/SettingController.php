@@ -12,8 +12,10 @@ use Illuminate\Routing\Controller as BaseController;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Services\Action;
+use App\Http\Services\DrugsUses as Drugs;
 use App\Action as ActionApp;
 use App\Actions_plan;
+use App\Group;
 use App\Product as ProductApp;
 use App\Planned_drug;
 use App\Http\Services\Product;
@@ -223,6 +225,37 @@ class SettingController  extends Controller  {
                 
             }
             
+        }
+        
+    }
+    public function EditGroup(Request $request) {
+
+         if (Auth::User()->type == "user") {
+                if ( (Auth::check()) ) {
+                    $group = Group::selectGroupId($request->get("id"));
+                    return View("ajax.editGroup")->with("list",$group);
+                }
+         }
+    }
+    public function changeGroup(Request $request) {
+        
+        $drugs = new Drugs;
+        if (Auth::User()->type == "user") {
+            $bool = $drugs->ifIdIsUsera("groups",$request->get("id"));
+            if ($bool == false) {
+                return View("ajax.error")->with("error",["Próbujesz zmodyfikować nie swoją grupę"]);
+            }
+            if ($request->get("name") == "") {
+                return View("ajax.error")->with("error",["Pole nazwa nie może być puste"]);
+            }
+            $bool = $drugs->checkName($request->get("id"),$request->get("name"),"groups");
+            if ($bool == false) {
+                return View("ajax.error")->with("error",["Już jest grupa o takiej nazwie"]);
+            }
+            else {
+                $drugs->updateGroups($request,$request->get("id"));
+                return View("ajax.succes")->with("succes","Pomyslnie zmodyfikowana grupa");
+            }
         }
         
     }

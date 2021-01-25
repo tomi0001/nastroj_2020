@@ -170,12 +170,38 @@ function switchVisibleMoodShow(bool = 0) {
         var form = $("form#addProductAction").serialize();
         $("#ajax_add_product").load(url + "?" + form);
     }
+    function EditGroup(url) {
+        var id = $("select[name=group]").val();
+        if (id != "") {
+            $("#ajax_editGroup").load(url + "?id=" + id);
+        }
+    }
+    function EditSubstance(url) {
+        var id = $("select[name=substance]").val();
+        if (id != "") {
+            $("#ajax_editSubstance").load(url + "?id=" + id);
+        }
+    }
+    function EditProduct(url) {
+        var id = $("select[name=product]").val();
+        if (id != "") {
+            $("#ajax_editProduct").load(url + "?id=" + id);
+        }
+        
+    }
+    function changeGroup(url,id) {
+        //var name = escape($("input[name=name]").val());
+        var form = $("#editGroupAction").serialize();
+        $("#groupResult").load(url + "?"  + form + "&id=" + id);
+        //alert(color);
+        
+    }
     function addPlaned(url) {
         var form = $("form#addPlanedAction").serialize();
         $("#ajax_add_planed").load(url + "?" + form);
     }
-var arraySetting = ["settingAction","levelMood","changeNameAction","changeDateAction","addHashDr","addGroup","addSubstances","addProduct","addPlaned"];
-var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6","settingPosition_7","settingPosition_8","settingPosition_9"];
+var arraySetting = ["settingAction","levelMood","changeNameAction","changeDateAction","addHashDr","addGroup","addSubstances","addProduct","addPlaned","editGroup","editSubstances","editProduct"];
+var arraySetting2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6","settingPosition_7","settingPosition_8","settingPosition_9","settingPosition_10","settingPosition_11","settingPosition_12"];
 function switchSetting(id = "settingAction",id2 = "settingPosition_1") {
     for (i=0;i < arraySetting.length;i++) {
         if (id == arraySetting[i]) {

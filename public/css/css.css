@@ -114,6 +114,19 @@ div.settingPosition {
     cursor: pointer;
     padding-bottom: 6px;
 }
+div.settingPosition2 {
+    float: center;
+    padding-right: 10px;
+    cursor: pointer;
+    padding-bottom: 6px;
+}
+div.titleSettingPosition {
+    text-align: center;
+
+    font-size: 23px;
+    font-weight: bold;
+    color: yellow;
+}
 a.settingPosition {
     color: yellow;
     font-size: 18px;

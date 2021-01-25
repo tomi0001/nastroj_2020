@@ -138,9 +138,12 @@ class SearchDrugs {
         if ($request->get("product") != "") {
             $this->divSearchString($request->get("product"),"products");
             for ($i=0;$i < count($this->stringPro);$i++) {
+                
                 $tmp = $this->findString($this->stringPro[$i],"products",$id);
-                for ($j=0;$j < count($tmp);$j++) {
-                    $this->arrayFindPro[$j+$i] = $tmp[$j];
+                if ($tmp != 0) {
+                    for ($j=0;$j < count($tmp);$j++) {
+                        $this->arrayFindPro[$j+$i] = $tmp[$j];
+                    }
                 }
 
             }
@@ -168,8 +171,10 @@ class SearchDrugs {
              
              * 
              */
-            //var_dump($this->arrayFindPro);
-            $this->selectIdProduct();
+            
+            if (is_int(($this->arrayFindPro[0]))) {
+                $this->selectIdProduct();
+            }
             $this->bool = true;
         }
         
@@ -180,7 +185,7 @@ class SearchDrugs {
                                 $this->arrayFindSub[$i] = $this->findString($this->stringSub[$i],"substances",$id);
                         }
             $this->type = "substances";
-            var_dump($this->arrayFindSub);
+            
             $this->selectIdSubstances();
             $this->bool = true;
         }
@@ -536,12 +541,17 @@ class SearchDrugs {
          */
 
         //rsort($array);
-        if (empty($find)) {
-            return 0;
-        }
+
+        
         $array = [];
+        $i = 0;
         foreach ($find as $find2) {
+
             $array[] = $find2->id;
+            $i++;
+        }
+        if ($i == 0) {
+            return 0;
         }
         return $array;
         
