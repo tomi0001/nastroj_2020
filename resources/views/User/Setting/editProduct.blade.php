@@ -1,8 +1,31 @@
-<?php
+<div id="editProduct" style='display: none;'>
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+     <form method="get" id='editProductAction'>
+                <table class="table center">
+                    <tr>
+                        <td>
+                            Nazwa Produktu
+                        </td>
+                       
+                    
+                    
+                    
 
+                        <td  class="center">
+                            <select name="product" class="form-control form-control-lg" onChange="EditProduct('{{route('setting.editProduct')}}')">
+                                <option value="" selected></option>
+                                @foreach ($listProduct as $listPro)
+                                    <option value="{{$listPro->id}}">{{$listPro->name}}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        
+                    </tr>
+                </table>
+                <div id="ajax_editProduct" class='ajax' style="overflow-y: scroll;  height:300;  width: 60%; margin-left: auto; margin-right: auto;">
+                    
+                </div>
+                
+                
+      </form>
+</div>

@@ -237,6 +237,67 @@ class SettingController  extends Controller  {
                 }
          }
     }
+    public function EditSubstance(Request $request) {
+        $drugs = new Product;
+        if (Auth::User()->type == "user") {
+            $group = $drugs->selectGroupName($request->get("id"));
+            $name = $drugs->selectNameSubstance($request->get("id"));
+            return View("ajax.EditSubstance")->with("list",$group)
+                    ->with("id",$request->get("id"))->with("name",$name);
+        }
+        
+    }
+    public function EditProduct(Request $request) {
+        $drugs = new Product;
+        if (Auth::User()->type == "user") {
+            $substance = $drugs->selectSubstanceName($request->get("id"));
+            $name = $drugs->selectNameProduct($request->get("id"));
+            return View("ajax.editProduct")->with("list",$substance)
+                    ->with("id",$request->get("id"))->with("name",$name);
+        }
+        
+        
+    }
+    public function changeProduct(Request $request) {
+        $drugs = new Drugs;
+        if (Auth::User()->type == "user") {
+            $bool = $drugs->ifIdIsUsera("products",$request->get("id_sub"));
+            if ($bool == false) {
+                return View("ajax.error")->with("error",["Próbujesz zmodyfikować nie swoją produkt"]);
+            }
+            if ($request->get("name") == "") {
+                return View("ajax.error")->with("error",["Pole nazwa nie może być puste"]);
+            }
+            $bool = $drugs->checkName($request->get("id_sub"),$request->get("name"),"products");
+            if ($bool == false) {
+                return View("ajax.error")->with("error",["Już jest produkt o takiej nazwie"]);
+            }
+            else {
+                $drugs->updateProduct($request,$request->get("id_sub"));
+                return View("ajax.succes")->with("succes","Pomyslnie zmodyfikowana produkt");
+            }
+        }
+    }
+    public function changeSubstance(Request $request) {
+        $drugs = new Drugs;
+        if (Auth::User()->type == "user") {
+            $bool = $drugs->ifIdIsUsera("substances",$request->get("id_sub"));
+            if ($bool == false) {
+                return View("ajax.error")->with("error",["Próbujesz zmodyfikować nie swoją substancję"]);
+            }
+            if ($request->get("name") == "") {
+                return View("ajax.error")->with("error",["Pole nazwa nie może być puste"]);
+            }
+            $bool = $drugs->checkName($request->get("id_sub"),$request->get("name"),"substances");
+            if ($bool == false) {
+                return View("ajax.error")->with("error",["Już jest substancja o takiej nazwie"]);
+            }
+            else {
+                $drugs->updateSubstance($request,$request->get("id_sub"));
+                return View("ajax.succes")->with("succes","Pomyslnie zmodyfikowana substancja");
+            }
+        }
+    }
     public function changeGroup(Request $request) {
         
         $drugs = new Drugs;

@@ -57,6 +57,101 @@ class Product {
    
         
     }
+    public function selectGroupName(int $id) {
+        $group = new Group;
+        $arrayGroup = array();
+        $idGroup = $this->selectIdGroup($id);
+        $i = 0;
+
+        $list = $group->selectRaw("groups.name as name")
+                ->selectRaw("groups.id as id_gro")
+                ->where("groups.id_users",Auth::User()->id)
+                ->orderBy("name")
+                ->get();
+        foreach ($list as $listGroup)  {
+            $bool = false;
+            
+            foreach ($idGroup as $id_Gro) {
+                if ($listGroup->id_gro == $id_Gro->id_groups) {
+                    $bool = true;
+                }
+                
+            }
+            
+            if ($bool == true) {
+                $arrayGroup[$i][0] = $listGroup->id_gro;
+                $arrayGroup[$i][1] = $listGroup->name;
+                $arrayGroup[$i][2] = true;
+            }
+            else {
+                $arrayGroup[$i][0] = $listGroup->id_gro;
+                $arrayGroup[$i][1] = $listGroup->name;
+                $arrayGroup[$i][2] = false;
+            }
+            $i++;
+        }
+        return $arrayGroup;
+        
+    }
+    
+   public function selectSubstanceName(int $id) {
+        $group = new Substances;
+        $arrayGroup = array();
+        $idGroup = $this->selectIdSubstance($id);
+        $i = 0;
+
+        $list = $group->selectRaw("substances.name as name")
+                    ->selectRaw("substances.id as id_sub")
+                ->where("substances.id_users",Auth::User()->id)
+                ->orderBy("name")
+                ->get();
+        foreach ($list as $listGroup)  {
+            $bool = false;
+            
+            foreach ($idGroup as $id_Gro) {
+                if ($listGroup->id_sub == $id_Gro->id_substances) {
+                    $bool = true;
+                }
+                
+            }
+            
+            if ($bool == true) {
+                $arrayGroup[$i][0] = $listGroup->id_sub;
+                $arrayGroup[$i][1] = $listGroup->name;
+                $arrayGroup[$i][2] = true;
+            }
+            else {
+                $arrayGroup[$i][0] = $listGroup->id_sub;
+                $arrayGroup[$i][1] = $listGroup->name;
+                $arrayGroup[$i][2] = false;
+            }
+            $i++;
+        }
+        return $arrayGroup;
+        
+    }
+    public function selectNameSubstance(int $id) {
+        $Substances = new Substances;
+        $name = $Substances->where("id_users",Auth::User()->id)->where("id",$id)->first();
+        return $name->name;
+    }
+    public function selectNameProduct(int $id) {
+        $Product= new appProduct;
+        $name = $Product->where("id_users",Auth::User()->id)->where("id",$id)->first();
+        return $name->name;        
+    }
+    private function selectIdGroup(int $id) {
+        $forwarding = new Forwarding_group;
+        $list = $forwarding->where("id_substances",$id)->get();
+        return $list;
+        
+    }
+    private function selectIdSubstance(int $id) {
+        $forwarding = new Forwarding_substance;
+        $list = $forwarding->where("id_products",$id)->get();
+        return $list;
+        
+    }
     public function addPlaned(Request $request,int $idUsers,string $name) {
         $Planed = new Planned_drug;
         $Planed->name = $name;

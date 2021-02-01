@@ -16,6 +16,7 @@ use App\Group;
 use App\Description;
 use App\Forwarding_description;
 use App\Forwarding_substance;
+use App\Forwarding_group;
 use App\Substance;
 use DB;
 use App\Http\Services\Common as common;
@@ -135,11 +136,21 @@ class DrugsUses {
             return true;
         }
     }
-    public function updateProduct(int $id) {
+    public function updateSubstance(Request $request,int $id) {
+        $Forwarding_group = new Forwarding_group;
+        $Forwarding_group->where("id_substances",$id)->delete();
+        if (!empty($request->get("id"))) {
+            $this->addForwardingSubstance($request,$id);
+        }
+        $this->updateName2($request,$id,"substances");
+    }
+    public function updateProduct(Request $request,int $id) {
         $Forwarding_group = new Forwarding_substance;
         $Forwarding_group->where("id_products",$id)->delete();
-        $this->addForwardingProduct($id);
-        $this->updateName2($id,"products");
+        if (!empty($request->get("id"))) {
+            $this->addForwardingProduct($request,$id);
+        }
+        $this->updateName2($request,$id,"products");
     }  
    
     public function updateGroups(Request $request, int $id) {
@@ -537,9 +548,29 @@ class DrugsUses {
     }
     
     
+    private function updateName2(Request $request,int $id,string $table) {
+        DB::table($table)->where("id",$id)->update(["name"=>$request->get("name")]);
+        
+    }
+    private function addForwardingSubstance(Request $request,int $id) {
+        for ($i = 0;$i < count($request->get("id"));$i++) {
+            $Forwarding_group = new Forwarding_group;
+            $Forwarding_group->id_substances = $id;
+            $Forwarding_group->id_groups = $request->get("id")[$i];
+            $Forwarding_group->save();
+        }
+        
+    }    
     
-    
-    
+    private function addForwardingProduct(Request $request,int $id) {
+        for ($i = 0;$i < count($request->get("id"));$i++) {
+            $Forwarding_group = new Forwarding_substance;
+            $Forwarding_group->id_products = $id;
+            $Forwarding_group->id_substances = $request->get("id")[$i];
+            $Forwarding_group->save();
+        }
+        
+    }    
     
     
     public function sumPercentAlkohol() {

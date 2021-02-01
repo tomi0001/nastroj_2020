@@ -72,8 +72,10 @@ Route::group(
                     Route::get('/User/deletePlaned/{name}', 'User\SettingController@deletePlaned')->name('setting.deletePlaned');
                     Route::get('/User/editGroup', 'User\SettingController@editGroup')->name('setting.editGroup');
                     Route::get('/User/changeGroup', 'User\SettingController@changeGroup')->name('setting.changeGroup');
-                    
-                    
+                    Route::get('/User/editSubstance', 'User\SettingController@editSubstance')->name('setting.editSubstances');
+                    Route::get('/User/changeSubstance', 'User\SettingController@changeSubstance')->name('setting.changeSubstance');
+                    Route::get('/User/editProduct', 'User\SettingController@editProduct')->name('setting.editProduct');
+                    Route::get('/User/changeProduct', 'User\SettingController@changeProduct')->name('setting.changeProduct');
                     
                     
                     Route::get("/Mood/SleepDelete",'Mood\MoodController@SleepDelete')->name("sleep.delete");

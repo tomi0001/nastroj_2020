@@ -891,3 +891,20 @@ function addAction(url,id,i) {
     $("#showAddAction"+i).load(url + "?i=" + i  + "&id=" + id).toggle();;
 }
 
+    function changeProduct(url,id) {
+        
+        $("#productResult").load(url + "?" +  $( "#editProductAction" ).serialize() + "&id_sub=" + id);
+    }
+    function changeSubstance(url,id) {
+
+        $("#substanceResult").load(url + "?" +  $( "form#editSubstancesAction" ).serialize() + "&id_sub=" + id);
+        
+    
+    }
+    function EditProduct(url) {
+        var id = $("select[name=product]").val();
+        if (id != "") {
+            $("#ajax_editProduct").load(url + "?id=" + id);
+        }
+        
+    }
