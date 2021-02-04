@@ -213,8 +213,9 @@ class Search {
         if ($request->get("valueAllDay") == "on" or $request->get("sumMoods") == "on") {
 
             $this->setGroup($request);
-
-                $this->setHavingAction($request);
+                if (is_array($request->get("actions"))  ) {
+                    $this->setHavingAction($request);
+                }
 
         }
 

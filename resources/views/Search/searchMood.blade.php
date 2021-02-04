@@ -219,6 +219,7 @@
                 ->appends(['valueAllDay'=>Request::get("valueAllDay")])
                 ->appends(['ifDescriptions'=>Request::get("ifDescriptions")])
                 ->appends(['ifactions'=>Request::get("ifactions")])
+                ->appends(['sumMoods'=>Request::get("sumMoods")])
                 ->links();
                 @endphp
                 {{$list}}
