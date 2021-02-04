@@ -18,4 +18,5 @@ class Mood extends Model
     public static function checkMoodsIdUsers($idUsers,$idMoods) {
         return self::where("id",$idMoods)->where("id_users",$idUsers)->first();
     }
+
 }
