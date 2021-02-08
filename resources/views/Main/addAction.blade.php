@@ -74,7 +74,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2" class="center">
-                                    <input type="button" onclick="addAction('{{ route('Action.Add')}}')" class="btn btn-success btn-lg" value="Dodaj zdarzenie" >
+                                    <input type="button" onclick="addAction2('{{ route('Action.Add')}}')" class="btn btn-success btn-lg" value="Dodaj zdarzenie" >
                                 </td>
                             </tr>    
                             <tr>

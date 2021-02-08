@@ -370,7 +370,9 @@ function LoadPage(url) {
     window.location.replace(url);
 }
 
-function addAction(url) {
+function addAction2(url) {
+    
+    
     $("#form4").find(":hidden").filter("[name!='idAction']").remove();
 
 
