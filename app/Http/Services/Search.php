@@ -29,6 +29,7 @@ class Search {
     public $listPercent = [];
     private $i = 0;
     public $count = 0;
+    public $bool = false;
     private function sortMoods2($listMoods) {
         $Mood = new Mood;
         foreach ($listMoods as $Moodss) {
@@ -196,10 +197,12 @@ class Search {
         $this->question->selectRaw(DB::Raw("(DAY(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as day"));
         $this->question->selectRaw("moods.date_start as date_start");
         $this->question->selectRaw("moods.date_end as date_end");
-        $this->question->selectRaw("moods.level_mood  as level_mood ");
-        $this->question->selectRaw("moods.level_anxiety as level_anxiety");
-        $this->question->selectRaw("moods.level_nervousness as level_nervousness");
-        $this->question->selectRaw("moods.level_stimulation as level_stimulation");
+        if ($request->get("sumMoods") == "on" ) {
+            $this->setGroupAll();
+        }
+        else {
+            $this->setGroupDay();
+        }
         $this->question->selectRaw("moods.epizodes_psychotik as epizodes_psychotik");
         $this->question->selectRaw("moods.what_work as what_work");
         $this->question->selectRaw("moods.id as id");
@@ -210,15 +213,37 @@ class Search {
             $this->question->selectRaw("actions.name as actionDay ");
         //}
         $this->setIdUsers($id);
-        if ($request->get("valueAllDay") == "on" or $request->get("sumMoods") == "on") {
+        if ($request->get("valueAllDay") == "on" ) {
 
             $this->setGroup($request);
                 if (is_array($request->get("actions"))  ) {
                     $this->setHavingAction($request);
                 }
-
+            if ($request->get("descriptions") != null and count($request->get("descriptions")) > 0) {
+                $this->setWhatWork($request);
+            }
+            if ($request->get("ifDescriptions") == "on") {
+                $this->question->where("moods.what_work", "!=" ,  ""  );
+            }
+            if ($request->get("ifactions") == "on") {
+                $this->question->where("moods_actions.id", "!=" ,  ""  );
+            }
         }
-
+        else if ( $request->get("sumMoods") == "on" ) {
+            
+            if (is_array($request->get("actions"))  ) {
+                    $this->setHavingAction($request);
+                }
+            if ($request->get("descriptions") != null and count($request->get("descriptions")) > 0) {
+                $this->setWhatWork($request);
+            }
+            if ($request->get("ifDescriptions") == "on") {
+                $this->question->where("moods.what_work", "!=" ,  ""  );
+            }
+            if ($request->get("ifactions") == "on") {
+                $this->question->where("moods_actions.id", "!=" ,  ""  );
+            }
+        }
         else {
             $this->setWhereMoods($request);
             $this->setLongMoods($request);
@@ -244,11 +269,30 @@ class Search {
         else {
             $this->setSort($request);
         }
+        
+            
+        
+          
+        
         $this->count = $this->question->get()->count();
+       if  ( $request->get("sumMoods") == "on" ) {
+            $this->bool  =true;
+        }
         return $this->question->paginate(15);
     }
 
-
+    private function setGroupAll() {
+       $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_mood)) / round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end))) as level_mood");
+       $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_anxiety)) / round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end))) as level_anxiety");
+       $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_nervousness)) / round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end))) as level_nervousness");
+       $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_stimulation)) / round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end))) as level_stimulation");
+    }
+    private function setGroupDay() {
+        $this->question->selectRaw("moods.level_mood  as level_mood ");
+        $this->question->selectRaw("moods.level_anxiety as level_anxiety");
+        $this->question->selectRaw("moods.level_nervousness as level_nervousness");
+        $this->question->selectRaw("moods.level_stimulation as level_stimulation");
+    }
     public function createQuestionForSleep(Request $request,$id) {
         $this->question =  Sleep::query();
         $this->setDateSleep($request);

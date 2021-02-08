@@ -92,9 +92,14 @@ class SearchController extends Controller  {
         else {
                  $list = $Search->createQuestion($request,Auth::User()->id);
                  $lista = $Search->sortMoods($list);
-
-                 return View("Search.searchMood")->with("list",$list)->with("lista",$Search->arrayList)
-                         ->with("percent",$Search->listPercent)->with("count",$Search->count);
+                 if ($Search->bool == false) {
+                    return View("Search.searchMood")->with("list",$list)->with("lista",$Search->arrayList)
+                             ->with("percent",$Search->listPercent)->with("count",$Search->count);
+                 }
+                 else {
+                     return View("Search.searchMoodAll")->with("list",$list)->with("lista",$Search->arrayList)
+                             ->with("percent",$Search->listPercent)->with("count",$Search->count)->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
+                 }
         }
         
        

@@ -55,7 +55,10 @@
                 @foreach (\App\Moods_action::ifExistActionForDay($list[$i]->dat) as $action)
                     
                     <tr>
-                        <td>{{\App\Action::selectNameAction($action->action)->name}} </td><td> {{$action->minute}} minut wykonania </td>
+                        @if (\App\Action::selectNameAction($action->action) != null)
+                            <td>{{\App\Action::selectNameAction($action->action)->name}} </td><td> {{$action->minute}} minut wykonania </td>
+                        @endif
+                        
                     </tr>
                    
                 @endforeach
