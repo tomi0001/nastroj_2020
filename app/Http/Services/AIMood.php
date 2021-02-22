@@ -110,10 +110,11 @@ class AIMood {
                 continue;
             }
             else {
-                $days[0][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood",$id);
-                $days[1][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"anxiety",$id);
-                $days[2][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"ner",$id);
-                $days[3][$j] = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"stimulation",$id);
+                $tmp2 = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),$id);
+                $days[0][$j] = $tmp2[0];
+                $days[1][$j] = $tmp2[1];
+                $days[2][$j] = $tmp2[2];
+                $days[3][$j] = $tmp2[3];
                 $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood",$id);
                 $days[4][$j] = $tmp[0];
                 $days[5][$j] = $tmp[1];
@@ -235,7 +236,7 @@ class AIMood {
         return array($list2->min,$list2->max);
     }
     
-    private function calculateAverage($dataStart,$dataEnd,$type,$id,$dayInput = "") {
+    private function calculateAverage($dataStart,$dataEnd,$id,$dayInput = "") {
         $Moods = Moods::query();
         $hour = Auth::User()->start_day;
         $average = 0;
@@ -322,19 +323,19 @@ class AIMood {
         if ($i == 0) {
             //return;
         }
-                 if ($type == "anxiety") {
+                 //if ($type == "anxiety") {
                      
         array_push($this->tableAnxiety,round(($this->sortMood($harmonyAnxiety) ),2));
-         }
-         else if ($type=="ner") {
+         //}
+         //else if ($type=="ner") {
         array_push($this->tableNer,round(($this->sortMood($harmonyNer) ),2));
-         }
-         else if ($type=="stimulation") {
+         //}
+         //else if ($type=="stimulation") {
         array_push($this->tableStimu,round(($this->sortMood($harmonyStimu) ),2));
-         }
-         else {
+         //}
+         //else {
         array_push($this->tableMood,round(($this->sortMood($harmonyMood) ),2));
-        }
+        //}
 
 
          
@@ -342,19 +343,24 @@ class AIMood {
               return 0;
           }
          
-
-        if ($type == "mood") {
-            return round($sumMood  / $second,2);
-        }
-        else if ($type=="anxiety") {
-            return round($sumAnxiety  / $second,2);
-        }
-        else if ($type=="ner") {
-            return round($sumNer  / $second,2);
-        }
-        else  {
-            return round($sumStimu  / $second,2);
-        }
+          $return = [];
+        //if ($type == "mood") {
+        array_push($return,round($sumMood  / $second,2));
+            //return ;
+        //}
+        //else if ($type=="anxiety") {
+        array_push($return,round($sumAnxiety  / $second,2));
+            //return round($sumAnxiety  / $second,2);
+        //}
+        //else if ($type=="ner") {
+            array_push($return,round($sumNer  / $second,2));
+            //return round($sumNer  / $second,2);
+        //}
+        //else  {
+            array_push($return,round($sumStimu  / $second,2));
+            //return round($sumStimu  / $second,2);
+        //}
+            return $return;
 
     }
  
