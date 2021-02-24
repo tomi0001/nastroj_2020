@@ -87,6 +87,71 @@ class AIMood {
         $newHour[1] = 59;
         return $newHour[0] . ":" . $newHour[1] . ":00";
     }
+    
+    
+    public function selectWeek($dataStart,$dataEnd,$idUser) {
+        $daystart = strtotime($this->dateStart) + (Auth::User()->start_day * 3600);
+        $dayend = strtotime($this->dateEnd) + (Auth::User()->start_day * 3600) + 84600;
+        $days = [];
+
+        $z = 1;
+        $u = 0;
+        $d = 0;
+        for ($i = $daystart;$i <= $dayend;$i += 604800 ) {
+            $sumNer = 0;
+            $sumAnxiety = 0;
+            $sumMood = 0;
+            $sumStimu = 0;
+            $t = 0;
+          for ($j=86400;$j <= 604800;$j+= 86400) {
+              if ($i+$j >= $dayend) {
+                  break;
+              }
+      
+            
+            $check = $this->check(date("Y-m-d H:i:s",$j+$i),date("Y-m-d H:i:s",$j+$i+86400),$idUser);
+           
+            if ($check == false) {
+                continue;
+            }
+            else {
+                $tmp2 = $this->calculateAverage(date("Y-m-d H:i:s",$j+$i),date("Y-m-d H:i:s",$j+$i+86400),$idUser);
+                $days[0][$u] = $tmp2[0];
+                $days[1][$u] = $tmp2[1];
+                $days[2][$u] = $tmp2[2];
+                $days[3][$u] = $tmp2[3];
+
+            }
+            $sumMood += $days[0][$u];
+            $sumAnxiety += $days[1][$u];
+            $sumNer += $days[2][$u];
+            $sumStimu += $days[3][$u];
+       
+           
+
+           
+            $u++;
+            $t++;
+            
+          }
+         $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+604800),"mood",$idUser);
+         if ($t == 0) {
+             $t = 1;
+         }
+
+            $days[0][$d] = $sumMood/ $t;
+            $days[1][$d] = $sumAnxiety /  $t;
+            $days[2][$d] =  $sumNer / $t;
+            $days[3][$d] = $sumStimu / $t;
+            $days[4][$d] = $tmp[0];
+            $days[5][$d] = $tmp[1];
+           $this->days[$d] = date("Y-m-d",$i) . "-" . date("Y-m-d",$i + 604800);
+           $d++;
+        }
+        return $days;
+        
+    }
+    
     public function  selectDays($dataStart,$dataEnd,$type,$day,$id,$dayInput = "") {
         $daystart = strtotime($this->dateStart) + (Auth::User()->start_day * 3600);
         $dayend = strtotime($this->dateEnd) + (Auth::User()->start_day * 3600) + 84600;

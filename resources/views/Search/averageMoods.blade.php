@@ -56,7 +56,7 @@
                     Sumuj wszystkie dni <input type="checkbox" class="form-control" name="sumDay">
                 </td>
                 <td class="center">
-                    dla całego dnia <input type="checkbox" class="form-control" name="allDay">
+                    Całe tygodnie <input type="checkbox" class="form-control" name="allWeek">
                 </td>
                 <td>
                     

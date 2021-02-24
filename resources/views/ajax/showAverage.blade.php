@@ -87,9 +87,11 @@
             <th style="width:17%; text-align: center;">
                 <br><span style="font-size: 13px;font-weight: bold;">{{$hour}}</span>
             </th>
-            <th>
-                Dzień tygodnia
-            </th>
+             @if ($allWeek != "on")
+                <th>
+                    Dzień tygodnia
+                </th>
+            @endif
             <th>
                 Poziom nastroju
             </th>
@@ -131,11 +133,13 @@
             <td>
                 {{$days[$i]}} 
             </td>
+            @if ($allWeek != "on")
+                <td>
+                    {{\App\Http\Services\Common::returnDayWeek($days[$i])}}
+                </td>
+            @endif
             <td>
-                {{\App\Http\Services\Common::returnDayWeek($days[$i])}}
-            </td>
-            <td>
-                {{$list[0][$i]}}
+                {{round($list[0][$i],2)}}
             </td>
             <td>
                 {{$harmonyMood[$i]}}
@@ -146,7 +150,7 @@
                 
             </td>
             <td>
-                {{$list[1][$i]}}
+                {{round($list[1][$i],2)}}
             </td>
             <td>
                 {{$harmonyAnxiety[$i]}}
@@ -154,7 +158,7 @@
             </td>
             
             <td>
-                {{$list[2][$i]}}
+                {{round($list[2][$i],2)}}
             </td>
             <td>
                 {{$harmonyNer[$i]}}
@@ -162,7 +166,7 @@
             </td>
             
             <td>
-                {{$list[3][$i]}}
+                {{round($list[3][$i],2)}}
             </td>
             <td>
                 {{$harmonyStimu[$i]}}
