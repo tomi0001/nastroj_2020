@@ -139,7 +139,7 @@ class AIMood {
          if ($t == 0) {
              $t = 1;
          }
-         print $t;
+         
             $days[0][$d] = $sumMood/ $t;
             $days[1][$d] = $sumAnxiety /  $t;
             $days[2][$d] =  $sumNer / $t;
