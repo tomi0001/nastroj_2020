@@ -97,13 +97,14 @@ class AIMood {
         $z = 1;
         $u = 0;
         $d = 0;
+        $sum = 0;
         for ($i = $daystart;$i <= $dayend;$i += 604800 ) {
             $sumNer = 0;
             $sumAnxiety = 0;
             $sumMood = 0;
             $sumStimu = 0;
             $t = 0;
-          for ($j=86400;$j <= 604800;$j+= 86400) {
+          for ($j=0;$j <= 604800 - 86400;$j+= 86400) {
               if ($i+$j >= $dayend) {
                   break;
               }
@@ -138,16 +139,20 @@ class AIMood {
          if ($t == 0) {
              $t = 1;
          }
-
+         print $t;
             $days[0][$d] = $sumMood/ $t;
             $days[1][$d] = $sumAnxiety /  $t;
             $days[2][$d] =  $sumNer / $t;
             $days[3][$d] = $sumStimu / $t;
             $days[4][$d] = $tmp[0];
             $days[5][$d] = $tmp[1];
-           $this->days[$d] = date("Y-m-d",$i) . "-" . date("Y-m-d",$i + 604800);
+            //if ($i != $daystart) {
+              //  $sum = 86400;
+            //}
+           $this->days[$d] = date("Y-m-d",$i ) . "-" . date("Y-m-d",$i + 604800 - 86400 );
            $d++;
         }
+        
         return $days;
         
     }
