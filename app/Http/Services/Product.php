@@ -133,12 +133,12 @@ class Product {
     public function selectNameSubstance(int $id) {
         $Substances = new Substances;
         $name = $Substances->where("id_users",Auth::User()->id)->where("id",$id)->first();
-        return $name->name;
+        return $name;
     }
     public function selectNameProduct(int $id) {
         $Product= new appProduct;
         $name = $Product->where("id_users",Auth::User()->id)->where("id",$id)->first();
-        return $name->name;        
+        return $name;        
     }
     private function selectIdGroup(int $id) {
         $forwarding = new Forwarding_group;

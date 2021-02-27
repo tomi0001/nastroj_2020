@@ -14,8 +14,9 @@ use Auth;
  * @author tomi
  */
 class common {
+       
     public static function charset_utf_fix2($string) {
- 
+
 	$utf = array(
 	  "Ą" =>"%u0104",
 	  "Ć" => "%u0106",
@@ -133,6 +134,41 @@ class common {
             $time2 = $time1[1];
         }
         return $hour2 . ":" . $time2;
+    }
+    public static function selectPortion(int $type) {
+        $typePortion = [
+            0 => [1,'Mg',""],
+            1 => [2,'mililitry',""],
+            2 => [3,'ilości',""],
+            3 => [4,'Waga ciała Kg',""]
+        ];
+        $array =[];
+        $html = "";
+        for ($i = 0;$i < count($typePortion);$i++) {
+            if ($typePortion[$i][0] == $type) {
+                $html .= "<option value='" . $typePortion[$i][0] . "' selected>" . $typePortion[$i][1] . "</option>";
+            }
+            else {
+                $html .= "<option value='" . $typePortion[$i][0] . "'>" . $typePortion[$i][1] . "</option>";
+            }
+        }
+        return $html;
+    }
+    public static function selectPortionInt(int $type) {
+        $typePortion = [
+            0 => [1,'Mg',""],
+            1 => [2,'mililitry',""],
+            2 => [3,'ilości',""],
+            3 => [4,'Waga ciała Kg',""]
+        ];
+        $i = 0;
+        while ($i < count($typePortion)) {
+            if ($typePortion[$i][0] == $type) {
+                return $typePortion[$i][1];
+            }
+            $i++;
+        }
+        return $typePortion[0][1];
     }
     public static function returnDayWeek($data) {
         $week = date('N', strtotime($data));

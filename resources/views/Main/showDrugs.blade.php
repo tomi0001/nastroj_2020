@@ -25,13 +25,7 @@
                 </td>
                 <td class="centerDrugs">
                     {{$list->portion}} 
-                    @switch ($list->type)
-                    @case ($list->type == 1) mg
-                    @break
-                    @case ($list->type == 2) mililtry
-                    @break
-                    @default ilości
-                    @endswitch
+                    {!!App\Http\Services\Common::selectPortionInt($list->type)!!}
                 </td>
             </tr>
              <tr>

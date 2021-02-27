@@ -26,9 +26,7 @@
                         </td>
                         <td>
                             <select name="portion" class="form-control form-control-lg">
-                                <option value="1" selected>Mg</option>
-                                <option value="2">Mililitry</option>
-                                <option value="3">ilości</option>
+                                {!!App\Http\Services\Common::selectPortion(1)!!}
                                 
                                 
                             </select>

@@ -260,17 +260,32 @@ class SettingController  extends Controller  {
     }
     public function changeProduct(Request $request) {
         $drugs = new Drugs;
+        $Drugs = new Product;
         if (Auth::User()->type == "user") {
             $bool = $drugs->ifIdIsUsera("products",$request->get("id_sub"));
+            $bool2  = $Drugs->checkIfHow($request->get("price"),$request->get("how"));
             if ($bool == false) {
                 return View("ajax.error")->with("error",["Próbujesz zmodyfikować nie swoją produkt"]);
+            }
+            if ($request->get("percent") !=  "" and !is_numeric($request->get("percent"))) {
+                array_push($this->error, "Pole procent musi być numeryczne");
             }
             if ($request->get("name") == "") {
                 return View("ajax.error")->with("error",["Pole nazwa nie może być puste"]);
             }
             $bool = $drugs->checkName($request->get("id_sub"),$request->get("name"),"products");
             if ($bool == false) {
-                return View("ajax.error")->with("error",["Już jest produkt o takiej nazwie"]);
+                array_push($this->error,["Już jest produkt o takiej nazwie"]);
+            }
+            if ($bool2 == -2) {
+                array_push($this->error, "Musisz wpisać dwa pola czyli cena i za ile");
+            }
+            else if ($bool2 == -1) {
+                array_push($this->error, "Pole cena musi być numeryczna, a pole za ile całkowita");
+            }
+            if (count($this->error) != 0) {
+                return View("ajax.error")->with("error",$this->error);
+                
             }
             else {
                 $drugs->updateProduct($request,$request->get("id_sub"));
@@ -287,6 +302,9 @@ class SettingController  extends Controller  {
             }
             if ($request->get("name") == "") {
                 return View("ajax.error")->with("error",["Pole nazwa nie może być puste"]);
+            }
+            if ( !is_numeric($request->get("equivalent"))) {
+                 return View("ajax.error")->with("error",["Pole równoważnik musi być numeryczne"]);
             }
             $bool = $drugs->checkName($request->get("id_sub"),$request->get("name"),"substances");
             if ($bool == false) {
@@ -365,7 +383,9 @@ class SettingController  extends Controller  {
             if ($request->get("name") == "") {
                  return View("ajax.error")->with("error",["Wpisz nazwę"]);
             }
-
+            if ( !is_numeric($request->get("equivalent"))) {
+                 return View("ajax.error")->with("error",["Pole równiwaznik musi być numeryczne"]);
+            }
             if ($bool == false){
                 return View("ajax.error")->with("error",["Coś poszło nie tak"]);
             }

@@ -54,7 +54,7 @@
                     Dawka
                 </td>
                 <td class="centerDrugs">
-                    {{$list->portion}} {{$day[$i][4]}}
+                    {{$list->portion}} {!!App\Http\Services\Common::selectPortionInt($list->type)!!}
                     
                 </td>
             </tr>

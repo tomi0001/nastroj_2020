@@ -14,22 +14,7 @@
         <td>Porcja</td>
         <td>{{$list2->portion}}   
         
-            @switch ($list2->type)
-                @case (1) 
-                Mg
-                @break;
-                @case (2)
-                ilości
-                @break;
-                @case (3) 
-                mililitry
-                @break;
-                @default
-                mg
-                @break;
-                
-                
-            @endswitch
+        {!!App\Http\Services\Common::selectPortionInt($list2->type)!!}
             
         </td>
     </tr>    

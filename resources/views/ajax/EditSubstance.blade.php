@@ -6,7 +6,7 @@
             
         </td>
         <td  class="center">
-            <input type="text" name="name" value="{{$name}}" class="form-control">
+            <input type="text" name="name" value="{{$name->name}}" class="form-control">
             
         </td>
     </tr>
@@ -28,6 +28,15 @@
         
     </tr>
     @endfor
+                    <tr>
+                                
+                                <td>
+                                    Równoważnik jeżeli jest <br> to benzodiazepina
+                                  </td>
+                                  <td>
+                                    <input type='text' name='equivalent' class='form-control' value="{{$name->equivalent}}">
+                                </td>
+                    </tr>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <tr>
         <td colspan="2" class="center">

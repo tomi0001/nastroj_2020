@@ -150,7 +150,7 @@ class DrugsUses {
         if (!empty($request->get("id"))) {
             $this->addForwardingProduct($request,$id);
         }
-        $this->updateName2($request,$id,"products");
+        $this->updateName3($request,$id,"products");
     }  
    
     public function updateGroups(Request $request, int $id) {
@@ -547,9 +547,13 @@ class DrugsUses {
         
     }
     
-    
+    private function updateName3(Request $request,int $id,string $table) {
+        DB::table($table)->where("id",$id)->update(["name"=>$request->get("name"),"how_percent" => $request->get("percent"),
+            "type_of_portion" => $request->get("portion"),"price" => $request->get("price"),"how_much" => $request->get("how")]);
+        
+    }   
     private function updateName2(Request $request,int $id,string $table) {
-        DB::table($table)->where("id",$id)->update(["name"=>$request->get("name")]);
+        DB::table($table)->where("id",$id)->update(["name"=>$request->get("name"),"equivalent" => $request->get("equivalent")]);
         
     }
     private function addForwardingSubstance(Request $request,int $id) {

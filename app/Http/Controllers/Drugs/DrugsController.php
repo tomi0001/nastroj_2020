@@ -235,6 +235,7 @@ class DrugsController extends Controller  {
     public function loadPortion(Request $request) {
         if (Auth::User()->type == "user") {
             $portion = appProduct::loadTypePortion($request->get("name"));
+            /*
             switch ($portion->type_of_portion) {
                 case '0': print "Mg";
                     break;
@@ -247,6 +248,9 @@ class DrugsController extends Controller  {
                 default: print "Nieznane";
                     break;
             }
+             * 
+             */
+            print Common::selectPortionInt($portion->type_of_portion);
             
         }
     }

@@ -6,10 +6,52 @@
             
         </td>
         <td  class="center">
-            <input type="text" name="name" value="{{$name}}" class="form-control">
+            <input type="text" name="name" value="{{$name->name}}" class="form-control">
             
         </td>
     </tr>
+
+<tr>
+                        <td>
+                            Ile ma procent <br> (w przypadku napoju alkholowego)
+                        </td>
+                        <td>
+                                <input type='text' name='percent' class='form-control' value="{{$name->how_percent}}">
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            Rodzaj porcji
+                        </td>
+                        <td>
+                            <select name="portion" class="form-control form-control-lg">
+            
+                                {!!App\Http\Services\Common::selectPortion($name->type_of_portion)!!}
+                                
+                                
+                            </select>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            Cena
+                        </td>
+                        <td>
+                                <input type='text' name='price' class='form-control' value="{{$name->price}}">
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            Za ile
+                        </td>
+                        <td>
+                                <input type='text' name='how' class='form-control' value="{{$name->how_much}}">
+                        </td>
+                        
+                    </tr>
     <tr>
         <td colspan="2" class="center">
             <b>Substancje należące do tego produktu</b>
