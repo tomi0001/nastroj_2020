@@ -28,7 +28,7 @@ class DrugsUses {
     public $date_next;
     public $date;
     public $ifAlcohol;
-    
+    public $KG;
     
 
 
@@ -341,6 +341,10 @@ class DrugsUses {
                    
                    $this->ifAlcohol = true;
                }
+               else if ($selectIdSub2->type_of_portion == 4) {
+                   $this->KG = true;
+                   
+               }
                $i++; 
         }
         //var_dump($listIdSub);
@@ -380,7 +384,7 @@ class DrugsUses {
     
     
     
-    public function sumAverage($arrayId,$date,$ifAlcohol,$id,$startDay,$date2 = "") {
+    public function sumAverage($arrayId,$date,$id,$startDay,$date2 = "") {
         
        $Use = new usee;
        $start = $startDay;
@@ -400,6 +404,10 @@ class DrugsUses {
                     
               
                     $listen->selectRaw("round(SUM((usees.portion * products.how_percent / 100)),2) AS portion");
+                }
+                else if ($this->KG == true) {
+                     $listen->selectRaw("(SUM(usees.portion)  /  count(usees.portion)) AS portion");
+                    $listen->selectRaw("count(usees.portion) AS count");
                 }
                 else {
                     
@@ -445,6 +453,8 @@ class DrugsUses {
                 case '3': $type = " ilości";
                     break;
                 case '2': $type = " mililitry";
+                    break;
+                case '4': $type = " KG";
                     break;
                 default: $type = " mg";
                     break;

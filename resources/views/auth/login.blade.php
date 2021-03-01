@@ -93,17 +93,7 @@
             </td>
         </tr>
         <tr>
-        <tr>
-            <td>
-                 <label class="form-check-label" for="remember">
-                                        {{ __('Zapamiętaj mnie') }}
-                                    </label>
-            
-            </td>
-            <td align='left'>
-                                   <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-            </td>
-        </tr>
+
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <tr>
             

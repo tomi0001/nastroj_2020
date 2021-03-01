@@ -165,6 +165,7 @@
         </table>
         
          <div  class="sumAverage" id='sum_average{{$z}}' style="overflow-y: scroll;  height:300; display: none;"></div>
+         <div  class="sumAverage" id='show_descriptionDrugs{{$z}}' style="overflow-y: scroll;  height:300; display: none;"></div>
     </div>
     @if ($separate[$z]["bool"] == true)
         <br><br><br>

@@ -34,9 +34,12 @@ class UserLoginController extends Controller {
          * 
          */
         $bool = false;
+        /*
         if ($request->get("remember") == "on") {
             $bool = true;
         }
+         * 
+         */
         if (Auth::attempt($User,$bool) ) {
             return Redirect()->route("mainmainDr");
         }

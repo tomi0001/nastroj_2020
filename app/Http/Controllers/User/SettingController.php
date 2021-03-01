@@ -383,7 +383,7 @@ class SettingController  extends Controller  {
             if ($request->get("name") == "") {
                  return View("ajax.error")->with("error",["Wpisz nazwę"]);
             }
-            if ( !is_numeric($request->get("equivalent"))) {
+            if ( $request->get("equivalent") != "" and  !is_numeric($request->get("equivalent"))) {
                  return View("ajax.error")->with("error",["Pole równiwaznik musi być numeryczne"]);
             }
             if ($bool == false){

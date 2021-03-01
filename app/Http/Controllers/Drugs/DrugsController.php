@@ -80,11 +80,14 @@ class DrugsController extends Controller  {
           * 
           */
         
+             
+             
             $bool = $Drugs->checkDrugs($id,$request->get("id"));
             if ($bool == true) {
+                
                 $list = $Drugs->returnIdProduct($request->get("id"));
                 $date = $Drugs->returnDateDrugs($request->get("id"));
-                $hourDrugs = $Drugs->sumAverage($list,$date,$Drugs->ifAlcohol,$id,$startDay);
+                $hourDrugs = $Drugs->sumAverage($list,$date,$id,$startDay);
                 $array = array();
                 for ($i=0;$i < count($hourDrugs);$i++) {
                    $array[$i] = $Drugs->sumDifferentDay($hourDrugs[$i][1],$hourDrugs[$i][2]);
