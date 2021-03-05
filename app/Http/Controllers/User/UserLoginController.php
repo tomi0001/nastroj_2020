@@ -1,6 +1,9 @@
 <?php
 
-
+/*
+ * copyright 2020 Tomasz Leszczyński tomi0001@gmail.com
+ * 
+ */
 namespace App\Http\Controllers\User;
 //namespace App\Http\Controllers\Guest;
 //use App\Http\Controllers\User\UserRegisterController;

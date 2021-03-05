@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * copyright 2020 Tomasz Leszczyński tomi0001@gmail.com
+ * 
+ */
 namespace App\Http\Services;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -38,6 +41,8 @@ class AIMood {
     public $hourEnd = "";
     public $dateStart = "";
     public $dateEnd = "";
+    public $list;
+    public $countList;
     public function setDate($dateStart,$dateEnd) {
         $Mood = new Moods;
         if ($dateStart == "") {
@@ -181,6 +186,7 @@ class AIMood {
             }
             else {
                 $tmp2 = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),$id);
+                
                 $days[0][$j] = $tmp2[0];
                 $days[1][$j] = $tmp2[1];
                 $days[2][$j] = $tmp2[2];
@@ -188,6 +194,7 @@ class AIMood {
                 $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood",$id);
                 $days[4][$j] = $tmp[0];
                 $days[5][$j] = $tmp[1];
+                $days[6][$j] = $this->sumDifferences();
             }
             $sumMood += $days[0][$j];
             $sumAnxiety += $days[1][$j];
@@ -305,7 +312,82 @@ class AIMood {
         $list2 = $Moods2->first();
         return array($list2->min,$list2->max);
     }
-    
+    private function sumDifferences() {
+        //print $this->countList ."<br>";
+        if ($this->countList == 1) {
+            return 0;
+        }
+        if (($this->countList % 2) == 0) {
+            $diff = $this->countList -1;
+        }
+        else {
+            $diff = $this->countList;
+        }
+        $diff2 = (int) $this->countList / 2;
+        //$diff3 = (int) $this->countList / 3;
+        $i = 0;
+        $result["mood"] = 0;
+        $result["anxienty"] = 0;
+        $result["nervousness"] = 0;
+        $result["stimulation"] = 0;
+        $sumMood = 0;
+        $sumAnxienty = 0;
+        $sumNervousness = 0;
+        $sumStimulation = 0;
+                
+        /*
+        $sumMood2 = ($this->list["mood"][0] + $this->list["mood"][$this->countList-1]) / 2;
+        $sumMood3 = ($this->list["mood"][0] + $this->list["mood"][$diff2]) / 2;
+        $sumMood4 = ($this->list["mood"][$diff2] + $this->list["mood"][$this->countList-1]) / 2;
+         * 
+         */
+        for ($i = 0;$i < count($this->list);$i++) {
+            $sumMood += $this->list["mood"][$i];
+            $sumAnxienty += $this->list["anxiety"][$i];
+            $sumNervousness += $this->list["nervousness"][$i];
+            $sumStimulation += $this->list["stimulation"][$i];
+        }
+            $sumMood = $sumMood  /$i;
+            $sumAnxienty = $sumAnxienty / $i;
+            $sumNervousness = $sumNervousness / $i;
+            $sumStimulation = $sumStimulation  /$i;
+        
+        
+        if ($sumMood > $this->list["mood"][0]) {
+            $result["mood"] += 10;
+        }
+        
+        if ($sumMood > $this->list["mood"][$diff2]) {
+            $result["mood"] += 5;
+        }
+        if ($sumMood > $this->list["mood"][$this->countList-1]) {
+            $result["mood"] += -10;
+        }
+        /*
+        
+        if ($sumMood < $this->list["mood"][0]) {
+            $result["mood"] += 1;
+        }
+        
+        if ($sumMood > $this->list["mood"][$this->countList-1]) {
+            $result["mood"] += -1;
+        }
+         * 
+         */
+        /*
+        else if ($sumMood == $this->list["mood"][0]) {
+            $result["mood"] = 0;
+        }
+        else {
+            $result["mood"] = 1;
+        }
+         
+         * 
+         */
+        print $result["mood"] . "<br>";
+        //print $result["mood"] . "<br>";
+        return $result;
+    }
     private function calculateAverage($dataStart,$dataEnd,$id,$dayInput = "") {
         $Moods = Moods::query();
         $hour = Auth::User()->start_day;
@@ -341,6 +423,7 @@ class AIMood {
 
         
         $list = $Moods->get();
+        
 
         $i = 0;
         
@@ -387,9 +470,14 @@ class AIMood {
                     $harmonyMood[$i] =  $moodss->level_mood;
                 
             $second += $div2 - $div;
-
+            $this->list["mood"][$i] = $moodss->level_mood;
+            $this->list["anxiety"][$i] = $moodss->level_anxiety;
+            $this->list["nervousness"][$i] = $moodss->level_nervousness;
+            $this->list["stimulation"][$i] = $moodss->level_stimulation;
+        
             $i++;
         }
+        $this->countList = $i;
         if ($i == 0) {
             //return;
         }

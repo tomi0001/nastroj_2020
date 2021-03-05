@@ -1,4 +1,7 @@
-
+/*
+ * copyright 2020 Tomasz Leszczyński tomi0001@gmail.com
+ * 
+ */
        function saveDrugs(url,i,id)  {
            var result = $("#addDrugsResult"+i).load(url + "?" + "idMood=" + id  + "&" +  $("#addDrugsssss"+i).serialize(),function() {
                if (result.text() =="Pomyslnie dodano") {

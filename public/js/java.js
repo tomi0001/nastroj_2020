@@ -1,3 +1,7 @@
+/*
+ * copyright 2020 Tomasz Leszczyński tomi0001@gmail.com
+ * 
+ */
 var actionList = [];
 var actionList2 = [];
 

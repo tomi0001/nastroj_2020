@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * copyright 2020 Tomasz Leszczyński tomi0001@gmail.com
+ * 
+ */
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
