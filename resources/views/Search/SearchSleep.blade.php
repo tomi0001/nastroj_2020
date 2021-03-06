@@ -12,7 +12,7 @@
                     <td width="5%">
                        
                     </td>
-                    <td colspan="2">
+                    <td colspan="2" width="15%">
                         <input type='number' name='longSleepFromMinutes' class='form-control' placeholder="Minuty" value="{{Request::old("longSleepFromMinutes")}}" min="0" max="59">
                     </td>
                 </TR>

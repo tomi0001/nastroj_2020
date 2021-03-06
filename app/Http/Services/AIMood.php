@@ -194,7 +194,7 @@ class AIMood {
                 $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood",$id);
                 $days[4][$j] = $tmp[0];
                 $days[5][$j] = $tmp[1];
-                $days[6][$j] = $this->sumDifferences();
+                //$days[6][$j] = $this->sumDifferences();
             }
             $sumMood += $days[0][$j];
             $sumAnxiety += $days[1][$j];
@@ -384,7 +384,7 @@ class AIMood {
          
          * 
          */
-        print $result["mood"] . "<br>";
+        //print $result["mood"] . "<br>";
         //print $result["mood"] . "<br>";
         return $result;
     }
