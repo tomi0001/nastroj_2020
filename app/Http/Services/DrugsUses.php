@@ -193,6 +193,8 @@ class DrugsUses {
         }
     }
     public function selectDrugsAjax(int $id_users,$dateStart,$dateEnd) {
+        $tmp = strtotime(str_replace("/", " ", $dateStart));
+        $dateStart = date("Y-m-d H:i:s",$tmp - 3600);
         $Drugs  = new Usee;
         $listAjax = $Drugs->join("products","products.id","usees.id_products")
                 ->where("usees.id_users",$id_users)
