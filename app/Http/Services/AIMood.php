@@ -122,10 +122,12 @@ class AIMood {
             }
             else {
                 $tmp2 = $this->calculateAverage(date("Y-m-d H:i:s",$j+$i),date("Y-m-d H:i:s",$j+$i+86400),$idUser);
-                $days[0][$u] = $tmp2[0];
-                $days[1][$u] = $tmp2[1];
-                $days[2][$u] = $tmp2[2];
-                $days[3][$u] = $tmp2[3];
+                if (!empty($tmp2)) {
+                    $days[0][$u] = $tmp2[0];
+                    $days[1][$u] = $tmp2[1];
+                    $days[2][$u] = $tmp2[2];
+                    $days[3][$u] = $tmp2[3];
+                }
 
             }
             $sumMood += $days[0][$u];
@@ -186,14 +188,17 @@ class AIMood {
             }
             else {
                 $tmp2 = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),$id);
+                if (empty($tmp2)) {
+                    continue;
+                }
+                    $days[0][$j] = $tmp2[0];
+                    $days[1][$j] = $tmp2[1];
+                    $days[2][$j] = $tmp2[2];
+                    $days[3][$j] = $tmp2[3];
+                    $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood",$id);
+                    $days[4][$j] = $tmp[0];
+                    $days[5][$j] = $tmp[1];
                 
-                $days[0][$j] = $tmp2[0];
-                $days[1][$j] = $tmp2[1];
-                $days[2][$j] = $tmp2[2];
-                $days[3][$j] = $tmp2[3];
-                $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood",$id);
-                $days[4][$j] = $tmp[0];
-                $days[5][$j] = $tmp[1];
                 //$days[6][$j] = $this->sumDifferences();
             }
             $sumMood += $days[0][$j];
@@ -498,7 +503,7 @@ class AIMood {
 
          
           if ($second == 0) {
-              return 0;
+              return [];
           }
          
           $return = [];
