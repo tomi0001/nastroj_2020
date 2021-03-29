@@ -28,6 +28,7 @@ use App\Action_plan;
 use Auth;
 class SearchController extends Controller  {
 
+
     public function main() {
         return View("Search.main");
     }
@@ -112,29 +113,36 @@ class SearchController extends Controller  {
     }
     
     public function searchAI(Request $request) {
-        $AI = new AI;
+        $AI = new AI(Auth::User()->id);
 
         
         
             $AI->setTime($request->get("timeFrom"), $request->get("timeTo"));
             $AI->setDate($request->get("dateFrom"), $request->get("dateTo"));
 
-            
-            
-            if ($request->get("allWeek") == "on") {
-                $list = $AI->selectWeek($request->get("dateFrom"),$request->get("dateTo"),Auth::User()->id);
-            }
-            else {
-                $list = $AI->selectDays($request->get("dateFrom"),
-                   $request->get("dateTo"),$request->get("allWeek"),$request->get("day"),Auth::User()->id,$request->get("sumDay"));
-            }
             $timeFrom = $AI->returnTime($request->get("timeFrom"),0);
             $timeTo = $AI->returnTime($request->get("timeTo"),1);
-            return View("ajax.showAverage")->with("days",$AI->days)->with("list",$list)
+            
+            if ($request->get("allWeek") == "on") {
+                $list = $AI->selectWeek();
+                return View("ajax.showAverageWeek")->with("days",$AI->days)->with("list",$list)
                    ->with("day",$request->get("sumDay"))->with("harmonyMood",$AI->tableMood)->with("harmonyAnxiety",$AI->tableAnxiety)
                     ->with("harmonyNer",$AI->tableNer)->with("harmonyStimu",$AI->tableStimu)->with("hour","Godzina od " . $timeFrom . " do "  .  $timeTo)
                     ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"))->with("allWeek",$request->get("allWeek"));
-             
+            }
+            else if ($request->get("sumDay") == "on") {
+                $list = $AI->selectDaysAll($request->get("day"));
+                return View("ajax.showAverageAllDay")->with("list",$list)->with("hour","Godzina od " . $timeFrom . " do "  .  $timeTo)
+                    ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
+            }
+            else {
+                $list = $AI->selectDays($request->get("day"));
+                return View("ajax.showAverage")->with("days",$AI->days)->with("list",$list)
+                   ->with("day",$request->get("sumDay"))->with("harmonyMood",$AI->tableMood)->with("harmonyAnxiety",$AI->tableAnxiety)
+                    ->with("harmonyNer",$AI->tableNer)->with("harmonyStimu",$AI->tableStimu)->with("hour","Godzina od " . $timeFrom . " do "  .  $timeTo)
+                    ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"))->with("allWeek",$request->get("allWeek"));
+            }
+
              
         
     }

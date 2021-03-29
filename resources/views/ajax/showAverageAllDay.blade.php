@@ -2,20 +2,14 @@
 
 <div class="center" style="width: 100%;">
     <table class="display  cell-border compact stripe row-border" id="tblSort">
- 
-      
+   
       <thead>
+            <tr>
       
-      <tr>
-            <th style="width:17%; text-align: center;">
-                <br><span style="font-size: 13px;font-weight: bold;">{{$hour}}</span>
+            <th style="width: 18%;">
+                Data <br>{{$hour}}
             </th>
-
-                <th>
-                    Dzień tygodnia
-                </th>
-
-            <th>
+            <th style="width: 12%;">
                 Poziom nastroju
             </th>
             <th>
@@ -48,58 +42,46 @@
                 
             </th>
       </tr>
-       </thead>
-       <tbody>
-     
-        @for ($i=0;$i < count($days);$i++)
-        <tr>
+      </thead>
+      <tbody>
+      <tr>
             <td>
-                {{$days[$i]}} 
-            </td>
-            @if ($allWeek != "on")
-                <td>
-                    {{\App\Http\Services\Common::returnDayWeek($days[$i])}}
-                </td>
-            @endif
-            <td>
-                {{round($list[0][$i],2)}}
+                Dla tego czasu
+                {{$dateFrom}} <br> {{$dateTo}}
             </td>
             <td>
-                {{$harmonyMood[$i]}}
-                
+                {{$list[0]}}
             </td>
             <td>
-                {{$list[4][$i]}} / {{$list[5][$i]}}
-                
+                {{$list[1]}}
             </td>
             <td>
-                {{round($list[1][$i],2)}}
+                {{$list[8]}} / {{$list[9]}}
             </td>
             <td>
-                {{$harmonyAnxiety[$i]}}
-                
-            </td>
-            
-            <td>
-                {{round($list[2][$i],2)}}
+                {{$list[2]}}
             </td>
             <td>
-                {{$harmonyNer[$i]}}
-                
-            </td>
-            
-            <td>
-                {{round($list[3][$i],2)}}
+                {{$list[3]}}
             </td>
             <td>
-                {{$harmonyStimu[$i]}}
-                
+                {{$list[4]}}
+            </td>
+            <td>
+                {{$list[5]}}
+            </td>
+            <td>
+                {{$list[6]}}
+            </td>
+            <td>
+                {{$list[7]}}
             </td>
         </tr>
-        
-        @endfor
-        </tbody>
+      
+      </tbody>
+      
 
+    
     </table>
 </div>
 <script>
