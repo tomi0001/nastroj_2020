@@ -52,6 +52,7 @@ class AIMood {
     }
     public function setDate($dateStart,$dateEnd) {
         $Mood = new Moods;
+
         if ($dateStart == "") {
             $tmp = explode(" ",$Mood->select("date_start")->orderBy("date_start")->first()->date_start);
             $this->dateStart = $tmp[0];
@@ -188,7 +189,81 @@ class AIMood {
     }
     
     
-    
+    public function selectMonth($day) {
+        
+        $div = explode("-",$this->dateStart);
+        $div[2] = "01";
+        
+        $daystart = strtotime($div[0] . "-" . $div[1] . "-" . $div[2]) + (Auth::User()->start_day * 3600);
+        kalendar::check_month();
+        $dayend = strtotime($this->dateEnd) + (Auth::User()->start_day * 3600) + 84600;
+        $days = [];
+        $sumNer = 0;
+        $sumAnxiety = 0;
+        $sumMood = 0;
+        $sumStimu = 0;
+        $z = 1;
+        $j = 0;
+        for ($i = $daystart;$i <= $dayend;$i += 86400 ) {
+            if (  $day != "") {
+                if (date('N', $i) != $day) {
+                
+                    continue;
+                }
+            }
+            $check = $this->check(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400));
+           
+            if ($check == false) {
+                continue;
+            }
+            else {
+                $tmp2 = $this->calculateAverage(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400));
+                if (empty($tmp2)) {
+                    continue;
+                }
+                    $days[0][$j] = $tmp2[0];
+                    $days[1][$j] = $tmp2[1];
+                    $days[2][$j] = $tmp2[2];
+                    $days[3][$j] = $tmp2[3];
+                    $tmp = $this->minMaxcalculate(date("Y-m-d H:i:s",$i),date("Y-m-d H:i:s",$i+86400),"mood");
+                    $days[4][$j] = $tmp[0];
+                    $days[5][$j] = $tmp[1];
+                
+                //$days[6][$j] = $this->sumDifferences();
+            }
+            $sumMood += $days[0][$j];
+            $sumAnxiety += $days[1][$j];
+            $sumNer += $days[2][$j];
+            $sumStimu += $days[3][$j];
+           
+
+            //$this->days[$j] = date("Y-m-d",$i);
+            $j++;
+        }
+        $minDay = min($days[4]);
+        $maxDay = max($days[5]);
+        
+            if ($j == 0) {
+                return 0;
+            }
+            //return [round($sumMood / $j,2),round($sumAnxiety / $j,2),round($sumNer / $j,2),round($sumStimu / $j,2),$minDay,$maxDay];
+            
+            return [round($sumMood / $j,2),
+                round($this->sortMood((($days[0]) )) ,2)
+                ,round($sumAnxiety / $j,2)
+                ,round($this->sortMood((($days[1]) )),2)
+                ,round($sumNer / $j,2)
+                ,round($this->sortMood((($days[2]) )),2)
+                ,round($sumStimu / $j,2)
+                ,round($this->sortMood((($days[3]) )),2),
+                $minDay,$maxDay];
+            
+             
+             
+        
+        
+        return $days;        
+    }
     public function  selectDaysAll($day) {
         $daystart = strtotime($this->dateStart) + (Auth::User()->start_day * 3600);
         $dayend = strtotime($this->dateEnd) + (Auth::User()->start_day * 3600) + 84600;

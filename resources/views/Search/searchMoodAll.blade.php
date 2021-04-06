@@ -37,7 +37,27 @@
         </thead>
     
         @for ($i=0;$i < count($list);$i++)
-            
+                    <tr>
+            <td colspan="6">
+                <br>
+                
+                <br>
+           
+                <table class="table">
+                @foreach (\App\Moods_action::ifExistActionForSumMood($dateFrom,$dateTo) as $action)
+                    
+                    <tr>
+                        @if (\App\Action::selectNameAction($action->action) != null)
+                            <td>{{\App\Action::selectNameAction($action->action)->name}} </td><td> {{\App\Http\Services\Common::sumHour($action->minute)}}  </td>
+                        @endif
+                        
+                    </tr>
+                   
+                @endforeach
+                </table>
+
+            </td>
+        </tr>
         @if ($i == 0 or ($list[$i]->dat != $list[$i-1]->dat ))
 
         

@@ -33,6 +33,22 @@ class Search {
     private $i = 0;
     public $count = 0;
     public $bool = false;
+    public $dateStart;
+    public $dateTo;
+    function __construct($dateStart,$dateTo) {
+        if ($dateStart == "") {
+            $this->dateStart = "2000-06-20";
+        }
+        else {
+            $this->dateStart = $dateStart;
+        }
+        if ($dateTo == "") {
+            $this->dateTo = date("Y-m-d");
+        }
+        else {
+            $this->dateTo = $dateTo;
+        }
+    }
     private function sortMoods2($listMoods) {
         $Mood = new Mood;
         foreach ($listMoods as $Moodss) {

@@ -35,7 +35,7 @@ class SearchController extends Controller  {
     
     public function sleepAction(Request $request) {
         //session(['searchType' => 'SearchSleep']);
-        $Search  = new Search;
+        $Search  = new Search($request->get("dateFrom"),$request->get("dateTo"));
         $Search->checkErrorSleep($request);
         if (count($Search->errors) > 0) {
             return Redirect::back()->with("errors",$Search->errors)->withInput();
@@ -88,12 +88,13 @@ class SearchController extends Controller  {
     }
     public function mainAction(Request $request) {
         //session(['searchType' => 'mainSearch']);
-        $Search  = new Search;
+        $Search  = new Search($request->get("dateFrom"),$request->get("dateTo"));
         $Search->checkErrorMood($request);
         if (count($Search->errors) > 0) {
             return Redirect::back()->with("errors",$Search->errors)->withInput();
         }
         else {
+                 
                  $list = $Search->createQuestion($request,Auth::User()->id);
                  $lista = $Search->sortMoods($list);
                  if ($Search->bool == false) {
@@ -102,7 +103,7 @@ class SearchController extends Controller  {
                  }
                  else {
                      return View("Search.searchMoodAll")->with("list",$list)->with("lista",$Search->arrayList)
-                             ->with("percent",$Search->listPercent)->with("count",$Search->count)->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
+                             ->with("percent",$Search->listPercent)->with("count",$Search->count)->with("dateFrom",$Search->dateStart)->with("dateTo",$Search->dateTo);
                  }
         }
         
@@ -135,6 +136,11 @@ class SearchController extends Controller  {
                 return View("ajax.showAverageAllDay")->with("list",$list)->with("hour","Godzina od " . $timeFrom . " do "  .  $timeTo)
                     ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
             }
+            else if ($request->get("sumMonth") == "on") {
+                $list = $AI->selectMonth($request->get("day"));
+                return View("ajax.showAverageAllDay")->with("list",$list)->with("hour","Godzina od " . $timeFrom . " do "  .  $timeTo)
+                    ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
+            }
             else {
                 $list = $AI->selectDays($request->get("day"));
                 return View("ajax.showAverage")->with("days",$AI->days)->with("list",$list)
@@ -148,7 +154,7 @@ class SearchController extends Controller  {
     }
     
     public function searchSumMood(Request $request) {
-        $Mood = new Search;
+        $Mood = new Search($request->get("dateFrom"),$request->get("dateTo"));
         $sum = $Mood->sumMood($request,Auth::User()->id);
         $sumPercent = $Mood->sumMoodPercent($request,Auth::User()->id);
         if ($sumPercent->sum == 0) {

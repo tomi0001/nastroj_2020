@@ -21,10 +21,10 @@
                 <td>
                     <input type="time" name="timeFrom" class="form-control">
                 </td>
-                <td class="center">
+                <td class="center" style="width: 6%;">
                     dzień
                 </td>
-                <td colspan="2">
+                <td >
                     <select name="day" class="form-control">
                         <option value="" selected>Wszystkie</option>
                         <option value="1">Poniedziałek</option>
@@ -37,6 +37,10 @@
                         
                         
                     </select>
+                </td>
+                <td class="center">
+                    Pogrupuj według miesiąca <input type="checkbox" class="form-control" name="sumMonth">
+                
                 </td>
             </tr>
             <tr>
@@ -52,23 +56,23 @@
                 <td>
                     <input type="time" name="timeTo" class="form-control">
                 </td>
-                <td class="center">
+                <td class="center" colspan="2">
                     Sumuj wszystkie dni <input type="checkbox" class="form-control" name="sumDay">
                 </td>
                 <td class="center">
                     Całe tygodnie <input type="checkbox" class="form-control" name="allWeek">
                 </td>
-                <td>
+                <td colspan="2">
                     
                 </td>
             </tr>
         <tr>
-            <td colspan="6" class="center">
+            <td colspan="8" class="center">
                 <input type="button" onclick="searchAI('{{route('Search.AI')}}')" value="Szukaj" class="btn btn-primary">
             </td>
         </tr>
         <tr>
-        <td colspan="6">
+        <td colspan="8">
             
             
         </td>

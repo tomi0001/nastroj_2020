@@ -194,4 +194,30 @@ class common {
             
         }
     }
+    public static function sumHour($minute) {
+        //return $minute;
+        
+        if ($minute < 60) {
+            return $minute . " minut";
+        }
+        else {
+            $hour = $minute / 60;
+            if (!strstr($hour,".") ) {
+                return $hour . " Godzin";
+            }
+            else {
+                $hour2 = explode(".",$hour);
+                //$hour2[1] = $hour2[1];
+                if (strlen($hour2[1]) == 1 ) {
+                    return $hour2[0] . " Godzin i " . ($hour2[1] * 10) . " Minut ";
+                }
+                else if (strlen($hour2[1]) == 2 ) {
+                    return $hour2[0] . " Godzin i " . $hour2[1]  . " Minut ";
+                }
+                else {
+                    return $hour2[0] . " Godzin i " . $hour2[1][2]  . " Minut ";
+                }
+            }
+        }
+    }
 }

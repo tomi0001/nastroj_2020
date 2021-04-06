@@ -27,6 +27,20 @@ class Moods_action extends Model
                 ->groupBy("moods_actions.id_actions")
                     ->get();
     }
+    public static function ifExistActionForSumMood($dateFrom,$dateTo) {
+        $hour = Auth::User()->start_day;
+        return self::join("moods","moods.id","moods_actions.id_moods")
+                ->selectRaw("( sum(TIMESTAMPDIFF(minute,moods.date_start,moods.date_end))) as minute ")
+                ->selectRaw("  moods_actions.id_actions as action")
+                ->selectRaw(DB::Raw("(date(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as day"))
+                ->where("date_start",">=",$dateFrom)
+                ->where("date_end","<",$dateTo)
+                ->where("moods.id_users",Auth::User()->id)
+                //->where("moods_actions.id_actions","!=","")
+                
+                ->groupBy("moods_actions.id_actions")
+                    ->get();
+    }
     public static function compareIdActionMood($idAction,$idMood) {
         return self::where("id_actions",$idAction)->where("id_moods",$idMood)->first();
     }
