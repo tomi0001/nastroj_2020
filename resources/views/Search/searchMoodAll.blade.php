@@ -48,7 +48,8 @@
                     
                     <tr>
                         @if (\App\Action::selectNameAction($action->action) != null)
-                            <td>{{\App\Action::selectNameAction($action->action)->name}} </td><td> {{\App\Http\Services\Common::sumHour($action->minute)}}  </td>
+                            <td>{{\App\Action::selectNameAction($action->action)->name}} </td><td> {{\App\Http\Services\Common::sumHour($action->minute)}} średnio  {{\App\Http\Services\Common::sumHour(round($action->minute / $howDay))}} na dzień </td>
+                            
                         @endif
                         
                     </tr>

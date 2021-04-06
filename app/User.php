@@ -61,4 +61,7 @@ class User extends Authenticatable
     public static function selectLevelMood() {
         return User::where("id",Auth::User()->id)->first();
     }
+    public static function firstMood() {
+        return Mood::where("id_users",Auth::User()->id)->orderBy("date_start","ASC")->first();
+    }
 }

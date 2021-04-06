@@ -206,16 +206,17 @@ class common {
                 return $hour . " Godzin";
             }
             else {
-                $hour2 = explode(".",$hour);
+                $hour = round($hour,2);
+                $hour2 = explode(".",($hour));
                 //$hour2[1] = $hour2[1];
-                if (strlen($hour2[1]) == 1 ) {
-                    return $hour2[0] . " Godzin i " . ($hour2[1] * 10) . " Minut ";
+                if (strlen(($hour2[1])) == 1 ) {
+                    return $hour2[0] . " Godzin i " .round( ($hour2[1] * 10) / 1.65 ) . " Minut ";
                 }
-                else if (strlen($hour2[1]) == 2 ) {
-                    return $hour2[0] . " Godzin i " . $hour2[1]  . " Minut ";
+                else if (strlen(($hour2[1])) == 2 ) {
+                    return $hour2[0] . " Godzin i " . round($hour2[1]   / 1.65) . " Minut ";
                 }
                 else {
-                    return $hour2[0] . " Godzin i " . $hour2[1][2]  . " Minut ";
+                    return $hour2[0] . " Godzin i " . round($hour2[1][2]  / 1.65) . " Minut ";
                 }
             }
         }

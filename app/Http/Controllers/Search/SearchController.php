@@ -25,6 +25,7 @@ use App\Http\Services\Action;
 use App\Http\Services\SearchDrugs;
 use App\Http\Services\DrugsUses as drugs;
 use App\Action_plan;
+use DateTime;
 use Auth;
 class SearchController extends Controller  {
 
@@ -90,6 +91,11 @@ class SearchController extends Controller  {
         //session(['searchType' => 'mainSearch']);
         $Search  = new Search($request->get("dateFrom"),$request->get("dateTo"));
         $Search->checkErrorMood($request);
+        
+        $datetime1 = new DateTime($Search->dateStart);
+        $datetime2 = new DateTime($Search->dateTo);
+        $interval = $datetime1->diff($datetime2);
+        //var_dump($interval);
         if (count($Search->errors) > 0) {
             return Redirect::back()->with("errors",$Search->errors)->withInput();
         }
@@ -103,7 +109,8 @@ class SearchController extends Controller  {
                  }
                  else {
                      return View("Search.searchMoodAll")->with("list",$list)->with("lista",$Search->arrayList)
-                             ->with("percent",$Search->listPercent)->with("count",$Search->count)->with("dateFrom",$Search->dateStart)->with("dateTo",$Search->dateTo);
+                             ->with("percent",$Search->listPercent)->with("count",$Search->count)->with("dateFrom",$Search->dateStart)->with("dateTo",$Search->dateTo)
+                             ->with("howDay",$interval->days);
                  }
         }
         

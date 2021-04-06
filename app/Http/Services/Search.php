@@ -18,6 +18,8 @@ use App\Sleep;
 use App\Http\Services\Mood;
 use DB;
 use App\Http\Services\Common;
+use App\User;
+
 
 use Auth;
 
@@ -37,7 +39,8 @@ class Search {
     public $dateTo;
     function __construct($dateStart,$dateTo) {
         if ($dateStart == "") {
-            $this->dateStart = "2000-06-20";
+            $dateStart = explode(" ",User::firstMood()->date_start);
+            $this->dateStart = $dateStart[0];
         }
         else {
             $this->dateStart = $dateStart;
