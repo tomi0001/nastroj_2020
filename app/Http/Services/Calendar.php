@@ -165,6 +165,9 @@ class calendar
             else if ($month == 1) {
                 return 31;
             }
+            else {
+                return 30;
+            }
 
 
   }

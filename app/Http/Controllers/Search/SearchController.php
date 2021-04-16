@@ -144,9 +144,13 @@ class SearchController extends Controller  {
                     ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
             }
             else if ($request->get("sumMonth") == "on") {
+                
                 $list = $AI->selectMonth($request->get("day"));
-                return View("ajax.showAverageAllDay")->with("list",$list)->with("hour","Godzina od " . $timeFrom . " do "  .  $timeTo)
-                    ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"));
+                //var_dump ($list);
+                return View("ajax.showAverageMonth")->with("days",$AI->days)->with("list",$list)
+                   ->with("day",$request->get("sumDay"))->with("harmonyMood",$AI->tableMood)->with("harmonyAnxiety",$AI->tableAnxiety)
+                    ->with("harmonyNer",$AI->tableNer)->with("harmonyStimu",$AI->tableStimu)->with("hour","Godzina od " . $timeFrom . " do "  .  $timeTo)
+                    ->with("dateFrom",$request->get("dateFrom"))->with("dateTo",$request->get("dateTo"))->with("allWeek",$request->get("allWeek"));
             }
             else {
                 $list = $AI->selectDays($request->get("day"));

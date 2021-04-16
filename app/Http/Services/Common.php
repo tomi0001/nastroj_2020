@@ -221,4 +221,16 @@ class common {
             }
         }
     }
+    
+    public static function return_next_month($month,$year) {
+          if ($month == 12) {
+            $year++;
+            $month = 1;
+          }
+          else {
+            $month++;
+          }
+          return array($year,$month);
+    }
+    
 }
