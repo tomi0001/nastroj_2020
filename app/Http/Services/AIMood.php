@@ -204,11 +204,12 @@ class AIMood {
         $array = [];
         $month = $div[1];
         $year = $div[0];
-        for ($i = 0;$i<=$diff->m;$i++) {
+        $howMonth =  (12 * $diff->y) + $diff->m;;
+        for ($i = 0;$i<=$howMonth;$i++) {
             
 
             $daysMonth = kalendar::check_month($month, $year);
-            
+            print $month . " ";
             $array[$i] = $this->selectDaysMonth($year . "-" . $month . "-01",$year . "-" . $month . "-" . $daysMonth ,$day);
             $arrays = Common::return_next_month($month, $year);
             $year = $arrays[0];
