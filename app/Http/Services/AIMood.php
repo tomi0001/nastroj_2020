@@ -209,7 +209,7 @@ class AIMood {
             
 
             $daysMonth = kalendar::check_month($month, $year);
-            print $month . " ";
+            //print $month . " ";
             $array[$i] = $this->selectDaysMonth($year . "-" . $month . "-01",$year . "-" . $month . "-" . $daysMonth ,$day);
             $arrays = Common::return_next_month($month, $year);
             $year = $arrays[0];
