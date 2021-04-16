@@ -1,0 +1,337 @@
+div.formAddMood {
+    width: 100%;
+    background-color: #E4E61B;
+    min-height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    opacity: 0.7;
+}
+.value {
+    color: black;
+}
+
+_table.table-bordered{
+    
+   
+  }
+table.table-bordered > thead > tr > th{
+   
+}
+table.table-bordered > tbody > tr > td{
+    border:1px solid #309E32;
+}
+a.Action___ {
+    color: #4288BA;
+    cursor: pointer;
+}
+a.Action___:hover {
+    cursor: pointer;
+    
+}
+a.Action___2 {
+    color: #4288BA;
+    cursor: pointer;
+}
+a.Action___2:hover {
+    cursor: pointer;
+    
+}
+div.ajax {
+   
+}
+.ajaxlist {
+    background-color: inherit;
+    
+}
+table.tableAction {
+    width: 100%;
+    
+}
+
+
+td.tdAction {
+    padding: 6px;
+}
+div.ajaxError {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: red;
+    margin-bottom: 5px;
+    border-radius: 20px;
+    color: greenyellow;
+}
+div.ajaxSucces {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: green;
+    margin-bottom: 5px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+div.listDescription {
+        background-color:#136924;
+    margin-left: auto;
+    color: white;
+    border-radius: 25px;
+    
+}
+
+div.close {
+    width: 90%;
+    text-align: right;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: black;
+    border-radius: 24px;
+     
+    
+}
+
+div.centerVertical {
+    padding-top: 30px;
+}
+
+table.center {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    
+    
+}
+div.menuSetting {
+    width: 100%;
+    clear: both;
+    
+}
+div.settingPosition {
+    float: left;
+    padding-right: 10px;
+    cursor: pointer;
+    padding-bottom: 6px;
+}
+div.settingPosition2 {
+    float: center;
+    padding-right: 10px;
+    cursor: pointer;
+    padding-bottom: 6px;
+}
+div.titleSettingPosition {
+    text-align: center;
+
+    font-size: 23px;
+    font-weight: bold;
+    color: yellow;
+}
+a.settingPosition {
+    color: yellow;
+    font-size: 18px;
+}
+a.settingPosition:hover {
+    color: orange;
+    font-size: 18px;
+}
+hr.hrMenu {
+   clear: both;
+   border-top: 1px solid #A5E52A;
+   
+}
+a.settingPositionSelected {
+    color: #1BE495;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+div.cell_selected {
+    
+    background-color: yellow;
+    border-radius: 15px;
+    height: 100%;
+    padding-top: 23px;
+}
+
+div.separateAction {
+    text-align: center;
+    font-size: 20px;
+    color: #5AABFF;
+}
+
+
+.level_pleasure_8 {
+    background-color: #9ABABD;
+}
+.level_pleasure_7 {
+    background-color: #85A1A3;
+}
+.level_pleasure_5 {
+    background-color: #5F7374;
+}
+.level_pleasure_4 {
+    background-color: #4E5E5F;
+}
+.level_pleasure_2 {
+    background-color: #2C3535;
+}
+.level_pleasure_3 {
+    background-color: #3F4C4C;
+}
+.level_pleasure_6 {
+    background-color: #708889;
+}
+.level_pleasure_10 {
+    background-color: #D5FDFC;
+}
+.level_pleasure_9 {
+    background-color: #ADD1D4;
+}
+.level_pleasure_1 {
+    background-color: #1F2626;
+}
+.level_pleasure_0 {
+    background-color: #020303;
+}
+
+div.namePleasure {
+    padding: 3px;
+  
+       border-radius: 15px;
+    width: 100%;
+    color: white;
+    
+    
+}
+div.blank {
+    min-height: 13px;
+    max-height: 13px;
+}
+div.titleError {
+    text-align: center;
+    background-color: red;
+    border-radius: 6px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    min-height: 50px;
+    font-weight: bold;
+    font-size: 21px;
+    padding-top: 7px;
+}
+
+
+
+div.silverActions {
+    background-color: rgba(79,125,109,0.8);
+    min-height: 40px;
+    
+    padding-top: 7px;
+    border-radius: 9px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    
+  
+   
+}
+
+div.colorLevel_percent_0 {
+    background-color: #BCEBEC;
+}
+div.colorLevel_percent_1 {
+    background-color: #B5C89B;
+}
+div.colorLevel_percent_2 {
+    background-color: #968A69;
+}
+div.colorLevel_percent_3 {
+    background-color: #967640;
+}
+div.colorLevel_percent_4 {
+    background-color: #D65320;
+}
+
+
+div.colorLevel_percent {
+    border-radius: 25px;
+    max-width: 80px;
+    color: black;
+}
+
+table.width {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+thead.titleThead  {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+
+div.show_drugs {
+    
+    
+    width: 50%;
+    min-height: 260px;
+    background-color: #AEB7A9;
+    margin-left: auto;
+    color: #32450E;
+    margin-right: auto;
+    border-radius: 25px;
+    border-left: medium solid #3A770D;
+    border-right: medium solid #3A770D;
+    border-bottom: medium solid #3A770D;
+    
+}
+td.center_danger {
+    text-align: center;
+    font-weight: bold;
+    color: #782F1A;
+    
+}
+div.title_search_drugs {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    height: 30px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #195713;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    
+}
+div.titleDrugs {
+    color: white;
+    text-align: center;
+    min-height: 30px;
+    background-color: #3A770D;
+    font-weight: bold;
+    font-size: 19px;
+    border-radius: 20px 20px 0px 0px;
+}
+
+div.searchCount {
+    text-align: center;
+    font-size: 25px;
+}
+div.searchError {
+    text-align: center;
+    font-size: 25px;
+    color: red;
+}
+
