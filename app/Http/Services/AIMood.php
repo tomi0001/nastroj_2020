@@ -21,7 +21,7 @@ use DB;
 use App\User as Users;
 use App\Mood as Moods;
 use App\Sleep as Sleep;
-use App\Http\Services\common as Common;
+use App\Http\Services\Common as Common;
 use App\Http\Services\Calendar as kalendar;
 use DateTime;
 
