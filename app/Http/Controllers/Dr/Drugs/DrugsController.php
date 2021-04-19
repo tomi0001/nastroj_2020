@@ -111,7 +111,7 @@ class DrugsController extends Controller  {
         if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
             $DrugsUses = new DrugsUses;
             $list = $DrugsUses->selectDrugsAjax(Auth::User()->id_user,$request->get("dateStart"),$request->get("dateEnd"));
-            return View("ajax.showDrugs")->with("list",$list);
+            return View("ajax.showDrugs")->with("list",$list)->with("dateStart",$request->get("dateStart"))->with("dateEnd",$request->get("dateEnd"));
         }
     }
     

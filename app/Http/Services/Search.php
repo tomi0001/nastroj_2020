@@ -37,9 +37,15 @@ class Search {
     public $bool = false;
     public $dateStart;
     public $dateTo;
-    function __construct($dateStart,$dateTo) {
+    function __construct($dateStart,$dateTo,$bool = 0) {
+        if ($bool == 0) {
+            $id = Auth::User()->id;
+        }
+        else {
+            $id = Auth::User()->id_user;
+        }
         if ($dateStart == "") {
-            $dateStart = explode(" ",User::firstMood()->date_start);
+            $dateStart = explode(" ",User::firstMood($id)->date_start);
             $this->dateStart = $dateStart[0];
         }
         else {

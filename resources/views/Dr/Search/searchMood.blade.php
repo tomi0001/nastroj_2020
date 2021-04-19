@@ -44,7 +44,18 @@
                 <div class="title center">{{$list[$i]->dat}} {{\App\Http\Services\Common::returnDayWeek($list[$i]->dat)}}</div>
                 <br>
            
-        
+                <table class="table">
+                @foreach (\App\Moods_action::ifExistActionForDay($list[$i]->dat,$id) as $action)
+                    
+                    <tr>
+                        @if (\App\Action::selectNameAction($action->action,$id) != null)
+                            <td>{{\App\Action::selectNameAction($action->action,$id)->name}} </td><td> {{$action->minute}} minut wykonania </td>
+                        @endif
+                        
+                    </tr>
+                   
+                @endforeach
+                </table>
 
             </td>
         </tr>

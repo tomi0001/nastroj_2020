@@ -69,7 +69,7 @@
                         @endif
                     </td>
                     <td colspan="3">
-                        
+
                     </td>
                 </TR>
                 <TR>
@@ -80,7 +80,7 @@
                         <input type='number' name='longMoodFromHour' class='form-control'  placeholder="Godziny" value="{{Request::old("longMoodFromHour")}}" min="0" max="23">
                     </td>
                     <td width="5%">
-                       
+
                     </td>
                     <td colspan="2">
                         <input type='number' name='longMoodFromMinutes' class='form-control' placeholder="Minuty" value="{{Request::old("longMoodToHour")}}" min="0" max="59">
@@ -94,7 +94,7 @@
                         <input type='number' name='longMoodToHour' class='form-control'  placeholder="Godziny" value="{{Request::old("longMoodFromMinutes")}}" min="0" max="23">
                     </td>
                     <td width="5%">
-                        
+
                     </td>
                     <td colspan="2">
                         <input type='number' name='longMoodToMinutes' class='form-control'  placeholder="Minuty" value="{{Request::old("longMoodToMinutes")}}" min="0" max="59">
@@ -129,8 +129,8 @@
                         <input type="time" name="timeTo" class="form-control" value="{{Request::old("timeTo")}}">
                     </td>
                 </tr>
-                
-                
+
+
                 <tr>
                     <td>
                         Słowa kluczowe co robiłem
@@ -145,7 +145,7 @@
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     </td>
-                    
+
                 </tr>
                 <tr>
                     <td>
@@ -169,16 +169,16 @@
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     </td>
-                    
-                </tr>       
+
+                </tr>
                 <tr>
                     <td>
                         Ilość epizodów psychotycznych od
                     </td>
                     <td colspan="1">
-                        
+
                             <input type="number" name="epizodesFrom" class="form-control" value="{{Request::old("epizodesFrom")}}" min="0">
-                        
+
                     </td>
                     <td>
                         Do
@@ -186,8 +186,8 @@
                     <td width="5%" colspan="2">
                           <input type="number" name="epizodesTo" class="form-control" value="{{Request::old("epizodesTo")}}" min="0">
                     </td>
-                    
-                </tr>   
+
+                </tr>
                 <tr>
                     <td>
                         Wyszukja tylko wpisy, które mają jakiś opis
@@ -205,7 +205,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Wyszukja tylko wpisy, które mają jakiś akcje
+                        Wyszukaj tylko wpisy, które mają jakiś akcje
                     </td>
 
                     <td width="5%">
@@ -220,10 +220,25 @@
                 </tr>
                 <tr>
                     <td>
+                        Sumuj wszystkie nastroje
+                    </td>
+
+                    <td width="5%">
+                        @if (Request::old("sumMoods") == "on")
+                            <input type="checkbox" name="sumMoods" class="form-control" checked>
+                        @else
+                            <input type="checkbox" name="sumMoods" class="form-control">
+                        @endif
+                    </td>
+                    <td colspan="3">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         Sortuj wg
                     </td>
-                    
-                    <td colspan="3"> 
+
+                    <td colspan="3">
                         <select name="sort" class="form-control">
                             <option value="date">Daty</option>
                             <option value="hour">Godziny</option>
@@ -237,16 +252,15 @@
                     <td colspan="3">
                     </td>
                 </tr>
-                
-                
-                <TR> 
+
+
+                <TR>
                     <td colspan='5' class='center'>
-                        <input type='submit'  class='btn btn-primary' value='Wyszukaj'>
+                        <input type='submit'  class='btn btn-primary btn-lg' value='Wyszukaj'>
                     </td>
-                    
+
                 </TR>
-      
+
             </table>
         </form>
     </div>
-    

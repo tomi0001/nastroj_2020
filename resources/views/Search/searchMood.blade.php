@@ -52,11 +52,11 @@
                 <br>
            
                 <table class="table">
-                @foreach (\App\Moods_action::ifExistActionForDay($list[$i]->dat) as $action)
+                @foreach (\App\Moods_action::ifExistActionForDay($list[$i]->dat,$id) as $action)
                     
                     <tr>
-                        @if (\App\Action::selectNameAction($action->action) != null)
-                            <td>{{\App\Action::selectNameAction($action->action)->name}} </td><td> {{$action->minute}} minut wykonania </td>
+                        @if (\App\Action::selectNameAction($action->action,$id) != null)
+                            <td>{{\App\Action::selectNameAction($action->action,$id)->name}} </td><td> {{$action->minute}} minut wykonania </td>
                         @endif
                         
                     </tr>

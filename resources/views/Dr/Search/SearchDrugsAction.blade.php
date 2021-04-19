@@ -11,10 +11,10 @@
     @foreach ($listSearch as  $list)
         
             @if ($i == 0)
-            <div class="title_search_drugs">{{$day[$i][0]}} {{\App\Http\Services\Common::returnDayWeek($day[$i][0])}}</div>
+            <div class="title_search_drugs">{{$day[$i][0]}}  {{\App\Http\Services\Common::returnDayWeek($day[$i][0])}}</div>
             
             @elseif ($day[$i-1][0] != $day[$i][0])
-            <div class="title_search_drugs">{{$day[$i][0]}} {{\App\Http\Services\Common::returnDayWeek($day[$i][0])}}</div>
+            <div class="title_search_drugs">{{$day[$i][0]}}  {{\App\Http\Services\Common::returnDayWeek($day[$i][0])}}</div>
             @else
             <div class="empty"></div>
             @endif
@@ -54,7 +54,7 @@
                     Dawka
                 </td>
                 <td class="centerDrugs">
-                    {{$list->portion}} {{$day[$i][4]}}
+                    {{$list->portion}} {!!App\Http\Services\Common::selectPortionInt($list->type)!!}
                     
                 </td>
             </tr>
@@ -76,7 +76,7 @@
                 <td class="centerDrugs">
                     
                     @if ($list->description != "")
-                    <input type='button' value="Pokaż opis" class="btn btn-success" onclick="showDescriptionDrugs({{$i}},'{{route('DrDrugs.showDescription')}}',{{$list->id_usees}})">
+                    <input type='button' value="Pokaż opis" class="btn btn-success" onclick="showDescriptionDrugs({{$i}},'{{route('Drugs.showDescription')}}',{{$list->id_usees}})">
                     @else
                     <input type='button' value="Nie było opisu"  disabled class="btn btn-danger">
                     @endif

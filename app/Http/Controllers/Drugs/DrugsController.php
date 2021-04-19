@@ -105,6 +105,7 @@ class DrugsController extends Controller  {
          $Drugs = new DrugsUses;
          //$Hash = new Hashs();
          //$user = new user();
+         
          if (Auth::User()->type == "user") {
              $id = Auth::User()->id;
              $startDay = Auth::User()->start_day;
@@ -114,8 +115,7 @@ class DrugsController extends Controller  {
              $list = $Drugs->returnIdProduct($request->get("id"));
              //$date = $Drugs->returnDateDrugs(Input::get("id"));
              
-             $hourDrugs = $Drugs->sumAverage($list,$request->get("date1"),$Drugs->ifAlcohol,$id,$startDay,$request->get("date2"));
-             
+             $hourDrugs = $Drugs->sumAverage($list,$request->get("date1"),$id,$startDay,$request->get("date2"));
              $array = array();
              for ($i=0;$i < count($hourDrugs);$i++) {
                 $array[$i] = $Drugs->sumDifferentDay($hourDrugs[$i][1],$hourDrugs[$i][2]);

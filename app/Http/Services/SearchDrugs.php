@@ -291,7 +291,6 @@ class SearchDrugs {
         $id = $substance->get();
         $i = 0;
         foreach ($id as $id_product) {
-            print "ss";
             array_push($this->id_product,$id_product->id);
             $i++;
         }

@@ -57,7 +57,9 @@ class SearchController extends Controller  {
             $bool = $search->find($request,Auth::User()->id);
             //$search->findNot();
             $error = "";
+
             if ($search->bool == false) {
+               
                 $list = $search->createQuestions($request,$search->bool,Auth::User()->id);
                 if (count($list) == 0) {
                     $error = "Nic nie wyszukano";
@@ -75,6 +77,7 @@ class SearchController extends Controller  {
              * 
              */
             else if ( $search->bool == true ) {
+                 
                 $list = $search->createQuestions($request,$search->bool,Auth::User()->id);
                 if (count($list) == 0) {
                     $error = "Nic nie wyszukano";
@@ -105,12 +108,14 @@ class SearchController extends Controller  {
                  $lista = $Search->sortMoods($list);
                  if ($Search->bool == false) {
                     return View("Search.searchMood")->with("list",$list)->with("lista",$Search->arrayList)
-                             ->with("percent",$Search->listPercent)->with("count",$Search->count);
+                             ->with("percent",$Search->listPercent)->with("count",$Search->count)
+                             ->with("id",Auth::User()->id);;
                  }
                  else {
                      return View("Search.searchMoodAll")->with("list",$list)->with("lista",$Search->arrayList)
                              ->with("percent",$Search->listPercent)->with("count",$Search->count)->with("dateFrom",$Search->dateStart)->with("dateTo",$Search->dateTo)
-                             ->with("howDay",$interval->days);
+                             ->with("howDay",$interval->days)
+                             ->with("id",Auth::User()->id);;
                  }
         }
         
