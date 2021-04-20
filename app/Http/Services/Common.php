@@ -246,7 +246,7 @@ class common {
                 ->select("level_nervousness")
                 ->select("level_stimulation")
                 ->selectRaw("sum((unix_timestamp(date_end)  - unix_timestamp(date_start)))   as division")
-                ->selectRaw("(((sum(unix_timestamp(date_end)  - unix_timestamp(date_start) ) * level_mood))) / sum((unix_timestamp(date_end)  - unix_timestamp(date_start)))  as average_mood")
+                ->selectRaw("sum((unix_timestamp(date_end)  - unix_timestamp(date_start) ) * level_mood) / sum((unix_timestamp(date_end)  - unix_timestamp(date_start)))  as average_mood")
                 ->selectRaw("sum((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_anxiety) / sum((unix_timestamp(date_end)  - unix_timestamp(date_start))) as average_anxiety")
                 ->selectRaw("sum( (unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_nervousness) / sum((unix_timestamp(date_end)  - unix_timestamp(date_start))) as average_nervousness")
                 ->selectRaw("sum( (unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_stimulation) / sum((unix_timestamp(date_end)  - unix_timestamp(date_start)))  as average_stimulation")
