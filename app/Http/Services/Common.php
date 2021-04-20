@@ -11,6 +11,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 namespace App\Http\Services;
 use Auth;
+use DB;
+use App\Mood;
 /**
  * Description of common
  *
@@ -232,5 +234,26 @@ class common {
           }
           return array($year,$month);
     }
-    
+    public static function sumMoods($date,$idUser) {
+        $Moods = new Mood;
+        //$this->initStartDay($start);
+        $hour = Auth::User()->start_day;
+        $listMood = $Moods
+                
+                ->selectRaw(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as dat"))
+                ->select("level_mood")
+                ->select("level_anxiety")
+                ->select("level_nervousness")
+                ->select("level_stimulation")
+                ->selectRaw("sum((unix_timestamp(date_end)  - unix_timestamp(date_start)))   as division")
+                ->selectRaw("(((sum(unix_timestamp(date_end)  - unix_timestamp(date_start) ) * level_mood))) / sum((unix_timestamp(date_end)  - unix_timestamp(date_start)))  as average_mood")
+                ->selectRaw("sum((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_anxiety) / sum((unix_timestamp(date_end)  - unix_timestamp(date_start))) as average_anxiety")
+                ->selectRaw("sum( (unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_nervousness) / sum((unix_timestamp(date_end)  - unix_timestamp(date_start))) as average_nervousness")
+                ->selectRaw("sum( (unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_stimulation) / sum((unix_timestamp(date_end)  - unix_timestamp(date_start)))  as average_stimulation")
+                ->where(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) )"),$date)
+                ->where("moods.id_users",$idUser)
+                ->get();
+        return $listMood;
+    }
+
 }

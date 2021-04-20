@@ -103,6 +103,7 @@
             <file>file:/var/www/html/nastroj_2020/resources/views/User/Setting/addHashDr.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Middleware/EncryptCookies.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Main/MainController.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Dr/Search/searchMoodAll.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Auth/RegisterController.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Middleware/VerifyCsrfToken.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Mood/MoodController.php</file>

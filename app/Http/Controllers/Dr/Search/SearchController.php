@@ -106,7 +106,7 @@ class SearchController extends Controller  {
     }
     public function mainAction(Request $request) {
       if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
-        $Search  = new Search($request->get("dateFrom"),$request->get("dateTo"),1);
+        $Search  = new Search($request,$request->get("dateFrom"),$request->get("dateTo"),1);
         $Search->checkErrorMood($request);
         
         $datetime1 = new DateTime($Search->dateStart);
@@ -118,18 +118,30 @@ class SearchController extends Controller  {
         }
         else {
                  
-                 $list = $Search->createQuestion($request,Auth::User()->id_user);
-                 $lista = $Search->sortMoods($list);
-                 if ($Search->bool == false) {
+                 if ($request->get("valueAllDay") == "on") {
+                    $list = $Search->createQuestionForAllDay($request,Auth::User()->id_user);
+                    $lista = $Search->sortMoodsAllDay($list);
+                    return View("Dr.Search.searchMoodAllDay")->with("list",$list)->with("lista",$Search->arrayList)
+                             ->with("percent",$Search->listPercent)->with("count",$Search->count)
+                             ->with("id",Auth::User()->id_user);                     
+                 }
+                 else if ($Search->bool == false) {
+                    $list = $Search->createQuestion($request,Auth::User()->id_user);
+                    $lista = $Search->sortMoods($list);
                     return View("Dr.Search.searchMood")->with("list",$list)->with("lista",$Search->arrayList)
                              ->with("percent",$Search->listPercent)->with("count",$Search->count)
                              ->with("id",Auth::User()->id_user);
                  }
                  else {
+                     
+                     $list = $Search->createQuestion($request,Auth::User()->id_user);
+                     $lista = $Search->sortMoods($list);
                      return View("Dr.Search.searchMoodAll")->with("list",$list)->with("lista",$Search->arrayList)
                              ->with("percent",$Search->listPercent)->with("count",$Search->count)->with("dateFrom",$Search->dateStart)->with("dateTo",$Search->dateTo)
                              ->with("howDay",$interval->days)
                              ->with("id",Auth::User()->id_user);
+                      
+                      
                  }
         }
         

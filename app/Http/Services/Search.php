@@ -37,7 +37,7 @@ class Search {
     public $bool = false;
     public $dateStart;
     public $dateTo;
-    function __construct($dateStart,$dateTo,$bool = 0) {
+    function __construct(Request $request,$dateStart,$dateTo,$bool = 0) {
         if ($bool == 0) {
             $id = Auth::User()->id;
         }
@@ -57,6 +57,9 @@ class Search {
         else {
             $this->dateTo = $dateTo;
         }
+        if ($request->get("sumMoods") == "on" ) {
+            $this->bool = true;
+        }
     }
     private function sortMoods2($listMoods) {
         $Mood = new Mood;
@@ -70,7 +73,18 @@ class Search {
         }
     }
 
-
+    private function sortMoods2AllDay($listMoods) {
+        $Mood = new Mood;
+        foreach ($listMoods as $Moodss) {
+            $this->arrayList[$this->i]["second"] = $Moodss->longMood;
+            $this->arraySecond[$this->i] = $this->arrayList[$this->i]["second"];
+            $this->arrayList[$this->i]["color_nas"] = $Mood->setColor(array("mood"=>$Moodss->nas));
+            $this->arrayList[$this->i]["color_mood"] = $Mood->setColor(array("mood"=>$Moodss->level_mood));
+            $this->arrayList[$this->i]["percent"] = 0;
+            $this->i++;
+        }
+    }
+    
     public function sumMoodPercent(Request $request,$id) {
         $Mood =  AppMood::query();
         $Mood->selectRaw("(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)) / 3600) as sum");
@@ -161,6 +175,25 @@ class Search {
         }
         return $list;
     }
+    
+    public function sortMoodsAllDay($listMoods,$bool = false) :bool  {
+        $arraySecond = [];
+        $this->sortMoods2AllDay($listMoods);
+
+
+        if ($this->i != 0) {
+
+            array_multisort($this->arraySecond,SORT_ASC);
+            if ($bool == true) {
+                array_multisort($this->arrayList,SORT_ASC);
+            }
+            $longSecond = count($this->arraySecond);
+            $this->listPercent = $this->sumPercent($this->arraySecond[$longSecond-1],$this->arrayList);
+            return true;
+        }
+        return false;
+    }
+    
     public function sortMoods($listMoods,$bool = false) :bool {
 
         $arraySecond = [];
@@ -198,6 +231,82 @@ class Search {
         return $hour . " Godzin";
 
     }
+    
+    
+    public function createQuestionForAllDay(Request $request,$id) {
+        $this->question =  AppMood::query();
+        $this->setDate($request);
+        $this->setTime($request);
+
+        $hour = Auth::User()->start_day;
+        $this->question->selectRaw("sum(TIMESTAMPDIFF (SECOND, date_start , date_end)) as longMood");
+
+            $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_mood) / "
+                   . "sum(TIMESTAMPDIFF(second,moods.date_start,moods.date_end)),2) as nas");
+            $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  * level_anxiety) / "
+                   . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas2");
+            $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  *  	level_nervousness ) / "
+                   . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas3");
+            $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  * level_stimulation) / "
+                   . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas4");
+
+
+        //$hour = Auth::User()->start_day;
+        $this->question->selectRaw(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as dat"));
+        $this->question->selectRaw(DB::Raw("(YEAR(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as year"));
+        $this->question->selectRaw(DB::Raw("(MONTH(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as month"));
+        $this->question->selectRaw(DB::Raw("(DAY(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as day"));
+        $this->question->selectRaw("moods.date_start as date_start");
+        $this->question->selectRaw("moods.date_end as date_end");
+
+            $this->setGroupDay();
+        $this->question->selectRaw("moods.epizodes_psychotik as epizodes_psychotik");
+        $this->question->selectRaw("moods.what_work as what_work");
+        $this->question->selectRaw("moods.id as id");
+
+        //if ($request->get("actions") != null and $this->emptyArray($request->get("actions")) or $request->get("ifactions") == "on") {
+            $this->question->leftjoin("moods_actions","moods_actions.id_moods","moods.id")->leftjoin("actions","actions.id","moods_actions.id_actions");
+            $this->question->selectRaw("moods_actions.id_actions as id_actions");
+            $this->question->selectRaw("actions.name as actionDay ");
+        //if ($request->get("actions") != null and $this->emptyArray($request->get("actions")) or $request->get("ifactions") == "on") {
+;
+        //}
+        $this->setIdUsers($id);
+            $this->setGroup($request);
+                if (is_array($request->get("actions"))  ) {
+                    $this->setHavingAction($request);
+                }
+            if ($request->get("descriptions") != null and count($request->get("descriptions")) > 0) {
+                $this->setWhatWork($request);
+            }
+            if ($request->get("ifDescriptions") == "on") {
+                $this->question->where("moods.what_work", "!=" ,  ""  );
+            }
+            if ($request->get("ifactions") == "on") {
+                $this->question->where("moods_actions.id", "!=" ,  ""  );
+            }
+
+            $this->setGroup($request);
+
+
+
+
+
+
+
+            $this->setSortAllDay($request);
+
+
+        
+            
+        
+          
+        
+        $this->count = $this->question->get()->count();
+        return $this->question->paginate(15);
+        
+    }
+    
     public function createQuestion(Request $request,$id) {
         $this->question =  AppMood::query();
         $this->setDate($request);
@@ -303,9 +412,7 @@ class Search {
           
         
         $this->count = $this->question->get()->count();
-       if  ( $request->get("sumMoods") == "on" ) {
-            $this->bool  =true;
-        }
+
         return $this->question->paginate(15);
     }
 

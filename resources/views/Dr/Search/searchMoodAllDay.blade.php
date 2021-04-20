@@ -3,7 +3,6 @@
 @section('content')
 <body onload='hideDiv({{count($list)}})'>
 <br>
-
 @if ($count == 0)
     <div class="searchError">Nie ma żadnych wyników</div>
 @else
@@ -51,38 +50,7 @@
                 <br>
                 <div class="title center">{{$list[$i]->dat}} {{\App\Http\Services\Common::returnDayWeek($list[$i]->dat)}}</div>
                 <br>
-                <table class="table">
-                    <tr>
-                        @foreach (App\Http\Services\Common::sumMoods($list[$i]->dat,$id) as $day)
-                    <tr>
-                        <th>
-                            Poziom nastroju dla całego dnia
-                        </th>
-                        <th>
-                            Poziom lęku dla całego dnia
-                        </th>
-                        <th>
-                            Poziom napięcia dla całego dnia
-                        </th>
-                        <th>
-                            Poziom pobudzenia dla całego dnia
-                        </th>
-                    </tr>
-                        <td class="center">
-                            {{round($day["average_mood"],2)}} 
-                        </td>
-                        <td class="center">
-                            {{round($day["average_anxiety"],2)}} 
-                        </td>
-                        <td class="center">
-                            {{round($day["average_nervousness"],2)}} 
-                        </td>
-                        <td class="center">
-                            {{round($day["average_stimulation"],2)}} 
-                        </td>
-                        @endforeach
-                    </tr>
-                </table>
+
                 <table class="table">
                 @foreach (\App\Moods_action::ifExistActionForDay($list[$i]->dat,$id) as $action)
                     
@@ -158,12 +126,9 @@
                         <td colspan="6">
                             <br>
                          
-                            @if (!isset($list->nas))
-                            <div class="titlemood{{$lista[$i]['color_mood']}}" style='width: {{$percent[$i]["percent"]}}%';>&nbsp;</div>
-                            @else
+                       
                             <div class="titlemood{{$lista[$i]['color_nas']}}" style='width: {{$percent[$i]["percent"]}}%';>&nbsp;</div>
 
-                            @endif
                    
                          
                         </td>
@@ -174,29 +139,12 @@
                             {{$percent[$i]['second']}}
                         </td>
                         
-                        <td>
-                            <br>
-                            
-                            @if ($list[$i]->what_work != "")
-                            <button onclick="showDescription('{{route('mood.showDescription')}}',{{$list[$i]->id}},{{$i}})" class='btn btn-primary btn-lg'>Co robiłeś</button>
-                            @else
-                            <button class='btn btn-danger btn-lg' disabled>Nic nie robiłeś</button>
-                            @endif
-                        </td>
-                        <td>
-                            <br>
-                             @if ($list[$i]->id_actions != "")
-                            <button onclick="showAction('{{route('action.show')}}',{{$i}},{{$list[$i]->id}})" class='btn btn-primary btn-lg'>pokaż akcje</button>
-                            @else
-                            <button class='btn btn-danger btn-lg' disabled>Nie było akcji</button>
-                            @endif
-                        
-                        </td>
+
                         
                         <td>
                             <br>
              
-                           <a href='{{route('main')}}/{{$list[$i]->year}}/{{$list[$i]->month}}/{{$list[$i]->day}}#id_{{$list[$i]->id}}'><button class='btn btn-primary btn-lg'>Idź do dnia</button></a>
+                           <a href='{{route('Drmain')}}/{{$list[$i]->year}}/{{$list[$i]->month}}/{{$list[$i]->day}}'><button class='btn btn-primary btn-lg'>Idź do dnia</button></a>
 
                         </td>
                     </tr>

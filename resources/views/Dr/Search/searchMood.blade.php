@@ -43,7 +43,38 @@
                 <br>
                 <div class="title center">{{$list[$i]->dat}} {{\App\Http\Services\Common::returnDayWeek($list[$i]->dat)}}</div>
                 <br>
-           
+                <table class="table">
+                    <tr>
+                        @foreach (App\Http\Services\Common::sumMoods($list[$i]->dat,$id) as $day)
+                    <tr>
+                        <th>
+                            Poziom nastroju dla całego dnia
+                        </th>
+                        <th>
+                            Poziom lęku dla całego dnia
+                        </th>
+                        <th>
+                            Poziom napięcia dla całego dnia
+                        </th>
+                        <th>
+                            Poziom pobudzenia dla całego dnia
+                        </th>
+                    </tr>
+                        <td class="center">
+                            {{round($day["average_mood"],2)}} 
+                        </td>
+                        <td class="center">
+                            {{round($day["average_anxiety"],2)}} 
+                        </td>
+                        <td class="center">
+                            {{round($day["average_nervousness"],2)}} 
+                        </td>
+                        <td class="center">
+                            {{round($day["average_stimulation"],2)}} 
+                        </td>
+                        @endforeach
+                    </tr>
+                </table>
                 <table class="table">
                 @foreach (\App\Moods_action::ifExistActionForDay($list[$i]->dat,$id) as $action)
                     
