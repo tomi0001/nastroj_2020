@@ -256,8 +256,8 @@ class Search {
         $this->question->selectRaw(DB::Raw("(YEAR(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as year"));
         $this->question->selectRaw(DB::Raw("(MONTH(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as month"));
         $this->question->selectRaw(DB::Raw("(DAY(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as day"));
-        $this->question->selectRaw("moods.date_start as date_start");
-        $this->question->selectRaw("moods.date_end as date_end");
+        $this->question->selectRaw("min(moods.date_start) as date_start");
+        $this->question->selectRaw("max(moods.date_end) as date_end");
 
             $this->setGroupDay();
         $this->question->selectRaw("moods.epizodes_psychotik as epizodes_psychotik");
