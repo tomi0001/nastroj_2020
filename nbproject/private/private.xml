@@ -125,6 +125,7 @@
             <file>file:/var/www/html/nastroj_2020/resources/views/User/Setting/changeDateAction.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/routes/api.php</file>
             <file>file:/var/www/html/nastroj_2020/config/mail.php</file>
+            <file>file:/var/www/html/nastroj_2020/database/migrations/2021_04_22_140934_create_table_users.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Dr/Search/SearchSleeps2.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Search/SearchController.php</file>
             <file>file:/var/www/html/nastroj_2020/routes/channels.php</file>
@@ -187,6 +188,7 @@
             <file>file:/var/www/html/nastroj_2020/app/Forwarding_substance.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/ajax/equivalentBenzo2.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/addDrugs.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/database/migrations/2023_01_12_0111132_create_pgg_table.php</file>
             <file>file:/var/www/html/nastroj_2020/config/permission.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Dr/Search/main.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/ajax/SumMood.blade.php</file>

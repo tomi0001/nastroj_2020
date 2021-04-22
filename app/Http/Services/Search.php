@@ -506,6 +506,8 @@ class Search {
                 break;
             case 'stimulation': $this->question->orderBy("nas4","DESC");
                 break;
+            case 'longMood': $this->question->orderBy("longMood","DESC");
+                break;
 
 
         }
