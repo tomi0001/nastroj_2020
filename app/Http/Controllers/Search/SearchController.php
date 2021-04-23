@@ -36,7 +36,7 @@ class SearchController extends Controller  {
     
     public function sleepAction(Request $request) {
         //session(['searchType' => 'SearchSleep']);
-        $Search  = new Search($request->get("dateFrom"),$request->get("dateTo"));
+        $Search  = new Search($request,$request->get("dateFrom"),$request->get("dateTo"));
         $Search->checkErrorSleep($request);
         if (count($Search->errors) > 0) {
             return Redirect::back()->with("errors",$Search->errors)->withInput();

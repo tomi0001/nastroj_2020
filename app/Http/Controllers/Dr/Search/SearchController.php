@@ -41,7 +41,7 @@ class SearchController extends Controller  {
     
     public function sleepAction(Request $request) {
         if (Auth::User()->type == "doctor" and Auth::User()->if_true == 1) {
-            $Search  = new Search($request->get("dateFrom"),$request->get("dateTo"),1);
+            $Search  = new Search($request,$request->get("dateFrom"),$request->get("dateTo"),1);
             $Search->checkErrorSleep($request);
             if (count($Search->errors) > 0) {
                 return Redirect::back()->with("errors",$Search->errors)->withInput();
