@@ -5,7 +5,7 @@
     <div class='col-md-10 col-lg-8 col-sm-10 col-xs-10 '>
         <div class='formAddMood'>
             <div class='title'>
-                DODAJ NOWY SEN
+                DODAJ NOWĄ AKCJĘ
             </div>
             <div class='row'>
                 <div class='col-lg-2 col-md-1 col-xs-1 col-sm-1'>

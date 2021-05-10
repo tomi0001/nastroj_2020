@@ -91,33 +91,34 @@ function switchVisibleMoodDobule(array,bool = 0) {
 
 function switchVisibleMood() {
 
+
     if ($("[name='type']").val() == "mood") {
         $("#moodAction").css("display","none");
         $("#moodAdd").css("display","inline");
         $("#SleepAdd").css("display","none");
         $("#drugsAdd").css("display","none");
-        $("#actionDay").css("display","none");
+        $("#actionDayAdd").css("display","none");
     }
     else if ($("[name='type']").val() == "action"){  
         $("#moodAdd").css("display","none");
         $("#moodAction").css("display","inline");
         $("#SleepAdd").css("display","none");
         $("#drugsAdd").css("display","none");
-        $("#actionDay").css("display","none");
+        $("#actionDayAdd").css("display","none");
     }
     else if($("[name='type']").val() == "drugs") {
         $("#moodAdd").css("display","none");
         $("#moodAction").css("display","none");
         $("#SleepAdd").css("display","none");
         $("#drugsAdd").css("display","inline");
-        $("#actionDay").css("display","none");
+        $("#actionDayAdd").css("display","none");
     }
     else if ($("[name='type']").val() == "Sleep") {
         $("#moodAdd").css("display","none");
         $("#moodAction").css("display","none");
         $("#SleepAdd").css("display","inline");
         $("#drugsAdd").css("display","none");
-        $("#actionDay").css("display","none");
+        $("#actionDayAdd").css("display","none");
     }
     else {
         $("#moodAdd").css("display","none");
@@ -125,7 +126,7 @@ function switchVisibleMood() {
         $("#SleepAdd").css("display","none");
         $("#SleepAdd").css("display","none");
         $("#drugsAdd").css("display","none");
-        $("#actionDay").css("display","inline");
+        $("#actionDayAdd").css("display","inline");
     }
 }
 var ifMood = "mood";
@@ -422,7 +423,7 @@ $.ajax({
 .done(function(response) {
     $("#form3").html(response);
     if (response == "") {
-        setInterval("reload();",4000);
+        setInterval("reload();",10000);
         $("#form3").html("<div class='ajaxSucces'>Pomyślnie dodano</div>");
     }
     
@@ -466,7 +467,7 @@ $.ajax({
 .done(function(response) {
     $("#form5").html(response);
     if (response == "") {
-        setInterval("reload();",4000);
+        setInterval("reload();",10000);
         $("#form5").html("<div class='ajaxSucces'>Pomyślnie dodano</div>");
     }
     
@@ -476,6 +477,30 @@ $.ajax({
 })
     
 
+}
+
+
+function addActionDay(url) {
+    $.ajax({
+    url : url,
+        method : "get",
+        data : 
+          $("#form20").serialize()
+        ,
+        dataType : "html",
+})
+.done(function(response) {
+    $("#form21").html(response);
+    if (response == "") {
+        setInterval("reload();",10000);
+        $("#form21").html("<div class='ajaxSucces'>Pomyślnie dodano</div>");
+    }
+    
+})
+.fail(function() {
+    $("#form21").html( "<div class='ajaxError'>Wystąpił błąd</div>" );
+})
+    
 }
 function addMood(url) {
     //alert(actionList.length);
@@ -513,7 +538,7 @@ $.ajax({
 .done(function(response) {
     $("#form").html(response);
     if (response == "") {
-        setInterval("reload();",4000);
+        setInterval("reload();",10000);
         $("#form").html("<div class='ajaxSucces'>Pomyślnie dodano</div>");
     }
     
@@ -825,7 +850,7 @@ $.ajax({
 .done(function(response) {
     $("#form7").html(response);
     if (response == "") {
-        setInterval("reload();",4000);
+        setInterval("reload();",10000);
         $("#form7").html("<div class='ajaxSucces'>Pomyślnie dodano</div>");
     }
     
