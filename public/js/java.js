@@ -96,24 +96,36 @@ function switchVisibleMood() {
         $("#moodAdd").css("display","inline");
         $("#SleepAdd").css("display","none");
         $("#drugsAdd").css("display","none");
+        $("#actionDay").css("display","none");
     }
     else if ($("[name='type']").val() == "action"){  
         $("#moodAdd").css("display","none");
         $("#moodAction").css("display","inline");
         $("#SleepAdd").css("display","none");
         $("#drugsAdd").css("display","none");
+        $("#actionDay").css("display","none");
     }
     else if($("[name='type']").val() == "drugs") {
         $("#moodAdd").css("display","none");
         $("#moodAction").css("display","none");
         $("#SleepAdd").css("display","none");
         $("#drugsAdd").css("display","inline");
+        $("#actionDay").css("display","none");
     }
-    else {
+    else if ($("[name='type']").val() == "Sleep") {
         $("#moodAdd").css("display","none");
         $("#moodAction").css("display","none");
         $("#SleepAdd").css("display","inline");
         $("#drugsAdd").css("display","none");
+        $("#actionDay").css("display","none");
+    }
+    else {
+        $("#moodAdd").css("display","none");
+        $("#moodAction").css("display","none");
+        $("#SleepAdd").css("display","none");
+        $("#SleepAdd").css("display","none");
+        $("#drugsAdd").css("display","none");
+        $("#actionDay").css("display","inline");
     }
 }
 var ifMood = "mood";

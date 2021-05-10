@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Action as ActionApp;
 use App\Actions_plan;
 use App\Moods_action;
+use App\Actions_day;
 use App\Mood;
 use App\Http\Services\Common as common;
 use Auth;
@@ -193,7 +194,18 @@ class Action {
         $Action = new Actions_plan;
         $Action->where("id",$request->get("id"))->delete();
     }
-
+    //napisane w 2021 Tomasz Leszczyński 
+    public function checkErrorsDayAction(Request $request) {
+        if ($request->get("date") == "") {
+            array_push($this->errors,"Uzupełnij pole data");
+        }
+        if ($request->get("nameAction") == "") {
+            array_push($this->errors,"Uzupełnij nazwe akcji");
+        }
+        if (strtotime($request->get("date")) > strtotime(date("Y-m-d"))) {
+            array_push($this->errors,"data jest większa od teraźniejszej daty");
+        }
+    }
     public function checkAddActionName(Request $request) {
         if (!empty(Actions_plan::checkNameIfExist($request->get("actionNameDate"),$request->get("idAction")))) {
             return;
@@ -483,6 +495,14 @@ class Action {
                     $Action->id_actions = $tmp[0];
                     $Action->save();
         }
+    }
+    
+    public function saveActionDay(Request $request) {
+        $Action = new Actions_day;
+        $Action->id_users = Auth::User()->id;
+        $Action->id_actions = $request->get("nameAction");
+        $Action->date = $request->get("date");
+        $Action->save();
     }
 
 }

@@ -32,9 +32,8 @@ Route::group(
                     Route::get('/Mood/EditAction', 'Mood\MoodController@EditAction')->name('Mood.editAction');
                     Route::get('/Mood/addDeleteAction', 'Mood\MoodController@ddDeleteAction')->name('mood.addDeleteAction');
                     Route::get('/Mood/updateActionMoods', 'Mood\MoodController@updateActionMoods')->name('ajax.updateActionMoods');
-                    
-                    Route::get('/DrMood/ShowDescription', 'Dr\Mood\MoodController@ShowDescription')->name('Drmood.showDescription');
-                    Route::get('/DrMood/ActionShow', 'Dr\Mood\MoodController@ActionShow')->name('Draction.show');
+                    Route::get("/Mood/ActionDayAdd","Mood\MoodController@addActionDay")->name("ActionDay.Add");
+
                     
                     
                     Route::get("/Drugs/Add",'Drugs\DrugsController@add')->name("Drugs.Add");
@@ -87,6 +86,12 @@ Route::group(
                     
                     
                     
+                    
+                    
+                    
+                    
+                    
+                    
 
                     
                     Route::get("/Search/main","Search\SearchController@main")->name("Search.main");
@@ -111,6 +116,8 @@ Route::group(
                     Route::get("/DrDrugs/sumAverage2","Dr\Drugs\DrugsController@sumAverage2")->name("DrDrugs.sumAverage2");
                     Route::get("/DrDrugs/showDescription","Dr\Drugs\DrugsController@showDescriptionsAction")->name("DrDrugs.showDescription");
                     Route::get("/DrDrugs/calculateBenzo","Dr\Drugs\DrugsController@calculateBenzo")->name("DrDrugs.calculateBenzo");
+                    Route::get('/DrMood/ShowDescription', 'Dr\Mood\MoodController@ShowDescription')->name('Drmood.showDescription');
+                    Route::get('/DrMood/ActionShow', 'Dr\Mood\MoodController@ActionShow')->name('Draction.show');
                     
                     
                     Route::get("/sada",'Main\MainController@ss')->name("DrSearch.SumMoodss");

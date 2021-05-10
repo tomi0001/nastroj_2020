@@ -73,6 +73,7 @@
                     <option value='Sleep'>Dodaj nowy Sen</option>
                     <option value='action'>Dodaj nowe zdarzenie</option>
                     <option value='drugs'>Dodaj nowy lek</option>
+                    <option value='actionDay'>Dodaj nową akcję całodniową</option>
                 </select>
                 
             </form>
@@ -93,5 +94,8 @@
     </div>
     <div id="drugsAdd" style="display: none;">
         @include('Main.addDrugs')
+    </div>
+    <div id="actionDayAdd" style="display: none;">
+        @include('Main.actionDayAdd')
     </div>
 @endsection

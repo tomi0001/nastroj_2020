@@ -88,6 +88,17 @@ class MoodController extends Controller  {
             }
         }
     }
+    public function addActionDay(Request $request) {
+        if (Auth::User()->type == "user") {
+            $Action = new Action;
+            $Action->checkErrorsDayAction($request);
+            if (count($Action->errors) != 0) {
+                return View("ajax.error")->with("error",$Action->errors);
+
+            }
+            $Action->saveActionDay($request);
+        }
+    }
     public function AddDescription(Request $request) {
         if (Auth::User()->type == "user") {
             $description = AppMood::showDescription($request->get("id"),Auth::User()->id);
