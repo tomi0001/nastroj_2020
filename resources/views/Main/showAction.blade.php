@@ -1,4 +1,41 @@
+@if (count($ActionDay) != 0 ) 
 <table class="table" style="width: 90%; margin-left: auto;margin-right: auto;">
+    
+    <tr>
+    <th style="background-color: #8F8FBD; color: yellow" class="center">
+        Akcje dla całego dnia
+    </th>
+    </tr>
+    
+
+    @foreach ($ActionDay as $list)
+    <tr>
+        <td class="center">
+     
+            
+            <div class='namePleasure level_pleasure_{{\App\Http\Services\Action::setColorPleasure(\App\Action::selectNameAction2($list->id_actions,$idUser)->level_pleasure)}}'>
+             
+             <span class="level_pleasure"> {{\App\Action::selectNameAction($list->id_actions,$idUser)->name}}</span> <br>
+
+        </div>
+        </td>
+    </tr>
+       
+    @endforeach
+
+@else
+
+            <div class="titleError">
+                    Nie ma żadnych czynnści dla danego dnia
+            </div>
+@endif
+</table>
+<table class="table" style="width: 90%; margin-left: auto;margin-right: auto;">
+    <tr>
+        <th style="background-color: #8F8FBD; color: yellow" class="center" colspan="3">
+        Zaplanowane czynności
+        </th>
+    </tr>
     <tr>
         <td class="center">
             Godzina od

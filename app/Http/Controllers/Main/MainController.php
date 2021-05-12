@@ -24,6 +24,7 @@ use App\Http\Services\DrugsUses as Drugs;
 use App\Usee as Usee;
 use App\Product as appProduct;;
 use App\Action;
+use App\Actions_day;
 use Auth;
 use App\Mail\OrderShipped;
 
@@ -37,6 +38,7 @@ class MainController extends Controller  {
         $Product = new Product;
         $Drugs = new Drugs;
         $Calendar = new Calendar($year, $month, $day, $action);
+        $ActionDay = Actions_day::selectAction(Auth::id(),$Calendar->year . "-" . $Calendar->month . "-"  .$Calendar->day);
         $Mood->downloadMood($Calendar->year,$Calendar->month,$Calendar->day,Auth::id());
         $Mood->downloadSleep($Calendar->year,$Calendar->month,$Calendar->day,Auth::id());
         if ((count($Mood->listMood) == 0 and count($Mood->listSleep) == 0)) {
@@ -109,7 +111,8 @@ class MainController extends Controller  {
                                 ->with("equivalent",$equivalent)
                                 ->with("allEquivalent",$allEquivalent)
                                 ->with("benzo",$benzo)
-                                ->with("listPlaned",$listPlaned);
+                                ->with("listPlaned",$listPlaned)
+                                ->with("ActionDay",$ActionDay);
                                 //->with("listActionMood",$Action2->listActionMood);
      }
      else {

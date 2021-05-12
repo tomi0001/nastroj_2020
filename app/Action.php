@@ -21,6 +21,9 @@ class Action extends Model
     public static function selectNameAction($id,$idUsers) {
         return self::select("name")->where("id",$id)->where("id_users",$idUsers)->first();
     }
+    public static function selectNameAction2($id,$idUsers) {
+        return self::select("name")->select("level_pleasure")->where("id",$id)->where("id_users",$idUsers)->first();
+    }
     public static function selectActionName() {
         return self::selectRaw("name as name2")->selectRaw("id as id2")->where("id_users",Auth::User()->id)->get();
     }
