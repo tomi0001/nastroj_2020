@@ -136,7 +136,17 @@ class SearchController extends Controller  {
             //print_r ($list);
    
     }
-    
+    public function selectDifference(Request $request) {
+        $Search = new Search($request,$request->get("dateFrom"),$request->get("dateTo"));
+        $Search->selectDifferenceMoods($request,Auth::User()->id);
+        $Search->selectDifferenceSleeps($request,Auth::User()->id);
+        //print ("<pre>");
+        //print_r ($Search->sleepsDiff["moods"]);
+        //print $Search->sleepsDiff["moods"][1];
+        $Search->sumDifference($request,Auth::User()->id);
+        //var_dump($Search->sleepsDiff);
+        
+    }
     public function searchAI(Request $request) {
         $AI = new AI(Auth::User()->id);
 

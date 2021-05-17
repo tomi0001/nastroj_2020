@@ -101,6 +101,8 @@ Route::group(
                     Route::get("/Search/SearchSumMood","Search\SearchController@searchSumMood")->name("Search.SumMood");
                     Route::get("/Search/searchDrugs","Search\SearchController@searchDrugs")->name("search.searchDrugs");
                     Route::get("/Search/selectDrugs","Search\SearchController@selectDrugs")->name("search.selectDrugs");
+                    //Route::get("/Search/difference","Search\SearchController@selectDifference")->name("search.difference");
+                    
                     
                     
                     Route::get("/DrSearch/main","Dr\Search\SearchController@main")->name("DrSearch.main");

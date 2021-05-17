@@ -239,8 +239,8 @@ function addActionSearch() {
 }
 
 
-var arraySettingSearch = ["mainSearch","SearchSleep","averageMoods","howHourMood","PDF","SearchDrugs"];
-var arraySettingSearch2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6"];
+var arraySettingSearch = ["mainSearch","SearchSleep","averageMoods","howHourMood","PDF","SearchDrugs","difference"];
+var arraySettingSearch2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6","settingPosition_7"];
 function switchSettingSearch(id = "mainSearch",id2 = "settingPosition_1") {
     
     for (i=0;i < arraySettingSearch.length;i++) {

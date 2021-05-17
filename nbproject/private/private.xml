@@ -3,29 +3,44 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/SearchDrugs.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Main/MainController.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Http/Services/Search.php</file>
             <file>file:/var/www/html/nastroj_2020/database/migrations/2023_05_06_1300501_actions_days.php</file>
-            <file>file:/var/www/html/nastroj_2020/resources/views/Main/Main.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/routes/web.php</file>
-            <file>file:/var/www/html/nastroj_2020/public/js/app.js</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Mood/MoodController.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Dr/Main/MainController.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Main/addAction.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Main/showDrugs.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/database/migrations/2022_01_12_0111132_create_planned_drugs_table.php</file>
+            <file>file:/var/www/html/nastroj_2020/database/migrations/2014_10_12_000000_create_users_table.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Http/Services/SearchDrugs.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Drugs/DrugsController.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Main/addSleep.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/main.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Http/Services/DrugsUses.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/howHourMood.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Main/Main.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/public/js/app.js</file>
             <file>file:/var/www/html/nastroj_2020/app/Moods_action.php</file>
             <file>file:/var/www/html/nastroj_2020/database/migrations/2015_10_12_000000_create_actions_table.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/actionDayAdd.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/mainSearch.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/User.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Services/AIMood.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/SearchSleeps2.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Services/Action.php</file>
-            <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Dr/Main/MainController.php</file>
-            <file>file:/var/www/html/nastroj_2020/resources/views/Main/addAction.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/difference.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/addDrugs.blade.php</file>
-            <file>file:/var/www/html/nastroj_2020/database/migrations/2022_01_12_0111132_create_planned_drugs_table.php</file>
             <file>file:/var/www/html/nastroj_2020/database/migrations/2014_11_12_000000_create_sleeps_table.php</file>
-            <file>file:/var/www/html/nastroj_2020/database/migrations/2014_10_12_000000_create_users_table.php</file>
-            <file>file:/var/www/html/nastroj_2020/resources/views/Main/addSleep.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Action.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Http/Services/Product.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/showAction.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Http/Services/Calendar.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Actions_day.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Dr/Drugs/DrugsController.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Search/SearchController.php</file>
             <file>file:/var/www/html/nastroj_2020/public/js/java.js</file>
-            <file>file:/var/www/html/nastroj_2020/app/Http/Services/DrugsUses.php</file>
         </group>
     </open-files>
 </project-private>

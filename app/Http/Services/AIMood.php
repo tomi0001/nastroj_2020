@@ -204,7 +204,7 @@ class AIMood {
         $array = [];
         $month = $div[1];
         $year = $div[0];
-        $howMonth =  (12 * $diff->y) + $diff->m;;
+        $howMonth =  (12 * $diff->y) + $diff->m;
         for ($i = 0;$i<=$howMonth;$i++) {
             
 

@@ -37,6 +37,12 @@ class Search {
     public $bool = false;
     public $dateStart;
     public $dateTo;
+    public $sleepsDiff  = [];
+    private $sleepsDiff2 = [];
+    
+    
+    
+    
     function __construct(Request $request,$dateStart,$dateTo,$bool = 0) {
         if ($bool == 0) {
             $id = Auth::User()->id;
@@ -153,7 +159,7 @@ class Search {
         }
         return false;
     }
-        private function sortSleeps2($listMoods) {
+    private function sortSleeps2($listMoods) {
         $Mood = new Mood;
         foreach ($listMoods as $Moodss) {
             $this->arrayList[$this->i]["second"] = strtotime($Moodss->date_end) - strtotime($Moodss->date_start);
@@ -900,5 +906,55 @@ class Search {
             array_push($this->errors, $what . " musi się mieścić w przedziele od 0 do +3000");
         }
 
+    }
+    //Napisane w 2021 autor Tomasz Leszczyński
+    public function selectDifferenceMoods(Request $request,$idUser) {
+        
+        //$firstDate = new DateTime($this->dateStart);
+        //$secondDate = new DateTime($this->dateTo);
+        //$diff = $firstDate->diff($secondDate);
+        $hour = Auth::User()->start_day;
+        //$Mood = new AppMood;
+        $this->question =  AppMood::query();
+        $this->question->selectRaw(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as dat"))
+                ->selectRaw(" max(moods.date_end) as date_end ")
+                ->where("date_start",">=",$this->dateStart)
+                ->where("date_end","<=",$this->dateTo)
+                ->where("id_users",$idUser)
+                ->groupBy(DB::Raw("(DATE(IF(HOUR(date_end) >= '$hour', date_start,Date_add(date_end, INTERVAL - 0 DAY) )) ) "));
+                if ($request->get("sort") == "date") {
+                    $this->question->orderBy(DB::Raw("(DATE(IF(HOUR(date_end) >= '$hour', date_start,Date_add(date_end, INTERVAL - 0 DAY) )) ) "),"DESC");
+                }
+                 $this->sleepsDiff["moods"]= $this->question->get();
+                //->get();        
+
+    }
+    
+    public function selectDifferenceSleeps(Request $request,$idUser) {
+        $hour = Auth::User()->start_day;
+        //$Mood = new AppMood;
+        $this->question =  Sleep::query();
+        $this->question->selectRaw(DB::Raw("(DATE(IF(HOUR(date_start) >= '$hour', date_start,Date_add(date_start, INTERVAL - 1 DAY) )) ) as dat"))
+                ->selectRaw(" min(date_start) as date_start ")
+                ->where("date_start",">=",$this->dateStart)
+                ->where("date_end","<=",$this->dateTo)
+                ->where("id_users",$idUser)
+                ->groupBy(DB::Raw("(DATE(IF(HOUR(date_end) >= '$hour', date_start,Date_add(date_end, INTERVAL - 0 DAY) )) ) "));
+                if ($request->get("sort") == "date") {
+                    $this->question->orderBy(DB::Raw("(DATE(IF(HOUR(date_end) >= '$hour', date_start,Date_add(date_end, INTERVAL - 0 DAY) )) ) "),"DESC");
+                }
+                 $this->sleepsDiff["sleeps"]=  $this->question->get();
+                //->get();  
+    }
+    
+    public function sumDifference(Request $request,$idUser) {
+        $Sleeps = new Sleep;
+        $result = [];
+        for ($i=0;$i < count($this->sleepsDiff["moods"]);$i++) {
+            
+            $result[$i] = strtotime($this->sleepsDiff["moods"][$i]->date_end) - strtotime($this->sleepsDiff["sleeps"][$i]->date_start);
+            //print $result[$i] . "<Br>";
+            print $this->sleepsDiff["moods"][$i]->date_end .  "-"  . $this->sleepsDiff["sleeps"][$i]->date_start ."<br>";
+        }
     }
 }
