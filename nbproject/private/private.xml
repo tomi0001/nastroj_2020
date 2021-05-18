@@ -9,6 +9,7 @@
             <file>file:/var/www/html/nastroj_2020/database/migrations/2023_05_06_1300501_actions_days.php</file>
             <file>file:/var/www/html/nastroj_2020/routes/web.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Mood/MoodController.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/searchMood.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Dr/Main/MainController.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/addAction.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/showDrugs.blade.php</file>
@@ -20,6 +21,7 @@
             <file>file:/var/www/html/nastroj_2020/resources/views/Search/main.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Services/DrugsUses.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Search/howHourMood.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/searchMoodAll.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/Main.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/public/js/app.js</file>
             <file>file:/var/www/html/nastroj_2020/app/Moods_action.php</file>
@@ -32,6 +34,7 @@
             <file>file:/var/www/html/nastroj_2020/app/Http/Services/Action.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Search/difference.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/addDrugs.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/searchMoodAllDay.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/database/migrations/2014_11_12_000000_create_sleeps_table.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Action.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Services/Product.php</file>

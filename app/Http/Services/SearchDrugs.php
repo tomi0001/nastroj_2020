@@ -452,7 +452,7 @@ class SearchDrugs {
                 ->selectRaw("usees.date as date")
                 ->selectRaw("usees.id_products as id")
                 ->selectRaw("usees.id as id_usees")
-                ->selectRaw("time(usees.date) as hour2")
+                ->selectRaw(  DB::Raw("TIME(Date_add(usees.date, INTERVAL - '$hour' HOUR) ) as hour2"))
                 ->selectRaw("descriptions.description as description")
                 ->selectRaw("descriptions.date as date_description")
                 ->selectRaw("usees.id_products as product")

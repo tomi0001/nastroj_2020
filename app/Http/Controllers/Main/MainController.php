@@ -113,6 +113,7 @@ class MainController extends Controller  {
                                 ->with("benzo",$benzo)
                                 ->with("listPlaned",$listPlaned)
                                 ->with("ActionDay",$ActionDay);
+                                //->with("howAction",$Mood->howAction);
                                 //->with("listActionMood",$Action2->listActionMood);
      }
      else {

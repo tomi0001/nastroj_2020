@@ -63,6 +63,7 @@ class Mood {
     public $arrayList = [];
     public $errors = [];
     public $level = [];
+    //public $howAction = 0;
     private $i;
     public function checkAddMoodDate(Request $request) {
         $bool = 4;
@@ -621,7 +622,7 @@ class Mood {
     
     
     private function sortMoods($listMoods,$whatWork) {
-        
+        //$this->howAction = 0;
         foreach ($listMoods as $Moodss) {
             
             $this->arrayList[$this->i]["date_start"] = $Moodss->date_start;
@@ -643,6 +644,7 @@ class Mood {
             $this->arrayList[$this->i]["color_stimulation"] = $this->setColor(array("mood"=>$this->arrayList[$this->i]["level_mood"],"stimulation"));
             
             $this->arrayList[$this->i]["name"] = $Moodss->name;
+            //$this->howAction += $Moodss->name;
             if ($whatWork == "on") {
                 $this->arrayList[$this->i]["what_work"] = Common::charset_utf_fix($Moodss->what_work,true);
                 

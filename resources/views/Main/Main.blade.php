@@ -44,7 +44,7 @@
         
     </div>
     <div id='actionShow' style='display: none;'>
-        @if (count($listActionMood) == 0 and count($ActionDay) == 0 )
+        @if (count($listActionMood) == 0 and count($ActionDay) == 3 )
             <div class="titleError">
                     Nie ma żadnych akcji dla tego dnia
             </div>
