@@ -192,7 +192,7 @@ class SearchController extends Controller  {
     }
     
     public function searchSumMood(Request $request) {
-        $Mood = new Search($request->get("dateFrom"),$request->get("dateTo"));
+        $Mood = new Search($request,$request->get("dateFrom"),$request->get("dateTo"));
         $sum = $Mood->sumMood($request,Auth::User()->id);
         $sumPercent = $Mood->sumMoodPercent($request,Auth::User()->id);
         if ($sumPercent->sum == 0) {
