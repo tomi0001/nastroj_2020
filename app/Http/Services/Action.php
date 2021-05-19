@@ -30,7 +30,10 @@ class Action {
     private function setMinutes() {
         $this->timeTnterval = Auth::User()->minutes;
     }
-    
+    public function UpdateActionDay(Request $request) {
+        $Actions_day = new Actions_day;
+        $Actions_day->where("id",$request->get("actionForDayId"))->update(["id_actions"=>$request->get("actionForDay")]);
+    }
     public function showListActionMood(Request $request,$id) {
         $Moods_action = new Moods_action;
         $list = $Moods_action->join("actions","actions.id","moods_actions.id_actions")

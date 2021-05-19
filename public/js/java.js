@@ -931,7 +931,7 @@ function removeDrugsPlaned(url,i) {
 }
 
 function addAction(url,id,i) {
-    $("#showAddAction"+i).load(url + "?i=" + i  + "&id=" + id).toggle();;
+    $("#showAddAction"+i).load(url + "?i=" + i  + "&id=" + id).toggle();
 }
 
     function changeProduct(url,id) {

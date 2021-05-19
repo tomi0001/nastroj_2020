@@ -2,15 +2,16 @@
 <table class="table" style="width: 90%; margin-left: auto;margin-right: auto;">
     
     <tr>
-    <th style="background-color: #8F8FBD; color: yellow" class="center">
+        <th style="background-color: #8F8FBD; color: yellow" class="center" colspan="3">
         Akcje dla całego dnia
     </th>
     </tr>
     
 
     @foreach ($ActionDay as $list)
+
     <tr>
-        <td class="center">
+        <td class="center" colspan="3">
      
             
             <div class='namePleasure level_pleasure_{{\App\Http\Services\Action::setColorPleasure(\App\Action::selectNameAction2($list->id_actions,$idUser)->level_pleasure)}}'>
@@ -20,9 +21,38 @@
         </div>
         </td>
     </tr>
-       
+    <form method="get" id='formActionDay{{$loop->index}}' >
+        
+    <tr>
+        <td class="center">
+            Zamień na
+        </td>
+        <td>
+            <input type="hidden" name="actionForDayId" value="{{$list->id}}">
+    <select name="actionForDay" class="form-control">
+            @foreach ($Action as $list2)
+                @if ($list->id_actions == $list2->id)
+                    <option value="{{$list2->id}}" selected>{{$list2->name}}</option>
+                @else
+                    <option value="{{$list2->id}}">{{$list2->name}}</option>
+                @endif
+            @endforeach
+    </select>
+        </td>
+        <td>
+            <input type="button" onclick="UpdateActionDay('{{ route('Action.changeDay')}}',{{$loop->index}})" class="btn btn-primary" value="Zamień">
+        </td>
+    </tr>
+        
+      </form>
     @endforeach
-
+    <tr>
+        <td colspan="3">
+            <div id='ForDayAction'>
+                
+            </div>
+        </td>
+    </tr>
 @else
 
             <div class="titleError">

@@ -183,6 +183,13 @@ function sumMood(url) {
     //$("#AI").load(url + "?" + $("form").serialize()).append();
     $("#SumMoodSearch").prepend(response);
 }
+
+
+function UpdateActionDay(url,i) {
+    $("#ForDayAction").load(url + "?" + $("#formActionDay" + i).serialize());
+   
+}
+
 function deleteWorld() {
     $(".t").remove();
     //alert("ss");

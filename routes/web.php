@@ -33,7 +33,7 @@ Route::group(
                     Route::get('/Mood/addDeleteAction', 'Mood\MoodController@ddDeleteAction')->name('mood.addDeleteAction');
                     Route::get('/Mood/updateActionMoods', 'Mood\MoodController@updateActionMoods')->name('ajax.updateActionMoods');
                     Route::get("/Mood/ActionDayAdd","Mood\MoodController@addActionDay")->name("ActionDay.Add");
-
+                    Route::get("/Mood/changeDay","Mood\MoodController@changeDay")->name("Action.changeDay");
                     
                     
                     Route::get("/Drugs/Add",'Drugs\DrugsController@add')->name("Drugs.Add");

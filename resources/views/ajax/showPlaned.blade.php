@@ -54,7 +54,7 @@
         </td>
         <td colspan="1">
             <div class='center'>
-                <a href="{{ route('setting.deletePlaned',Request::get('planedName'))}}"><input type="button"  class='btn btn-danger btn-lg' value='Usuń'></a>
+                <a onclick = "return confirm('Czy na pewno usunąć');" href="{{ route('setting.deletePlaned',Request::get('planedName'))}}"><input type="button"  class='btn btn-danger btn-lg' value='Usuń'></a>
             </div>
         </td>
     </tr>

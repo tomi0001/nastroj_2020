@@ -46,7 +46,15 @@ class MoodController extends Controller  {
         
         }
     }
-    
+    public function changeDay(Request $request) {
+        if (Auth::User()->type == "user") {
+            $Action = new Action;
+                $id = $Action->UpdateActionDay($request);
+                return View("ajax.succes")->with("succes","Pomyslnie zmodyfikowany Akcję");
+           //print ("<script>document.getElementById('form2').reset() </script>");
+        
+        }        
+    }
     public function edit(Request $request) {
         if (Auth::User()->type == "user") {
             $Mood = new Mood;
