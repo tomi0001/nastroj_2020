@@ -35,21 +35,45 @@ class SearchController extends Controller  {
     }
     
     public function sleepAction(Request $request) {
-        //session(['searchType' => 'SearchSleep']);
         $Search  = new Search($request,$request->get("dateFrom"),$request->get("dateTo"));
         $Search->checkErrorSleep($request);
         if (count($Search->errors) > 0) {
-            return Redirect::back()->with("errors",$Search->errors)->withInput();
+                    return Redirect::back()->with("errors",$Search->errors)->withInput();
+        }
+        if ($request->get("search") == "Wyszukaj") {
+
+
+
+                
+           $list = $Search->createQuestionForSleep($request,Auth::User()->id);
+           $lista = $Search->sortSleeps($list);
+
+
+           return View("Search.SearchSleeps2")->with("list",$list)->with("lista",$Search->arrayList)->with("percent",$Search->listPercent);
+                
         }
         else {
-                 $list = $Search->createQuestionForSleep($request,Auth::User()->id);
-                 $lista = $Search->sortSleeps($list);
-
-
-                 return View("Search.SearchSleeps2")->with("list",$list)->with("lista",$Search->arrayList)->with("percent",$Search->listPercent);
+               $datetime1 = new DateTime($Search->dateStart);
+        $datetime2 = new DateTime($Search->dateTo);
+        $interval = $datetime1->diff($datetime2);
+            $list = $Search->createQuestionForSleepMoods($request,Auth::User()->id);
+            //$lista = $Search->sortMoods($list);
+            if (($list) == null) {
+                 return View("Search.error")->with("error","Nic nie wyszukano");
+            }
+            else {
+                return View("Search.SearchSleepdMoods")->with("list",$list)->with("dateFrom",$Search->dateStart)
+                        ->with("dateTo",$Search->dateTo)
+                        ->with("percent",$Search->listPercent)->with("id",Auth::User()->id)
+                        ->with("howDay",$interval->days);
+          
+            }
         }
+        
+
                 
     }
+
     public function searchDrugs(Request $request) {
             //session(['searchType' => 'SearchDrugs']);
             $search = new SearchDrugs;
@@ -206,7 +230,7 @@ class SearchController extends Controller  {
         
     }
     
-    
+
     
     public function selectDrugs(Request $request) {
         //if ( (Auth::check()) ) {

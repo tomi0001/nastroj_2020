@@ -98,10 +98,12 @@
                 
                 
                 <TR> 
-                    <td colspan='5' class='center'>
-                        <input type='submit'  class='btn btn-primary btn-lg' value='Wyszukaj'>
+                    <td colspan='1' class='center'>
+                        <input type='submit'  class='btn btn-primary btn-lg' value='Wyszukaj' name="search">
                     </td>
-                    
+                    <td colspan='4' class='center'>
+                        <input type='submit'  class='btn btn-success btn-lg' value='Sumuj nastroji dnia' name="search">
+                    </td>                    
                 </TR>
       
             </table>

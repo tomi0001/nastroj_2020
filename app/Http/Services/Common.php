@@ -255,5 +255,89 @@ class common {
                 ->get();
         return $listMood;
     }
+    public static function dateConvert($array) {
+        $date = [];
+        for ($i=0;$i< count($array);$i++) {
+            $tmp = date("Y-m-d",strtotime($array[$i]->date_end));
+            array_push($date,"'" . $tmp . "'");
+            //print "d";
+        }
+        return $date;
+    }
+    
+    
+    
+    public static function setColor($value) {
+       
+        if (empty($value)) {
+            return 1000;
+        }
+        if ($value>= -20  and  $value< -16) {
+            return -10;
+        }
+        if ($value>= -16  and  $value< -11) {
+            return -9;
+        }
+        if ($value>= -11  and  $value< -7) {
+            return -8;
+        }
+        if ($value>= -7  and  $value< -2) {
+            return -7;
+        }
+        if ($value>= -2  and  $value< -1) {
+            return -6;
+        }
+        if ($value>= -1  and  $value< -0.5) {
+            return -5;
+        }
+        if ($value>= -0.5  and  $value< -0.2) {
+            return -4;
+        }
+        if ($value>= -0.2  and  $value< -0.1) {
+            return -3;
+        }
+        if ($value>= -0.1  and  $value< -0.05) {
+            return -2;
+        }
+        if ($value>= -0.05  and  $value< 0) {
+            return -1;
+        }
+        if ($value>= 0  and  $value< 0.03) {
+            return 0;
+        }
+        if ($value>= 0.03  and  $value< 0.1) {
+            return 1;
+        }
+        if ($value>= 0.1  and  $value< 0.2) {
+            return 2;
+        }
+        if ($value>= 0.2  and  $value< 0.3) {
+            return 3;
+        }
+        if ($value>= 0.3  and  $value< 0.5) {
+            return 4;
+        }
+        if ($value>= 0.5  and  $value< 1) {
+            return 5;
+        }
+        if ($value>= 1  and  $value< 3) {
+            return 6;
+        }
+        if ($value>= 3  and  $value< 8) {
+            return 7;
+        }
+        if ($value>= 8  and  $value< 12) {
+            return 8;
+        }
+        if ($value>= 12  and  $value< 16) {
+            return 9;
+        }
+        if ($value>= 16  and  $value<= 20) {
+            return 10;
+        }
 
+    
+    
+    }
+    
 }

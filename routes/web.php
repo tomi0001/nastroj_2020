@@ -96,11 +96,13 @@ Route::group(
                     
                     Route::get("/Search/main","Search\SearchController@main")->name("Search.main");
                     Route::get("/Search/mainAction","Search\SearchController@mainAction")->name("search.mainAction");
-                    Route::get("/Search/sleepAction","Search\SearchController@sleepAction")->name("search.sleepAction");
+                   
                     Route::get("/Search/SearchAIAction","Search\SearchController@searchAI")->name("Search.AI");
                     Route::get("/Search/SearchSumMood","Search\SearchController@searchSumMood")->name("Search.SumMood");
                     Route::get("/Search/searchDrugs","Search\SearchController@searchDrugs")->name("search.searchDrugs");
                     Route::get("/Search/selectDrugs","Search\SearchController@selectDrugs")->name("search.selectDrugs");
+                    Route::get("/Search/sleepAction","Search\SearchController@sleepAction")->name("search.sleepAction");
+                    //Route::get("/Search/sleepsSumMoods","Search\SearchController@sleepsSumMoods")->name("search.sleepsSumMoods");
                     //Route::get("/Search/difference","Search\SearchController@selectDifference")->name("search.difference");
                     
                     

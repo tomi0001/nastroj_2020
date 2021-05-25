@@ -312,7 +312,34 @@ class Search {
         return $this->question->paginate(15);
         
     }
-    
+    public function createQuestionForSleepMoods(Request $request,$id) {
+        $array = $this->QuestionForSleepMoods($request,$id);
+        $date = Common::dateConvert($array);
+        if (count($date) == 0) {
+            return null;
+        }
+        $this->question =  AppMood::query();
+            $this->question->selectRaw("DATE_FORMAT(date_end, '%Y-%m-%d') as dateIn")
+                    
+                    ->selectRaw("(round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_mood) / "
+                       . "sum(TIMESTAMPDIFF(second,moods.date_start,moods.date_end)),2)) as nas");
+                $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  * level_anxiety) / "
+                       . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas2");
+                $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  *  	level_nervousness ) / "
+                      . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas3");
+                $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, date_start , date_end)  * level_stimulation) / "
+                       . "sum(TIMESTAMPDIFF(second,date_start,date_end)),2) as nas4");
+        $this->question->whereRaw("DATE_FORMAT(date_end, '%Y-%m-%d') in (" . implode(",", $date)   .")");
+
+            $list = $this->question->get();
+
+            return $list;
+
+        
+        
+        
+        
+    }
     public function createQuestion(Request $request,$id) {
         $this->question =  AppMood::query();
         $this->setDate($request);
@@ -463,7 +490,29 @@ class Search {
         return $this->question->paginate(15);
     }
 
+    public function QuestionForSleepMoods(Request $request,$id) {
+        $this->question =  Sleep::query();
+        $this->setDateSleep($request);
+        $this->setTimeSleep($request);
 
+        $hour = 24  - 3;
+        $this->question->selectRaw("TIMESTAMPDIFF (SECOND, date_start , date_end) as longMood");
+
+        //$hour = Auth::User()->start_day;
+        $this->question->selectRaw("date_end as date_end");
+
+        $this->question->selectRaw("how_wake_up as how_wake_up");
+        $this->question->selectRaw("id as id");
+
+        $this->setLongSleep($request);
+        $this->setIdUsersSleep($id);
+        $this->whereWakeUp($request);
+
+
+        //$this->setSortSleep($request);
+
+        return $this->question->get();
+    }
     private function setIdUsers($id) {
         $this->question->where("moods.id_users",$id);
     }
