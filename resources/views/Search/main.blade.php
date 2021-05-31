@@ -36,8 +36,9 @@
         <div class='settingPosition' >
             <a class='settingPosition' id='settingPosition_6'  onclick="switchSettingSearch('SearchDrugs','settingPosition_6')">WYSZUKAJ LEK</a>
         </div>
+
         <div class='settingPosition' >
-            <a class='settingPosition' id='settingPosition_7'  onclick="switchSettingSearch('difference','settingPosition_7')">RÓŻNICA SEN A NASTRÓJ</a>
+            <a class='settingPosition' id='settingPosition_8'  onclick="switchSettingSearch('actionAllDay','settingPosition_8')">WYSZUKAJ AKCJE CAŁODNIOWĄ</a>
         </div>
         <hr class='hrMenu'>
     </div>
@@ -46,6 +47,7 @@
    @include ('Search.averageMoods')
    @include ('Search.howHourMood')
    @include ('Search.SearchDrugs')
+   @include ('Search.actionAllDay')
   
     
     

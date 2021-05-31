@@ -237,10 +237,12 @@ function addActionSearch() {
     
     //$("#what_work").append($("#what_work4").html());
 }
+function addActionSearchDay() {
+    $("#actionSearch2").append("<div style='float: left; width: 60%;'><input type='text' name='actions[]' class='form-control' placeholder='nazwa'></div>");
+}
 
-
-var arraySettingSearch = ["mainSearch","SearchSleep","averageMoods","howHourMood","PDF","SearchDrugs","difference"];
-var arraySettingSearch2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6","settingPosition_7"];
+var arraySettingSearch = ["mainSearch","SearchSleep","averageMoods","howHourMood","PDF","SearchDrugs","difference","actionAllDay"];
+var arraySettingSearch2 = ["settingPosition_1","settingPosition_2","settingPosition_3","settingPosition_4","settingPosition_5","settingPosition_6","settingPosition_7","settingPosition_8"];
 function switchSettingSearch(id = "mainSearch",id2 = "settingPosition_1") {
     
     for (i=0;i < arraySettingSearch.length;i++) {

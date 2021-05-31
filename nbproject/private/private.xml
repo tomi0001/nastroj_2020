@@ -16,7 +16,9 @@
             <file>file:/var/www/html/nastroj_2020/app/Http/Services/DrugsUses.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Search/searchMoodAll.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/public/.htaccess</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/error.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/Main.blade.php</file>
+            <file>file:/var/www/html/nastroj_2020/resources/views/Search/SearchActionAllDay.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/public/js/app.js</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/showMood.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/User/Setting/changeDateAction.blade.php</file>

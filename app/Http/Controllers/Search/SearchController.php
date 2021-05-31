@@ -23,6 +23,7 @@ use App\Mood as AppMood;
 use App\Http\Services\AIMood as AI;
 use App\Http\Services\Action;
 use App\Http\Services\SearchDrugs;
+use App\Http\Services\SearchAction;
 use App\Http\Services\DrugsUses as drugs;
 use App\Action_plan;
 use DateTime;
@@ -72,6 +73,18 @@ class SearchController extends Controller  {
         
 
                 
+    }
+    
+    public function mainActionAllDay(Request $request) {
+        $Search  = new SearchAction($request,$request->get("dateFrom"),$request->get("dateTo"));
+        $list = $Search->createQuestion($request, Auth::User()->id);
+        if (($list) == null) {
+            return View("Search.error")->with("error","Nic nie wyszukano");
+        }
+        else {
+            return View("Search.SearchActionDaySubmit")->with("list",$list)->with("count",$Search->count)
+                    ->with("id",Auth::User()->id);
+        }
     }
 
     public function searchDrugs(Request $request) {

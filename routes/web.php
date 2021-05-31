@@ -102,6 +102,7 @@ Route::group(
                     Route::get("/Search/searchDrugs","Search\SearchController@searchDrugs")->name("search.searchDrugs");
                     Route::get("/Search/selectDrugs","Search\SearchController@selectDrugs")->name("search.selectDrugs");
                     Route::get("/Search/sleepAction","Search\SearchController@sleepAction")->name("search.sleepAction");
+                    Route::get("/Search/mainActionAllDay","Search\SearchController@mainActionAllDay")->name("search.mainActionAllDay");
                     //Route::get("/Search/sleepsSumMoods","Search\SearchController@sleepsSumMoods")->name("search.sleepsSumMoods");
                     //Route::get("/Search/difference","Search\SearchController@selectDifference")->name("search.difference");
                     

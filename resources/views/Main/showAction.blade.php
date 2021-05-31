@@ -18,7 +18,7 @@
              
              <span class="level_pleasure"> {{\App\Action::selectNameAction($list->id_actions,$idUser)->name}}</span> <br>
 
-        </div>
+            </div>
         </td>
     </tr>
     <form method="get" id='formActionDay{{$loop->index}}' >
