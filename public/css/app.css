@@ -68,6 +68,15 @@ table.login {
     
     
 }
+hr.action {
+    border: 0;
+    height: 0; /* Firefox... */
+    box-shadow: 5px 5px 10px 8px silver;
+
+}
+hr.action:after {  /* Not really supposed to work, but does */
+    content: "\00a0";  /* Prevent margin collapse */
+}
 
 #menu {
     width: 100%;

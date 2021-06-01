@@ -8,30 +8,35 @@
     </tr>
     
 
-    @foreach ($ActionDay as $list)
+    @for($i=0;$i < count ($ActionDay);$i++)
 
     <tr>
         <td class="center" colspan="3">
      
             
-            <div class='namePleasure level_pleasure_{{\App\Http\Services\Action::setColorPleasure(\App\Action::selectNameAction2($list->id_actions,$idUser)->level_pleasure)}}'>
+            <div class='namePleasure level_pleasure_{{\App\Http\Services\Action::setColorPleasure(\App\Action::selectNameAction2($ActionDay[$i]->id_actions,$idUser)->level_pleasure)}}'>
              
-             <span class="level_pleasure"> {{\App\Action::selectNameAction($list->id_actions,$idUser)->name}}</span> <br>
-
+             <span class="level_pleasure"> {{\App\Action::selectNameAction($ActionDay[$i]->id_actions,$idUser)->name}}</span> <br>
+          
+            </div>
+            <div>
+                Dodano {{\App\Http\Services\Common::returnHour($ActionDay[$i]->created_at)}}
             </div>
         </td>
     </tr>
-    <form method="get" id='formActionDay{{$loop->index}}' >
+    
+
+    <form method="get" id='formActionDay{{$i}}' >
         
     <tr>
         <td class="center">
             Zamień na
         </td>
         <td>
-            <input type="hidden" name="actionForDayId" value="{{$list->id}}">
+            <input type="hidden" name="actionForDayId" value="{{$ActionDay[$i]->id}}">
     <select name="actionForDay" class="form-control">
             @foreach ($Action as $list2)
-                @if ($list->id_actions == $list2->id)
+                @if ($ActionDay[$i]->id_actions == $list2->id)
                     <option value="{{$list2->id}}" selected>{{$list2->name}}</option>
                 @else
                     <option value="{{$list2->id}}">{{$list2->name}}</option>
@@ -40,12 +45,26 @@
     </select>
         </td>
         <td>
-            <input type="button" onclick="UpdateActionDay('{{ route('Action.changeDay')}}',{{$loop->index}})" class="btn btn-primary" value="Zamień">
+            <input type="button" onclick="UpdateActionDay('{{ route('Action.changeDay')}}',{{$i}})" class="btn btn-primary" value="Zamień">
         </td>
     </tr>
         
       </form>
-    @endforeach
+ @if ($i != count($ActionDay)-1 and \App\Http\Services\Common::diffTime($ActionDay[$i]->created_at,$ActionDay[$i+1]->created_at) == true)
+ 
+     <tr>
+        <td class="center" colspan="3">
+     
+            <hr class="action">
+            <br>
+            <br><br>
+            <br>
+            <br>
+            
+        </td>
+    </tr>
+ @endif
+    @endfor
     <tr>
         <td colspan="3">
             <div id='ForDayAction'>

@@ -339,5 +339,19 @@ class common {
     
     
     }
+    public static function diffTime($date,$date2) :bool {
+       $time1 =  strtotime($date);
+       $time2 =  strtotime($date2);
+       if (($time2 - $time1) > 1000 ) {
+           return true;
+       }
+       else {
+           return false;
+       }
+    }
+    
+    public static function returnHour($date) {
+        return date("H:i",strtotime($date));
+    }
     
 }
