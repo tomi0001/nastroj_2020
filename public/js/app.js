@@ -272,3 +272,19 @@ function deleteSleep(url,id,i) {
         $(".idMood"+i).load(url + "?id=" + id);
     }
 }
+
+
+function hideAction(i= "") {
+
+if ($("#hideActions" + i).val() == "") {
+    $('.Action___' + i).show();
+    return;
+}
+$('.Action___' + i).hide();
+var val = $.trim($("#hideActions" + i).val());
+val = "a:contains("+val+")";
+
+$( val ).show()
+
+
+}

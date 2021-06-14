@@ -65,8 +65,9 @@
                                 <td>
                                     <div  style="overflow-y: scroll;  height:250; max-width: 335px;">
                                         <div id="parentsAction">
+                                             <input type="text" id="hideActions2" onkeyup="hideAction(2)">
                                             @foreach ($Action as $list)
-                                                <a class="Action___2" id = "{{$list->id}}">{{$list->name}}</a> |
+                                            <div> <a class="Action___2" id = "{{$list->id}}">{{$list->name}}</a></div>
                                             @endforeach
                                         </div>
                                     </div>
