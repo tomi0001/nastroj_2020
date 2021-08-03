@@ -19,6 +19,7 @@ use App\Sleep;
 use App\Http\Services\Calendar;
 use App\Http\Services\Action as ServicesAction;
 use Auth;
+use DB;
 
 class Mood {
    
@@ -63,6 +64,8 @@ class Mood {
     public $arrayList = [];
     public $errors = [];
     public $level = [];
+    public $listMoodPDF = [];
+    public $listSleepPDF = [];
     //public $howAction = 0;
     private $i;
     public function checkAddMoodDate(Request $request) {
@@ -317,6 +320,29 @@ class Mood {
         $array = $this->selectAverageMoods($listMood);
         return $array;
     }
+    public function downloadMoodsPDF(int $idUsers,$dateFrom,$dateTo) {
+        $Moods = new AppMood;
+        //$this->initStartDay($start);
+        $arrayHour = $this->setHourMoodPDF($dateFrom,$dateTo,true);
+        $listMood = $Moods
+                
+                
+                ->select("level_mood")
+                ->select("level_anxiety")
+                ->select("level_nervousness")
+                ->select("level_stimulation")
+                ->selectRaw("(unix_timestamp(date_end)  - unix_timestamp(date_start)) as division")
+                ->selectRaw(" ((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_mood) as average_mood")
+                ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_anxiety) as average_anxiety")
+                ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_nervousness) as average_nervousness")
+                ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_stimulation) as average_stimulation")
+                ->where("moods.date_start",">=",$arrayHour[0])
+                ->where("moods.date_start","<",$arrayHour[1])
+                ->where("moods.id_users",$idUsers)
+                ->get();
+        $array = $this->selectAverageMoods($listMood);
+        return $array;
+    }
     public function downloadMood($year,$month,$day,$id) {
         $Moods = new AppMood;
         $this->initStartDay();
@@ -346,6 +372,45 @@ class Mood {
    
     }
     
+    public function downloadMoodPDF($dateFrom,$dateTo,$idUser) {
+        $Moods = new AppMood;
+        $this->initStartDay();
+        $this->setHourMoodPDF($dateFrom,$dateTo);
+        $this->listMoodPDF = $Moods->leftjoin("moods_actions","moods.id","moods_actions.id_moods")
+                ->selectRaw(DB::Raw("(DATE(IF(HOUR(moods.date_start) >= '" . $this->startDay . "', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as dat"))
+                ->selectRaw("moods.id as id")
+                ->selectRaw("moods_actions.id_moods as actions")
+                ->selectRaw("moods.date_start as date_start")
+                ->selectRaw("moods.date_end as date_end")
+                ->selectRaw("moods.level_mood as level_mood")
+                ->selectRaw("moods.level_anxiety as level_anxiety")
+                ->selectRaw("moods.level_nervousness as level_nervousness")
+                ->selectRaw("moods.level_stimulation  as level_stimulation")
+                ->selectRaw("moods.epizodes_psychotik as epizodes_psychotik")
+                ->selectRaw("(unix_timestamp(date_end)  - unix_timestamp(date_start)) as division")
+                ->selectRaw(" ((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_mood) as average_mood")
+                ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_anxiety) as average_anxiety")
+                ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_nervousness) as average_nervousness")
+                ->selectRaw("((unix_timestamp(date_end)  - unix_timestamp(date_start)) * level_stimulation) as average_stimulation")
+                ->selectRaw("count(moods_actions.id_moods)  as name ")
+                ->selectRaw("moods.what_work  as what_work ")
+                ->where("moods.id_users",$idUser)
+                ->where("moods.date_start",">=",$this->dateStart)
+                ->where("moods.date_start","<",$this->dateEnd)
+                ->groupBy("moods.id")
+                ->get();
+    }
+    
+    public function downloadSleepPDF($dateFrom,$dateTo,$idUser) {
+        $Sleep = new Sleep;
+        //$this->setHourSleep($year,$month,$day);
+
+        $this->listSleepPDF = $Sleep
+                        ->where("id_users",$idUser)
+                        ->where("date_start",">=",$dateFrom)
+                        ->where("date_start","<",$dateTo)
+                        ->get();
+    }
     
     private function selectAverageMoods($listMood) {
         
@@ -407,7 +472,18 @@ class Mood {
         $this->dateEndHour = date("Y-m-d H:i:s",$second3);
                 
     }
-
+    private function setHourMoodPDF($dateFrom,$dateTo,$bool = false) {
+        $second = strtotime($dateFrom . " " . $this->startDay . ":00:00");
+        
+        $second2 = strtotime($dateTo . " " . $this->startDay . ":00:00");
+        if ($bool == false) {
+            $this->dateStart = date("Y-m-d H:i:s",$second);
+            $this->dateEnd = date("Y-m-d H:i:s",$second2);
+        }
+        else {
+            return [date("Y-m-d H:i:s",$second),date("Y-m-d H:i:s",$second2)];
+        }
+    }
     private function setHourMood($year,$month,$day,$bool = false) {
         $second = strtotime($year . "-" . $month . "-" . $day . " " . $this->startDay . ":00:00");
         
@@ -459,6 +535,19 @@ class Mood {
    
         
             $array = $this->downloadMoods($idUsers,$year,$month,$day);
+            $this->DayList = $array;
+            $this->colorDay["mood"] = $this->setColor($array);
+            $this->colorDay["anxiety"] = -$this->setColor($array,"anxiety");
+            $this->colorDay["nervousness"] = -$this->setColor($array,"nervousness");
+            $this->colorDay["stimulation"] = $this->setColor($array,"stimulation");
+        
+        
+        }
+    public function sumColorForMoodDayPDF($idUsers,$dateFrom,$dateTo) {
+        
+   
+        
+            $array = $this->downloadMoodsPDF($idUsers,$dateFrom,$dateTo);
             $this->DayList = $array;
             $this->colorDay["mood"] = $this->setColor($array);
             $this->colorDay["anxiety"] = -$this->setColor($array,"anxiety");

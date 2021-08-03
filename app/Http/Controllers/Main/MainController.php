@@ -25,6 +25,7 @@ use App\Usee as Usee;
 use App\Product as appProduct;;
 use App\Action;
 use App\Actions_day;
+
 use Auth;
 use App\Mail\OrderShipped;
 
@@ -32,6 +33,7 @@ use App\Mail\OrderShipped;
 class MainController extends Controller  {
     
     public function index($year = "",$month  ="",$day = "",$action = "") {   
+
        if (Auth::User()->type == "user") {
         $Action = Action::selectAction(Auth::id());
         $Mood = new Mood;

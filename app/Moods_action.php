@@ -44,5 +44,9 @@ class Moods_action extends Model
     public static function compareIdActionMood($idAction,$idMood) {
         return self::where("id_actions",$idAction)->where("id_moods",$idMood)->first();
     }
+    public static function selectAction($idMood) {
+        return self::join("actions","actions.id","moods_actions.id_actions")
+                ->selectRaw("actions.name as name")->where("moods_actions.id_moods",$idMood)->get();
+    }
 
 }

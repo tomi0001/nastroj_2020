@@ -48,6 +48,7 @@
    @include ('Search.howHourMood')
    @include ('Search.SearchDrugs')
    @include ('Search.actionAllDay')
+   @include ('Search.PDF')
   
     
     

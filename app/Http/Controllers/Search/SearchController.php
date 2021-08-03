@@ -27,6 +27,7 @@ use App\Http\Services\SearchAction;
 use App\Http\Services\DrugsUses as drugs;
 use App\Action_plan;
 use DateTime;
+use PDF;
 use Auth;
 class SearchController extends Controller  {
 
@@ -261,5 +262,22 @@ class SearchController extends Controller  {
             //$Drugs->returnIdProduct()
         //}
     }
+    
+    
+    public function generationPDF(Request $request) {
+       $Mood = new Mood;
+       $Mood->downloadMoodPDF($request->get("dateFrom"),$request->get("dateTo"),Auth::User()->id);
+       $Mood->downloadSleepPDF($request->get("dateFrom"),$request->get("dateTo"),Auth::User()->id);
+       $Mood->sortMoodsSleep($Mood->listMoodPDF,$Mood->listSleepPDF,"on",true);
+       $data = $Mood->arrayList;
+
+       //var_dump($data);
+       //print $data[0]["date_start"];
+       $pdf = PDF::loadView('PDF.main', ["data" => $data,"id" => Auth::User()->id]);
+       return $pdf->download("PDF.main");
+       //print ("<pre>");
+       //print_r($Mood->arrayList);
+    }
+    
     
 }
