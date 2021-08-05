@@ -5,6 +5,7 @@
         <group>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Main/MainController.php</file>
             <file>file:/var/www/html/nastroj_2020/bootstrap-3/js/bootstrap.js</file>
+            <file>file:/var/www/html/nastroj_2020/app/Description.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Mood/MoodController.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Main/showDrugs.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/database/migrations/2022_01_12_0111132_create_planned_drugs_table.php</file>

@@ -141,6 +141,7 @@
                 ->appends(['longSleepToMinutes'=>Request::get("longSleepToMinutes")])
                 ->appends(['wakeUpFrom'=>Request::get("wakeUpFrom")])
                 ->appends(['wakeUpTo'=>Request::get("wakeUpTo")])
+                ->appends(['search' => "Wyszukaj"])
                 ->links();
                 @endphp
                 {{$list}}
