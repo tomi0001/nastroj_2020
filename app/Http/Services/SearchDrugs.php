@@ -384,10 +384,10 @@ class SearchDrugs {
                if ($request->get("day") != "") {
                     $this->question->groupBy(DB::Raw("(DATE(IF(HOUR(usees.date) >= '$hour', usees.date,Date_add(usees.date, INTERVAL - 1 DAY) )) )"));
                     if ($request->get("dose1") != "" ) {
-                      $this->question->havingRaw("sum(usees.portion) >= " . $request->get("dose1"));
+                      $this->question->havingRaw("if ( products.type_of_portion = 4, (round(sum(usees.portion),2) / count(usees.portion)),  (round(sum(usees.portion),2))) >= " . $request->get("dose1"));
                     }
                     if ($request->get("dose2") != "" ) {
-                      $this->question->havingRaw("sum(usees.portion) <= " . $request->get("dose2"));
+                      $this->question->havingRaw("if ( products.type_of_portion = 4, (round(sum(usees.portion),2) / count(usees.portion)),  (round(sum(usees.portion),2))) <= " . $request->get("dose2"));
                     }
                 }
                 else {
@@ -444,7 +444,7 @@ class SearchDrugs {
         $this->question
                 ->select( DB::Raw("(DATE(IF(HOUR(usees.date) >= '$hour', usees.date,Date_add(usees.date, INTERVAL - 1 DAY) )) ) as dat  "))   
                 ->selectRaw("hour(usees.date) as hour")
-                ->selectRaw("round(sum(usees.portion),2) as por")
+                ->selectRaw("round(if ( products.type_of_portion = 4, (round(sum(usees.portion),2) / count(usees.portion)),  (round(sum(usees.portion),2))),2) as por")
                 ->selectRaw("day(usees.date) as day")
                 ->selectRaw("month(usees.date) as month")
                 ->selectRaw("year(usees.date) as year")                
