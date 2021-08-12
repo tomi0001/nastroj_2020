@@ -274,17 +274,44 @@ function deleteSleep(url,id,i) {
 }
 
 
-function hideAction(i= "") {
-
-if ($("#hideActions" + i).val() == "") {
-    $('.Action___' + i).show();
-    return;
-}
-$('.Action___' + i).hide();
-var val = $.trim($("#hideActions" + i).val());
-val = "a:contains("+val+")";
-
-$( val ).show()
 
 
+
+$(document).ready(function(){
+    $("#hideActions").keyup(function(){
+        //alert(id);
+        //var id = $(".t").attr('id');
+        if ($("#hideActions").val() == "") {
+            $('.Action___' ).show();
+            //$("#" + id).show();
+            return;
+        }
+        $('.Action___' ).hide();
+        
+        //alert(id);
+        //$("#" + id).hide();
+        var val = $.trim($("#hideActions" ).val());
+        val = "a:contains("+val+")";
+        
+        $( val ).show();
+    //alert(actionList.length);
+    });
+});
+
+
+
+
+var boolPercent = [];
+function loadInputPercent(id) {
+    
+    if (boolPercent.indexOf(id) != -1) {
+            var i = boolPercent.indexOf(id);
+            boolPercent.splice(i);
+            $( "#div_" + id ).remove();
+    }
+    else {
+        boolPercent.push(id);
+        $("#rt" + id).html("<div class='Action___' id='div_" + id + "' style='clear: both; float: left; padding-left: 50%;'><input type='number' min='1' max='100' name='int_[]' class='form-control' style='width: 70px;'></div>");
+
+    }
 }

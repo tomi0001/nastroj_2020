@@ -21,6 +21,7 @@ class CreateMoodsActionsTable extends Migration
             $table->bigInteger('id_actions')->unsigned();
             $table->foreign("id_actions")->references("id")->on("actions");
             $table->double('percent_executing')->nullable();
+            $table->tinyInteger('percent_executing2')->unsigned()->nullable();
             $table->timestamps();
         });
     }

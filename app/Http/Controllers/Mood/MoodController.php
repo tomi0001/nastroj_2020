@@ -32,6 +32,7 @@ class MoodController extends Controller  {
             $Mood = new Mood;
             $Mood->checkAddMoodDate($request);
             $Mood->checkAddMood($request);
+            $Mood->checkPercentMoodAction($request);
             if (count($Mood->errors) != 0) {
                 return View("ajax.error")->with("error",$Mood->errors);
             }

@@ -91,9 +91,11 @@
                                 <td>
                                     <div  style="overflow-y: scroll;  height:250; max-width: 300px;">
                                         <div id="parentsAction">
-                                            <input type="text" id="hideActions" onkeyup="hideAction()">
+                                            <div >
+                                            <input type="text" id="hideActions">
+                                            </div>
                                             @foreach ($Action as $list)
-                                                <div><a class="Action___" id = "{{$list->id}}">{{$list->name}}</a></div>
+                                            <div  class="ActionDD___" id = "{{$list->id}}"><div style='width: 100%; clear: both;'><a class="Action___"   onclick="loadInputPercent({{$list->id}})">{{$list->name}}</a></div><div style=' clear: both; float: left; ' id='rt{{$list->id}}'></div>
                                             @endforeach
                                         </div>
                                     </div>

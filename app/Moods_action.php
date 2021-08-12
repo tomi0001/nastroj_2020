@@ -19,6 +19,7 @@ class Moods_action extends Model
         return self::join("moods","moods.id","moods_actions.id_moods")
                 ->selectRaw("( sum(TIMESTAMPDIFF(minute,moods.date_start,moods.date_end))) as minute ")
                 ->selectRaw("  moods_actions.id_actions as action")
+                ->selectRaw("round(( sum((   if (moods_actions.percent_executing2 is NULL, (     (TIMESTAMPDIFF(minute,moods.date_start,moods.date_end))  ), (   (moods_actions.percent_executing2 / 100) * (TIMESTAMPDIFF(minute,moods.date_start,moods.date_end)) ))     ) ) )) as percent  ")
                 ->selectRaw(DB::Raw("(date(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as day"))
                 ->where(DB::Raw("(date(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) )"),   $data)
                 ->where("moods.id_users",$id)
@@ -31,6 +32,8 @@ class Moods_action extends Model
         $hour = Auth::User()->start_day;
         return self::join("moods","moods.id","moods_actions.id_moods")
                 ->selectRaw("( sum(TIMESTAMPDIFF(minute,moods.date_start,moods.date_end))) as minute ")
+                ->selectRaw("round(( sum((   if (moods_actions.percent_executing2 is NULL, (     (TIMESTAMPDIFF(minute,moods.date_start,moods.date_end))  ), (   (moods_actions.percent_executing2 / 100) * (TIMESTAMPDIFF(minute,moods.date_start,moods.date_end)) ))     ) ) )) as percent  ")
+                //->selectRaw("( sum((  (100 / 100) * (TIMESTAMPDIFF(minute,moods.date_start,moods.date_end)))) ) as percent  ")
                 ->selectRaw("  moods_actions.id_actions as action")
                 ->selectRaw(DB::Raw("(date(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) ) as day"))
                 ->where("date_start",">=",$dateFrom)
@@ -48,5 +51,6 @@ class Moods_action extends Model
         return self::join("actions","actions.id","moods_actions.id_actions")
                 ->selectRaw("actions.name as name")->where("moods_actions.id_moods",$idMood)->get();
     }
+
 
 }

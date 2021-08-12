@@ -9,7 +9,7 @@ var actionList2 = [];
 
 $(document).ready(function(){
     $(".Action___").click(function(){
-     if (getNumber($(this).attr("id"),actionList)) {
+     if (getNumber($(this).parents().parents().attr("id"),actionList)) {
         actionList.remove($(this).attr("id"));
         $(this).css("background-color","transparent");
         $(this).css("border-radius",'0px');
@@ -18,7 +18,7 @@ $(document).ready(function(){
     }
     else {
         
-        actionList.push($(this).attr("id"));
+        actionList.push($(this).parents().parents().attr("id"));
         $(this).css("background-color","#95721F");
         $(this).css("border-radius",'30px');
         $(this).css("color","white");
@@ -528,7 +528,6 @@ $("#form2").find(":hidden").filter("[name!='idAction']").remove();
     
 
 */
-
 $.ajax({
     url : url,
         method : "get",
@@ -647,10 +646,23 @@ function changeArrayAtHidden(z) {
     for (i=0;i < actionList.length;i++) {
         if (isIst(actionList[i])) {
             $("#form" + z).append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
+            
         }
     }
 }
+/*
+function changeArrayAtHiddenInt(z) {
 
+    for (i=0;i < boolPercent.length;i++) {
+        if (isIst(boolPercent[i])) {
+            $("#form" + z).append("<input type=\'hidden\' name=\'int_[]\' value=" + boolPercent[i] + " class=\'form-control typeMood\'>");
+            
+        }
+    }
+}
+*/
+
+$("#form" + z).append("<input type=\'hidden\' name=\'int_[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
 /*
 function changeArrayAtHiddenAction() {
     for (i=0;i < actionList.length;i++) {

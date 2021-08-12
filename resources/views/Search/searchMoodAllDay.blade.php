@@ -87,7 +87,7 @@
                     
                     <tr>
                         @if (\App\Action::selectNameAction($action->action,$id) != null)
-                            <td>{{\App\Action::selectNameAction($action->action,$id)->name}} </td><td> {{$action->minute}} minut wykonania </td>
+                            <td>{{\App\Action::selectNameAction($action->action,$id)->name}} </td><td> {{$action->percent}} minut wykonania </td>
                         @endif
                         
                     </tr>

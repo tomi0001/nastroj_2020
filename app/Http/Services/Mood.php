@@ -155,9 +155,17 @@ class Mood {
         if (($request->get("epizodesPsychotic") != "" and $request->get("epizodesPsychotic") < 0)  ) {
             array_push($this->errors,"Liczba Epizodów psychotycznych musi być wieksza lub równa 0");
         }
+
         //array_push($this->errors,  (int) $request->get("epizodesPsychotic"));
     }
-    
+    public function checkPercentMoodAction(Request $request) {
+        for ($i = 0;$i < count($request->get("int_"));$i++) {
+            if ($request->get("int_")[$i] != "" and ($request->get("int_")[$i] < 1 or $request->get("int_")[$i] > 100)) {
+                
+                array_push($this->errors,"Liczba Procentu wykonania musi być z zakresu od 1 do 100");
+            }
+        }
+    }
     public function saveMood(Request $request) :int {
         $Mood = new AppMood;
         $Mood->date_start = $request->get("dateStart") . " " . $request->get("timeStart") . ":00";
@@ -292,6 +300,9 @@ class Mood {
                 $Moods_action->id_moods = $idMood;
                 $Moods_action->id_actions = $request->get("idAction")[$i];
                 $Moods_action->percent_executing = $result;
+                if (!empty($request->get("int_")[$i])) {
+                    $Moods_action->percent_executing2 = $request->get("int_")[$i];
+                }
                 $Moods_action->save();
             }
         }
