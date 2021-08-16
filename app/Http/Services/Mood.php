@@ -300,7 +300,7 @@ class Mood {
                 $Moods_action->id_moods = $idMood;
                 $Moods_action->id_actions = $request->get("idAction")[$i];
                 $Moods_action->percent_executing = $result;
-                if (!empty($request->get("int_")[$i])) {
+                if (!empty($request->get("int_")[$i]) ) {
                     $Moods_action->percent_executing2 = $request->get("int_")[$i];
                 }
                 $Moods_action->save();

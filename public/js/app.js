@@ -286,11 +286,12 @@ $(document).ready(function(){
             //$("#" + id).show();
             return;
         }
-        $('.Action___' ).hide();
+        $('.Action___' ).not(".selected").hide();
         
         //alert(id);
         //$("#" + id).hide();
-        var val = $.trim($("#hideActions" ).val());
+        var val = $.trim($("#hideActions" ).not(".selected").val());
+
         val = "a:contains("+val+")";
         
         $( val ).show();
@@ -310,8 +311,8 @@ function loadInputPercent(id) {
             $( "#div_" + id ).remove();
     }
     else {
-        boolPercent.push(id);
-        $("#rt" + id).html("<div class='Action___' id='div_" + id + "' style='clear: both; float: left; padding-left: 50%;'><input type='number' min='1' max='100' name='int_[]' class='form-control' style='width: 70px;'></div>");
+            boolPercent.push(id);
+            $("#rt" + id).html("<div class='Action___Div' id='div_" + id + "' style='clear: both; float: left; padding-left: 50%;'><input type='number' min='1' max='100' name='int_[]' class='form-control' style='width: 70px;'></div>");
 
     }
 }

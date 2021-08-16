@@ -10,10 +10,13 @@ var actionList2 = [];
 $(document).ready(function(){
     $(".Action___").click(function(){
      if (getNumber($(this).parents().parents().attr("id"),actionList)) {
-        actionList.remove($(this).attr("id"));
+        actionList.remove($(this).parents().parents().attr("id"));
         $(this).css("background-color","transparent");
         $(this).css("border-radius",'0px');
         $(this).css("color","#4288BA");
+        $(this).removeClass("selected");
+        //alert("dd");
+        
         
     }
     else {
@@ -22,6 +25,7 @@ $(document).ready(function(){
         $(this).css("background-color","#95721F");
         $(this).css("border-radius",'30px');
         $(this).css("color","white");
+        $(this).addClass("selected");
     }
     //alert(actionList.length);
     });
