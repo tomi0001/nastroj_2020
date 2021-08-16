@@ -28,11 +28,6 @@ use App\Http\Services\Common;
 use Auth;
 class MoodController extends Controller  {
     public function add(Request $request) {
-        print ("<pre>");
-        print_r ($request->get("idAction"));
-        print("</pre>");
-        print ("<pre>");
-        print_r ($request->get("int_"));
         
         if (Auth::User()->type == "user") {
             $Mood = new Mood;
