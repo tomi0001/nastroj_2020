@@ -173,6 +173,24 @@
                 </tr>
                 <tr>
                     <td>
+                        Słowa kluczowe akcji całodniowych
+                    </td>
+                    <td colspan="3">
+                        <div id="actionSearchAllDay" >
+                            <div style='float: left; width: 60%;'>
+                                <input type="text" name="actionsDay[]" class="form-control" placeholder="nazwa">
+                            </div>
+                        </div>
+                    </td>
+                    <td width="5%">
+                        <a class="btn btn-info btn-lg" onclick="addActionSearchDay()">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
                         Ilość epizodów psychotycznych od
                     </td>
                     <td colspan="1">

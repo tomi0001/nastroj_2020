@@ -286,15 +286,19 @@ $(document).ready(function(){
             //$("#" + id).show();
             return;
         }
+        
+        
+        
         $('.Action___' ).not(".selected").hide();
         
         //alert(id);
         //$("#" + id).hide();
-        var val = $.trim($("#hideActions" ).not(".selected").val());
-
+        var val = $.trim($("#hideActions" ).not(".selected").val().toLowerCase());
+        //var val2 = $.trim($("#hideActions" ).not(".selected").val().toUpperCase());
         val = "a:contains("+val+")";
-        
+        //val2 = "a:contains("+val2+")";
         $( val ).show();
+        //$( val2 ).show();
     //alert(actionList.length);
     });
 });

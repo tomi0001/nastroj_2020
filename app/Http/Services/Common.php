@@ -265,7 +265,15 @@ class common {
         return $date;
     }
     
-    
+    public static function dateConvert2($array) {
+        $date = [];
+        foreach ($array as $list) {
+            //$tmp = date("Y-m-d",strtotime($array[$i]->date_end));
+            array_push($date,"'" . $list->dates . "'");
+            //print "d";
+        }
+        return $date;        
+    }
     
     public static function setColor($value) {
        

@@ -241,8 +241,12 @@ function addActionSearch() {
     
     //$("#what_work").append($("#what_work4").html());
 }
+
 function addActionSearchDay() {
-    $("#actionSearch2").append("<div style='float: left; width: 60%;'><input type='text' name='actions[]' class='form-control' placeholder='nazwa'></div>");
+    $("#actionSearch").append("<div style='float: left; width: 40%;'><input type='text' name='actions[]' class='form-control' placeholder='nazwa'></div><div style='float: left; width: 29%; padding-left: 20px;' ><div style='float: right; width: 25%;' ></div>");
+}
+function addActionSearchDay() {
+    $("#actionSearchAllDay").append("<div style='float: left; width: 60%;'><input type='text' name='actions[]' class='form-control' placeholder='nazwa'></div>");
 }
 
 var arraySettingSearch = ["mainSearch","SearchSleep","averageMoods","howHourMood","PDF","SearchDrugs","difference","actionAllDay"];

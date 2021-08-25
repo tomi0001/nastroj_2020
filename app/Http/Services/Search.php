@@ -14,6 +14,7 @@ use App\Action;
 use App\Mood as AppMood;
 use App\Moods_action;
 use App\Actions_plan;
+use App\Actions_day;
 use App\Sleep;
 use App\Http\Services\Mood;
 use DB;
@@ -278,6 +279,7 @@ class Search {
 ;
         //}
         $this->setIdUsers($id);
+
             $this->setGroup($request);
                 if (is_array($request->get("actions"))  ) {
                     $this->setHavingAction($request);
@@ -311,6 +313,15 @@ class Search {
         $this->count = $this->question->get()->count();
         return $this->question->paginate(15);
         
+    }
+    private function setHavingActionDay(Request $request) {
+        $Actions_day = new Actions_day;
+        $list = $Actions_day->join("actions","actions.id","actions_days.id_actions")
+                ->selectRaw("actions_days.date as dates")->where("actions.name","like","%" . $request->get("actionsDay")[0] . "%")->get();
+        if (!empty($list)) {
+            //return null;
+        }
+        return $list;
     }
     public function createQuestionForSleepMoods(Request $request,$id) {
         $array = $this->QuestionForSleepMoods($request,$id);
@@ -368,6 +379,18 @@ class Search {
         $this->question->selectRaw("moods.date_start as date_start");
         $this->question->selectRaw("moods.date_end as date_end");
         if ($request->get("sumMoods") == "on" ) {
+            if (!empty($request->get("actionsDay")) ) {
+                $list = $this->setHavingActionDay($request);
+                $date = Common::dateConvert2($list);
+                //$this->question->where(function ($query) use ($date,$hour) {
+        //for ($i=0;$i < count($date );$i++) {
+            
+                    $this->question->whereRaw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) )  in   (" . implode(",", $date)   .")");
+        //}
+        //});
+                
+                }
+            
             $this->setGroupAll();
         }
         else {
@@ -577,6 +600,11 @@ class Search {
         }}});
 
      }
+     
+     
+
+     
+     
     private function setHavingAction(Request $request) {
 
         $this->question->where(function ($query) use ($request) {
