@@ -379,7 +379,8 @@ class Search {
         $this->question->selectRaw("moods.date_start as date_start");
         $this->question->selectRaw("moods.date_end as date_end");
         if ($request->get("sumMoods") == "on" ) {
-            if (!empty($request->get("actionsDay")) ) {
+            print (count($request->get("actionsDay")));
+            if (!empty($request->get("actionsDay"))  and $request->get("actionsDay")[0] != "" ) {
                 $list = $this->setHavingActionDay($request);
                 $date = Common::dateConvert2($list);
                 //$this->question->where(function ($query) use ($date,$hour) {
@@ -389,7 +390,7 @@ class Search {
         //}
         //});
                 
-                }
+            }
             
             $this->setGroupAll();
         }

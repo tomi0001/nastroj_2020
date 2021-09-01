@@ -17,6 +17,7 @@
             <file>file:/var/www/html/nastroj_2020/resources/views/Search/main.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Forwarding_drug.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Planned_drug.php</file>
+            <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Dr/Search/SearchController.php</file>
             <file>file:/var/www/html/nastroj_2020/app/Http/Services/DrugsUses.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Search/searchMoodAll.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/public/.htaccess</file>
@@ -39,6 +40,7 @@
             <file>file:/var/www/html/nastroj_2020/app/Http/Controllers/Search/SearchController.php</file>
             <file>file:/var/www/html/nastroj_2020/database/migrations/2014_12_12_000000_create_moods_table.php</file>
             <file>file:/var/www/html/nastroj_2020/public/js/java.js</file>
+            <file>file:/var/www/html/nastroj_2020/.env</file>
             <file>file:/var/www/html/nastroj_2020/public/css/app.css</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/PDF/main.blade.php</file>
             <file>file:/var/www/html/nastroj_2020/resources/views/Search/PDF.blade.php</file>
