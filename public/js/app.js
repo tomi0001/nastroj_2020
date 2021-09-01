@@ -293,7 +293,7 @@ $(document).ready(function(){
         
         //alert(id);
         //$("#" + id).hide();
-        var val = $.trim($("#hideActions" ).not(".selected").val().toLowerCase());
+        var val = $.trim($("#hideActions" ).not(".selected").val());
         //var val2 = $.trim($("#hideActions" ).not(".selected").val().toUpperCase());
         val = "a:contains("+val+")";
         //val2 = "a:contains("+val2+")";
