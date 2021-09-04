@@ -1,4 +1,5 @@
 <div id='SearchSleep' style='display: none;'>
+    
         <form method='get' action="{{ route("search.sleepAction")}}">
             <table class='table width'>
                 

@@ -51,7 +51,10 @@ class SearchController extends Controller  {
            $lista = $Search->sortSleeps($list);
 
 
-           return View("Search.SearchSleeps2")->with("list",$list)->with("lista",$Search->arrayList)->with("percent",$Search->listPercent);
+           return View("Search.SearchSleeps2")->with("list",$list)
+                   ->with("lista",$Search->arrayList)
+                   ->with("count",$Search->count)
+                   ->with("percent",$Search->listPercent);
                 
         }
         else {

@@ -3,6 +3,11 @@
 @section('content')
 <body onload='hideDiv({{count($list)}})'>
 <br>
+@if ($count == 0)
+    <div class="searchError">Nie ma żadnych wyników</div>
+@else
+    <div class="searchCount">Ilośc wyników {{$count}}</div>
+@endif
 <div class="searchaction">
     <table class="table">
         <thead class="thead-dark titleThead">
