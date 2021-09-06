@@ -516,7 +516,8 @@ function addMood(url) {
     //alert(actionList.length);
     
 
-$("#form2").find(":hidden").filter("[name!='idAction']").remove();
+//$("#form2").find(":hidden").filter("[name!='idAction']").remove();
+//$("#form2").find(":hidden").filter("[name!='int2']").remove();
 
 
     changeArrayAtHidden(2);
@@ -654,6 +655,7 @@ function changeArrayAtHidden(z) {
     for (i=0;i < actionList.length;i++) {
         if (isIst(actionList[i])) {
             $("#form" + z).append("<input type=\'hidden\' name=\'idAction[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
+            //$("#form" + z).append("<input type=\'hidden\' name=\'int2[]\' value=" + actionList[i] + " class=\'form-control typeMood\'>");
             
         }
     }

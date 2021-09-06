@@ -30,6 +30,7 @@ class MoodController extends Controller  {
     public function add(Request $request) {
         
         if (Auth::User()->type == "user") {
+
             $Mood = new Mood;
             $Mood->checkAddMoodDate($request);
             $Mood->checkAddMood($request);

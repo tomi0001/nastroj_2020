@@ -313,10 +313,11 @@ function loadInputPercent(id) {
             var i = boolPercent.indexOf(id);
             boolPercent.splice(i);
             $( "#div_" + id ).remove();
+            
     }
     else {
             boolPercent.push(id);
-            $("#rt" + id).html("<div class='Action___Div' id='div_" + id + "' style='clear: both; float: left; padding-left: 50%;'><input type='number' min='1' max='100' name='int_[]' class='form-control' style='width: 70px;'></div>");
+            $("#rt" + id).html(" <div class='Action___Div' id='div_" + id + "' style='clear: both; float: left; padding-left: 50%; '><input type='number' min='1' max='100' name='int_[]' class='form-control' style='width: 70px;'><input type='hidden' name='int2[]' value=" + id + "></div>");
 
     }
 }

@@ -97,10 +97,11 @@
                                             @foreach ($Action as $list)
                                             <div  class="ActionDD___" id = "{{$list->id}}"><div style='width: 100%; clear: both;'><a class="Action___"   onclick="loadInputPercent({{$list->id}})">{{$list->name}}</a></div><div style=' clear: both; float: left; ' id='rt{{$list->id}}'></div>
                                             @endforeach
-                                        </div>
+                                            </div>
                                     </div>
                                 </td>
                             </tr>
+                            
                             <tr>
                                 <td colspan="2" class="center">
                                     <input type="button" onclick="addMood('{{ route('Mood.Add')}}')" class="btn btn-success btn-lg" value="Dodaj nastrój" >
