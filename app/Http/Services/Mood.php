@@ -68,7 +68,7 @@ class Mood {
     public $listSleepPDF = [];
     //public $howAction = 0;
     private $i;
-    public function checkAddMoodDate(Request $request) {
+    public function checkAddMoodDate(Request $request,$timeStart,$timeEnd) {
         $bool = 4;
         if ($request->get("dateStart") == "") {
             array_push($this->errors,"Uzupełnij datę zaczęcia");
@@ -78,6 +78,7 @@ class Mood {
             array_push($this->errors,"Uzupełnij datę zakończenia");
             $bool--;
         }
+/*
         if ($request->get("timeStart") == "") {
             array_push($this->errors,"Uzupełnij czas zaczęcia");
             $bool--;
@@ -86,17 +87,25 @@ class Mood {
             array_push($this->errors,"Uzupełnij czas zakończenia");
             $bool--;
         }
-        if (StrToTime( date("Y-m-d H:i:s") ) < strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00")) {
+
+        
+ * 
+ */
+
+        if (StrToTime( date("Y-m-d H:i:s") ) < strtotime($request->get("dateEnd") . " " . $timeEnd . ":00")) {
             array_push($this->errors,"Data skończenia nastroju jest wieksza od teraźniejszej daty");
         }
-        if (  (strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00") - strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00")) > 72000) {
+        if (  (strtotime($request->get("dateEnd") . " " . $timeEnd . ":00") - strtotime($request->get("dateStart") . " " . $timeStart . ":00")) > 72000) {
             array_push($this->errors,"Nastroj nie może mieć takiego dużego przedziału czasowego");
         }
-        if (!empty(AppMood::checkTimeExist($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00"))
-                or !empty(Sleep::checkTimeExist($request->get("dateStart") . " " . $request->get("timeStart") . ":00", $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00"))) {
+        if (  (strtotime($request->get("dateEnd") . " " . $timeEnd . ":00") - strtotime($request->get("dateStart") . " " . $timeStart . ":00")) < 300) {
+            array_push($this->errors,"Nastroj nie może mieć takiego krótkiego przedziału czasowego");
+        }
+        if (!empty(AppMood::checkTimeExist($request->get("dateStart") . " " . $timeStart . ":00", $request->get("dateEnd") . " " . $timeEnd . ":00"))
+                or !empty(Sleep::checkTimeExist($request->get("dateStart") . " " . $timeStart . ":00", $request->get("dateEnd") . " " . $timeEnd . ":00"))) {
             array_push($this->errors,"Godziny nastroju  nachodza na inne nastroje");
         }
-        if ($bool == 4 and strtotime($request->get("dateStart") . " " . $request->get("timeStart") . ":00") >= strtotime($request->get("dateEnd") . " " . $request->get("timeEnd") . ":00")) {
+        if ($bool == 2 and strtotime($request->get("dateStart") . " " . $timeStart . ":00") >= strtotime($request->get("dateEnd") . " " . $timeEnd . ":00")) {
             array_push($this->errors,"Godzina zaczęcia jest wieksza bądź równa godzinie skończenia");
         }
     }
@@ -166,10 +175,10 @@ class Mood {
             }
         }
     }
-    public function saveMood(Request $request) :int {
+    public function saveMood(Request $request,$timeStart,$timeEnd) :int {
         $Mood = new AppMood;
-        $Mood->date_start = $request->get("dateStart") . " " . $request->get("timeStart") . ":00";
-        $Mood->date_end = $request->get("dateEnd") . " " . $request->get("timeEnd") . ":00";
+        $Mood->date_start = $request->get("dateStart") . " " . $timeStart . ":00";
+        $Mood->date_end = $request->get("dateEnd") . " " . $timeEnd . ":00";
         if ($request->get("moodLevel") != "") {
             $Mood->level_mood = $request->get("moodLevel");
         }
@@ -197,6 +206,29 @@ class Mood {
         $Sleep->how_wake_up = $request->get("wakeUp");
         $Sleep->id_users = Auth::User()->id;
         $Sleep->save();
+    }
+    public function selectLastMood() {
+        $moods = AppMood::selectLastMoods();
+        $sleeps = Sleep::selectLastSleeps();
+        $time1 = explode(" ",$moods->date_end);
+        $time3 = explode(":",$time1[1]);
+        $time2 = explode(" ",$sleeps->date_end);
+        $time4 = explode(":",$time2[1]);
+        if ($moods->date_end == "" and $sleeps->date_end == "") {
+            return -1;
+        }
+        else if ($moods->date_end == "") {
+            return $time3[0] . ":" . $time3[1];
+        }
+        else if ($sleeps->date_end == "") {
+            return $time4[0] . ":" . $time4[1];
+        }
+        else if (strtotime($moods->date_end) > strtotime($sleeps->date_end )) {
+            return $time3[0] . ":" . $time3[1];
+        }
+        else {
+            return $time4[0] . ":" . $time4[1];
+        }
     }
     private function sumHour($hour,$start,$bool = false) {
         $sumHour = $hour[0] - $start;

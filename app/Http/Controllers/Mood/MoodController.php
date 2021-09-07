@@ -32,7 +32,19 @@ class MoodController extends Controller  {
         if (Auth::User()->type == "user") {
 
             $Mood = new Mood;
-            $Mood->checkAddMoodDate($request);
+            if ($request->get("timeStart") == "") {
+                $timeStart = $Mood->selectLastMood();
+            }
+            else {
+                $timeStart = $request->get("timeStart");
+            }
+            if ($request->get("timeEnd") == "") {
+                $timeEnd = date("H:i");
+            }
+            else {
+                $timeEnd = $request->get("timeEnd");
+            }
+            $Mood->checkAddMoodDate($request,$timeStart,$timeEnd);
             $Mood->checkAddMood($request);
             if (!empty($request->get("int_"))) {
                 $Mood->checkPercentMoodAction($request);
@@ -41,7 +53,7 @@ class MoodController extends Controller  {
                 return View("ajax.error")->with("error",$Mood->errors);
             }
             else {
-                $id = $Mood->saveMood($request);
+                $id = $Mood->saveMood($request,$timeStart,$timeEnd);
 
                 if (!empty($request->get("idAction"))) {
                     $Mood->saveAction($request,$id);

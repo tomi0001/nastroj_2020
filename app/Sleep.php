@@ -15,4 +15,7 @@ class Sleep extends Model
     public static function selectAwek($id) {
         return Sleep::where("id",$id)->where("id_users",Auth::User()->id)->first();
     }
+    public static function selectLastSleeps() {
+        return Sleep::selectRaw("(date_end) as date_end")->where("id_users",Auth::User()->id)->orderBy("date_end","DESC")->first();
+    }
 }

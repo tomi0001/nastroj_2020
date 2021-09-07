@@ -21,5 +21,7 @@ class Mood extends Model
     public static function checkMoodsIdUsers($idUsers,$idMoods) {
         return self::where("id",$idMoods)->where("id_users",$idUsers)->first();
     }
-
+    public static function selectLastMoods() {
+        return Mood::selectRaw("(date_end) as date_end")->where("id_users",Auth::User()->id)->orderBy("date_end","DESC")->first();
+    }
 }
