@@ -64,7 +64,7 @@ class Search {
         else {
             $this->dateTo = $dateTo;
         }
-        if ($request->get("sumMoods") == "on" ) {
+        if ($request->get("sumMoods") == "on" or $request->get("sumDays") == "on") {
             $this->bool = true;
         }
     }
@@ -358,7 +358,7 @@ class Search {
 
         $hour = Auth::User()->start_day;
         $this->question->selectRaw("TIMESTAMPDIFF (SECOND, date_start , date_end) as longMood");
-        if ($request->get("valueAllDay") == "on" or $request->get("sumMoods") == "on") {
+        if ($request->get("valueAllDay") == "on" or $request->get("sumMoods") == "on" or $request->get("sumDays") == "on") {
 
             $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_mood) / "
                    . "sum(TIMESTAMPDIFF(second,moods.date_start,moods.date_end)),2) as nas");
@@ -379,7 +379,6 @@ class Search {
         $this->question->selectRaw("moods.date_start as date_start");
         $this->question->selectRaw("moods.date_end as date_end");
         if ($request->get("sumMoods") == "on" ) {
-            print (count($request->get("actionsDay")));
             if (!empty($request->get("actionsDay"))  and $request->get("actionsDay")[0] != "" ) {
                 $list = $this->setHavingActionDay($request);
                 $date = Common::dateConvert2($list);
@@ -392,7 +391,23 @@ class Search {
                 
             }
             
+            
             $this->setGroupAll();
+        }
+        else if ($request->get("sumDays") == "on") {
+             if (!empty($request->get("actions"))  and $request->get("actions")[0] != "" ) {
+                $list = $this->setHavingAction2($request);
+                
+                $date = Common::dateConvert2($list);
+                
+                //$this->question->where(function ($query) use ($date,$hour) {
+        //for ($i=0;$i < count($date );$i++) {
+            
+                    $this->question->whereRaw("(DATE(IF(HOUR(moods.date_start) >= '$hour', moods.date_start,Date_add(moods.date_start, INTERVAL - 1 DAY) )) )  in   (" . implode(",", $date)   .")");
+        //}
+        //});
+                
+            }
         }
         else {
             $this->setGroupDay();
@@ -423,11 +438,22 @@ class Search {
                 $this->question->where("moods_actions.id", "!=" ,  ""  );
             }
         }
-        else if ( $request->get("sumMoods") == "on" ) {
+        else if ( $request->get("sumMoods") == "on" and $request->get("sumDays") != "on") {
             
             if (is_array($request->get("actions"))  ) {
                     $this->setHavingAction($request);
                 }
+            if ($request->get("descriptions") != null and count($request->get("descriptions")) > 0) {
+                $this->setWhatWork($request);
+            }
+            if ($request->get("ifDescriptions") == "on") {
+                $this->question->where("moods.what_work", "!=" ,  ""  );
+            }
+            if ($request->get("ifactions") == "on") {
+                $this->question->where("moods_actions.id", "!=" ,  ""  );
+            }
+        }
+        else if ($request->get("sumDays") == "on" ) {
             if ($request->get("descriptions") != null and count($request->get("descriptions")) > 0) {
                 $this->setWhatWork($request);
             }
@@ -472,7 +498,18 @@ class Search {
 
         return $this->question->paginate(15);
     }
-
+    private function setHavingAction2(Request $request) {
+        $MoodsAction = new Moods_action;
+        $hour = Auth::User()->start_day;
+        $list = $MoodsAction->join("actions","actions.id","moods_actions.id_actions")
+                ->join("moods","moods.id","moods_actions.id_moods")
+                ->selectRaw(DB::Raw("(DATE(IF(HOUR(moods.date_end) >= '$hour', moods.date_start,Date_add(moods.date_end, INTERVAL - 0 DAY) )) ) as dates"))
+                ->where("actions.name","like","%" . $request->get("actions")[0] . "%")->get();
+        if (!empty($list)) {
+            //return null;
+        }
+        return $list;
+    }
     private function setGroupAll() {
        $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_mood)) / round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end))) as level_mood");
        $this->question->selectRaw("round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end)  * moods.level_anxiety)) / round(sum(TIMESTAMPDIFF (SECOND, moods.date_start , moods.date_end))) as level_anxiety");

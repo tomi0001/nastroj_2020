@@ -253,6 +253,21 @@
                 </tr>
                 <tr>
                     <td>
+                        Sumuj wszystkie dni
+                    </td>
+
+                    <td width="5%">
+                        @if (Request::old("sumDays") == "on")
+                            <input type="checkbox" name="sumDays" class="form-control" checked>
+                        @else
+                            <input type="checkbox" name="sumDays" class="form-control">
+                        @endif
+                    </td>
+                    <td colspan="3">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         Sortuj wg
                     </td>
 

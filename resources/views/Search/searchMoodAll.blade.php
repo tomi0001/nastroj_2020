@@ -82,37 +82,29 @@
                     </td>
                     
                         <td class="center"  width="16%" width="150px">
-                            @if (!isset($list[$i]->nas))
-                            {{$list[$i]->level_mood}}
-                            @else
+
                             {{$list[$i]->nas}}
-                            @endif
+                 
 
 
                         </td>
                         <td class="center"  width="16%" width="150px">
 
-                            @if (!isset($list[$i]->nas))
-                            {{$list[$i]->level_anxiety}}
-                            @else
+  
                             {{$list[$i]->nas2}}
-                            @endif
+                      
                         </td>
                         <td class="center"  width="16%" width="150px">
-                            @if (!isset($list[$i]->nas))
-                            {{$list[$i]->level_nervousness}}
-                            @else
+     
                             {{$list[$i]->nas3}}
-                            @endif
+                           
 
 
                         </td>
                         <td class="center"  width="16%" width="150px">
-                            @if (!isset($list[$i]->nas))
-                            {{$list[$i]->level_stimulation}}
-                            @else
+          
                             {{$list[$i]->nas4}}
-                            @endif
+                           
 
 
                         </td>
@@ -123,12 +115,11 @@
                         <td colspan="6">
                             <br>
                          
-                            @if (!isset($list->nas))
-                            <div class="titlemood{{$lista[$i]['color_mood']}}" style='width: {{$percent[$i]["percent"]}}%';>&nbsp;</div>
-                            @else
-                            <div class="titlemood{{$lista[$i]['color_nas']}}" style='width: {{$percent[$i]["percent"]}}%';>&nbsp;</div>
+                            
+                            
+                            
+                            <div class="titlemood{{\App\Http\Services\Common::setColor($list[$i]->nas)}}" style='width: {{$percent[$i]["percent"]}}%';>&nbsp;</div>
 
-                            @endif
                    
                          
                         </td>
