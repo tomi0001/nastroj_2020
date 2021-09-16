@@ -162,7 +162,9 @@ class SearchController extends Controller  {
                  else {
                      
                      $list = $Search->createQuestion($request,Auth::User()->id);
-                     $lista = $Search->sortMoods($list);
+                     
+                        $lista = $Search->sortMoods($list);
+                     
                      return View("Search.searchMoodAll")->with("list",$list)->with("lista",$Search->arrayList)
                              ->with("percent",$Search->listPercent)->with("count",$Search->count)->with("dateFrom",$Search->dateStart)->with("dateTo",$Search->dateTo)
                              ->with("howDay",$interval->days)

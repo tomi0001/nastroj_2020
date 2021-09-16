@@ -265,13 +265,16 @@ class common {
         return $date;
     }
     
-    public static function dateConvert2($array) {
+    public static function dateConvert2($dateStart,$dateEnd,$array) {
         $date = [];
         foreach ($array as $list) {
             //$tmp = date("Y-m-d",strtotime($array[$i]->date_end));
-            array_push($date,"'" . $list->dates . "'");
+            if (strtotime($dateStart) <= strtotime($list->dates) and strtotime($dateEnd) >= strtotime($list->dates)) {
+                array_push($date,"'" . $list->dates . "'");
+            }
             //print "d";
         }
+
         return $date;        
     }
     
