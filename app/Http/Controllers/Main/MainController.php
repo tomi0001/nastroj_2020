@@ -98,7 +98,7 @@ class MainController extends Controller  {
                                 ->with("count2",count($Mood->listMood))
                                 ->with("count",count($Mood->arrayList))
                                 ->with("listPercent",$Mood->listPercent)
-                                ->with("listActionMood",$Action2->listActionMoodSeparate)
+                                 ->with("listActionMood",$Action2->listActionMoodSeparate)
                                 ->with("color",$Mood->color)
                                 ->with("boolMood",$boolMood)
                                 ->with("colorForDay",$Mood->colorDay)

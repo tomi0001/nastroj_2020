@@ -278,6 +278,10 @@ function deleteSleep(url,id,i) {
 
 
 $(document).ready(function(){
+     jQuery.expr[':'].contains = function(a, i, m) {
+  return jQuery(a).text().toUpperCase()
+      .indexOf(m[3].toUpperCase()) >= 0;
+};
     $("#hideActions").keyup(function(){
         //alert(id);
         //var id = $(".t").attr('id');
